@@ -41,7 +41,17 @@
 					<td />
 					<td t-if="show_task"/>
 					<td style="width:50px" class="text-left"><strong>Horas restantes</strong></td>
-					<td style="width:50px" class="text-right"><strong t-esc="docs[0].task_id.planned_hours - sum(docs.mapped('unit_amount'))" t-options="{'widget': 'duration', 'digital': True, 'unit': 'hour', 'round': 'minute'}"/></td>
+					
+					<t t-set="resta" t-value="docs[0].task_id.planned_hours - sum(docs.mapped('unit_amount'))" />
+					<t t-if="resta &lt; 0">
+						<strong t-esc="resta*-1" t-options="{'widget': 'duration', 'digital': True, 'unit': 'hour', 'round': 'minute'}"/>
+					</t>
+					<t t-else="">
+						<strong t-esc="resta" t-options="{'widget': 'duration', 'digital': True, 'unit': 'hour', 'round': 'minute'}"/>  
+					</t>
+
+					<!-- <td style="width:50px" class="text-right"><strong t-esc="docs[0].task_id.planned_hours - sum(docs.mapped('unit_amount'))" t-options="{'widget': 'duration', 'digital': True, 'unit': 'hour', 'round': 'minute'}"/> -->
+					</td>
 				</tr>
 			</tbody>
 		</xpath>

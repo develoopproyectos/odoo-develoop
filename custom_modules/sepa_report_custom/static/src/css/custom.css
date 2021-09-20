@@ -1,0 +1,18 @@
+body{
+    font-size: 24px;
+}
+
+p{
+    font-size: 24px;
+    line-height: 150%;
+}
+
+p > strong{
+    font-weight: bold;
+}
+
+h2{
+    color:#000;
+    font-size: 36;
+    font-weight: bold;
+}

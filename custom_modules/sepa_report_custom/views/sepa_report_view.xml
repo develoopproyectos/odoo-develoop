@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<odoo>    
+    <template id="sepa_direct_debit_document_custom" inherit_id="account_sepa_direct_debit.sdd_mandate_form">
+        <xpath expr="//h1" position="before">
+            <link rel='stylesheet' href="/sepa_report_custom/static/src/css/custom.css"/>
+        </xpath>
+        <xpath expr="//div[2]/div[@class='row']/div[2]/p[4]" position="replace">
+            <p/>
+        </xpath>
+        <xpath expr="//div[2]/div[@class='row']/div[2]/p[5]" position="replace">
+            <p/>
+        </xpath>
+        <xpath expr="//div[2]/div[@class='row']/div[2]/p[6]" position="replace">
+            <p/>
+        </xpath>
+        <xpath expr="//div[@id='signature']/div[1]/p[1]" position="replace">
+            <p><strong>Name debtor:</strong> ......................................</p>
+        </xpath>
+    </template>
+</odoo>

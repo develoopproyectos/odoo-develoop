@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="x_vacation" model="planning.role">
+            <field name="name">Vacaciones</field>
+            <field name="color">1</field>
+        </record>
+        <record id="x_medical_leave" model="planning.role">
+            <field name="name">Baja medica</field>
+            <field name="color">2</field>
+        </record>
+    </data>
+</odoo>

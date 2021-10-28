@@ -13,15 +13,13 @@ class HRLeave(models.Model):
                 if leave.state in ['validate', 'validate1'] and leave.holiday_status_id.color_name in ['red', 'black']:
                     try:
                         role_id = self.env.ref('hr_holidays_custom.x_vacation').id
-                        if leave.holiday_status_id.color_name == 'red':
-                            role_id = self.env.ref('hr_holidays_custom.x_medical_leave').id
                         planning_leave = self.env['planning.slot'].sudo().create({
                             'template_id': None,
                             'project_id': leave.holiday_status_id.timesheet_project_id.id,
                             'employee_id': leave.employee_id.id,
                             'role_id': role_id,
                             'start_datetime': leave.date_from,
-                            'end_datetime': leave.date_to + timedelta(days=1),
+                            'end_datetime': leave.date_to,
                         })
                         planning_leave.action_publish()
                     except Exception as ex:

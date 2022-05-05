@@ -3,6 +3,7 @@
     <template id="report_timesheet_custom" inherit_id="hr_timesheet.report_timesheet">
 		<xpath expr="//tbody" position="replace">
 			<tbody>
+				<t t-set="total_planned_hours" t-value="docs.get_report_timesheet_custom()"/>
 				<tr t-foreach="docs" t-as="l">
 					<td>
 					   <span t-field="l.date"/>
@@ -34,7 +35,8 @@
 					<td />
 					<td t-if="show_task"/>
 					<td style="width:50px" class="text-left"><strong>Horas contratadas</strong></td>
-					<td style="width:50px" class="text-right"><strong t-esc="docs[0].task_id.planned_hours" t-options="{'widget': 'duration', 'digital': True, 'unit': 'hour', 'round': 'minute'}"/></td>
+					<td style="width:50px" class="text-right"><strong t-esc="total_planned_hours['planned_hours']" t-options="{'widget': 'duration', 'digital': True, 'unit': 'hour', 'round': 'minute'}"/></td>
+					<!-- <td style="width:50px" class="text-right"><strong t-esc="docs[0].task_id.planned_hours" t-options="{'widget': 'duration', 'digital': True, 'unit': 'hour', 'round': 'minute'}"/></td> -->
 				</tr>
 				<tr>
 					<td />
@@ -42,7 +44,7 @@
 					<td t-if="show_task"/>
 					<td style="width:50px" class="text-left"><strong>Horas restantes</strong></td>
 					<td style="width:50px" class="text-right">
-						<t t-set="resta" t-value="docs[0].task_id.planned_hours - sum(docs.mapped('unit_amount'))" />
+						<t t-set="resta" t-value="total_planned_hours['planned_hours'] - sum(docs.mapped('unit_amount'))" />
 						<t t-if="resta &lt; 0">
 							<strong t-esc="resta*-1" t-options="{'widget': 'duration', 'digital': True, 'unit': 'hour', 'round': 'minute'}"/>
 						</t>

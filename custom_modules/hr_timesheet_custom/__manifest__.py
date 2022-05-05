@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 {
     'name': "hr_timesheet_custom",
-
     'summary': """
         Edición impreso parte horas""",
 
@@ -19,7 +18,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['hr_timesheet'],
+    'depends': ['hr_timesheet','analytic'],
 
     # always loaded
     'data': [

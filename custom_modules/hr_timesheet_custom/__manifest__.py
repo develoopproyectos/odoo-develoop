@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 {
     'name': "hr_timesheet_custom",
-
     'summary': """
         Edición impreso parte horas""",
 

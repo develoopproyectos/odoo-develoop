@@ -20,6 +20,7 @@
                     <field name="motive_deadline" attrs="{'invisible': [('visible','=',False)], 'required': [('visible','!=',False)] }"/>
                     <field name="visible" attrs="{'invisible': True}"/>
                 </field>
+<!--
 
                 <field name="tag_ids" position="after">
                     <button action="project_update.view_date_reason_wizard" name ="test"/>
@@ -28,7 +29,6 @@
                     <field name="progress" string="Horas dedicadas (%)"/>
                 </field>
 
-<!--
 
                 <xpath expr="//button[@name='attachment_tree_view']" position="after">
                     <button type="object" name="sprint_action" class="oe_stat_button" icon="fa-calendar-times-o" string="Sprints" />

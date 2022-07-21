@@ -3,11 +3,11 @@
     'name': "project_update",
 
     'summary': """
-        Texto molon de verdad
+        Extension para el modulo de proyectos
         """,
 
     'description': """
-        Esto es una extension para el modulo de proyectos
+        Esto es una extension para el modulo de proyectos. Este permite la creación de sprints
     """,
 
     'author': "Marc Cortadellas",

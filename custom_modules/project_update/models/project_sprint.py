@@ -46,9 +46,11 @@ class ProjectSprint(models.Model):
         new_context = dict(self.env.context).copy()
         new_context.update( { 'sprint_name' : self.id } )
         ctx = dict(new_context or {})
+        ctx['search_default_project_id'] = self.project_id.id
+        ctx['default_project_id'] = self.project_id.id
         action ={
             'type': 'ir.actions.act_window',
-            'domain': [ '&',('project_id', 'in', self.project_id.ids), '|', ('sprint', 'in', self.sprint_name),'&', ('stage_id', 'in', self.env.ref('project_update.type_backlog').ids), '|', ('sprint', 'in', self.sprint_name),('sprint', '=',False) ],
+            'domain': ['|',('stage_id', 'in', self.env.ref('project_update.type_backlog').ids),('sprint','=',self.id)],
             #'views': [(view_kanban_id, 'kanban')],
             'view_mode': 'kanban,form,list,graph',
             'name': 'Tareas',

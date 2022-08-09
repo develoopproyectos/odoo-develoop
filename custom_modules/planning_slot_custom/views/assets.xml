@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE xml>
+<odoo>
+
+    <template id="planning_slot_custom" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" type="text/css" href="/planning_slot_custom/static/src/css/style.css"/>
+            <script type="text/javascript" src="/planning_slot_custom/static/src/js/gantt_row.js"></script>
+            <!-- <link rel="stylesheet" href="/report_margin_product_custom/static/src/css/report_margin_product_custom.css" /> -->
+        </xpath>
+    </template>
+
+</odoo>

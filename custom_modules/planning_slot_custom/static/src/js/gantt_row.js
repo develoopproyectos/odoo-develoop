@@ -19,7 +19,7 @@ odoo.define('planning_slot_custom.gantt_row.js', function (require) {
 
                     var expiration_date = pill.x_expiration_date.toDate();
                     
-                    if (expiration_date < d)
+                    if (expiration_date < d && pill.x_kanban_state != 'done')
                     {
                         // self.$('.o_gantt_pill[data-id=12558]')
                         var row = self.$('.o_gantt_pill[data-id=' + pill.id + ']');

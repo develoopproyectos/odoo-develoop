@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <data noupdate="1">
+        <record id="type_backlog_1" model="project.sprint.type">
+            <field name="name">Backlog</field>
+        </record>
+        <record id="type_backlog_sprint_1" model="project.sprint.type">
+            <field name="name">Planificado</field>
+        </record>
+        <record id="type_client_1" model="project.sprint.type">
+            <field name="name">Desarrollo</field>
+        </record>
+        <record id="type_planning_1" model="project.sprint.type">
+            <field name="name">Validación</field>
+        </record>
+        <record id="type_develop_1" model="project.sprint.type">
+            <field name="name">Done</field>
+        </record>
+
+    </data>
+
+</odoo>

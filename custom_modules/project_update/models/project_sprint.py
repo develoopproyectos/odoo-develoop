@@ -38,9 +38,34 @@ class ProjectSprint(models.Model):
     desarrollo_porcentage = fields.Float(string="% Desarrollo", compute='_compute_desarrollo_percentage')
     description = fields.Text(translate=True)
 
-    stage_id = fields.Many2one('crm.stage', string='Stage', ondelete='restrict', tracking=True, index=True, copy=False)
+    def _get_default_stage_id(self):
+        """ Gives default stage_id """
+        project_id = self.env.context.get('default_project_id')
+        if not project_id:
+            return False
+        return self.stage_find(project_id, [('fold', '=', False)])
+
+
+
+    #stage_id = fields.Many2one('project.sprint.type', string='Stage', ondelete='restrict', tracking = True, index = True, copy = False)
+    #stage_id = fields.Many2one('project.sprint.type', string = 'Stage', ondelete='restrict', tracking=True, index=True, domain="[('project_ids', '=', project_id)]", copy=False)
+    stage_id = fields.Many2one('project.sprint.type', string='Stage', ondelete='restrict', tracking=True, index=True,
+        default=_get_default_stage_id, group_expand='_read_group_stage_ids',
+        domain="[('project_ids', '=', project_id)]", copy=False)
+
     task_count = fields.Integer(compute='_compute_task_count', string="Task Count")
     task_ids = fields.One2many('project.task', 'sprint', string="tasks", context={'active_test': False})
+
+    @api.model
+    def _read_group_stage_ids(self,stages, domain, order):
+        search_domain = [('id', 'in', stages.ids)]
+        if 'default_project_id' in self.env.context:
+            search_domain = ['|', ('project_ids', '=', self.env.context['default_project_id'])] + search_domain
+
+        stage_ids = stages._search(search_domain, order=order)
+        return stages.browse(stage_ids)
+
+
 
     def tareas_sprint(self):
         new_context = dict(self.env.context).copy()
@@ -74,7 +99,7 @@ class ProjectSprint(models.Model):
             task.horas_dedicadas = sum(task.task_ids.mapped('effective_hours'))
 
     def _compute_progress_hours(self):
-        if self.horas_planeadas: self.horas_dedicadas_porcentage = (self.horas_dedicadas / self.horas_planeadas)*100
+        if self.horas_planeadas > 0: self.horas_dedicadas_porcentage = (self.horas_dedicadas / self.horas_planeadas)*100
         else: self.horas_dedicadas_porcentage = 0
 
     def _compute_desarrollo_percentage(self):

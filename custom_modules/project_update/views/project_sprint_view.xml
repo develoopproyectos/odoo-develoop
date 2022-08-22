@@ -5,8 +5,9 @@
             <field name="name">project.sprint.kanban</field>
             <field name="model">project.sprint</field>
             <field name="arch" type="xml">
-                <kanban default_group_by="stage_id" group_expand="read_all_stage_ids" class="o_kanban_small_column o_opportunity_kanban" archivable="false">
+                <kanban default_group_by="stage_id" group_expand="read_all_stage_ids" class="o_kanban_small_column o_opportunity_kanban"  on_create="quick_create">
                     <field name="sprint_name"/>
+                    <field name="stage_id"/>
                     <templates>
                         <t t-name="kanban-box">
                             <div class="oe_kanban_global_click">

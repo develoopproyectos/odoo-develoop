@@ -19,7 +19,7 @@ class ProjectSprintType(models.Model):
         default_project_id = self.env.context.get('default_project_id')
         return [default_project_id] if default_project_id else None
 
-    project_ids = fields.Many2many('project.project', 'project_sprint_type_rel1', 'type_id', 'project_id', string='Projects',
+    project_ids = fields.Many2many('project.project', 'project_sprint_type_rel', 'type_id', 'project_id', string='Projects',
         default=_get_default_project_ids)
     description = fields.Text(translate=True)
     fold = fields.Boolean(string='Folded in Kanban',

@@ -46,8 +46,10 @@ class ProjectTemplate(models.Model):
         project.type_ids = [(4, self.env.ref('project_update.type_produccion').id)]
         
 
-        ## sprint_type_ids = fields.Many2many('project.sprint.type', 'project_sprint_type_rel', 'project_id', 'type_id', string='Sprint Stages')
-        project.sprint_type_ids = [(4, self.env.ref('project_update.type_backlog_1').id)]
+        project.sprint_type_ids = [(4, self.env.ref('project_update.type_pendienteiniciar_sprint').id)]
+        project.sprint_type_ids = [(4, self.env.ref('project_update.type_desarrollo_sprint').id)]
+        project.sprint_type_ids = [(4, self.env.ref('project_update.type_qa_sprint').id)]
+        project.sprint_type_ids = [(4, self.env.ref('project_update.type_completado_sprint').id)]
 
 
 

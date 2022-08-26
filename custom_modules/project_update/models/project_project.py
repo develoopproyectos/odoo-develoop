@@ -33,15 +33,18 @@ class ProjectTemplate(models.Model):
         project = super(ProjectTemplate, self).create(vals)
 
         ### type_ids = fields.Many2many('project.task.type', 'project_task_type_rel', 'project_id', 'type_id', string='Tasks Stages')
-        project.type_ids = [(4, self.env.ref('project_update.type_backlog').id)]
-        project.type_ids = [(4, self.env.ref('project_update.type_backlog_sprint').id)]
-        project.type_ids = [(4, self.env.ref('project_update.type_client').id)]
-        project.type_ids = [(4, self.env.ref('project_update.type_planning').id)]
-        project.type_ids = [(4, self.env.ref('project_update.type_develop').id)]
+        project.type_ids = [(4, self.env.ref('project_update.type_epicas').id)]
+        project.type_ids = [(4, self.env.ref('project_update.type_estudio').id)]
+        project.type_ids = [(4, self.env.ref('project_update.type_analisis').id)]
+        project.type_ids = [(4, self.env.ref('project_update.type_diseno').id)]
+        project.type_ids = [(4, self.env.ref('project_update.type_pendientecliente').id)]
+        project.type_ids = [(4, self.env.ref('project_update.type_planificacion').id)]
+        project.type_ids = [(4, self.env.ref('project_update.type_desarrollo').id)]
         project.type_ids = [(4, self.env.ref('project_update.type_validationpm').id)]
+        project.type_ids = [(4, self.env.ref('project_update.type_qa').id)]
         project.type_ids = [(4, self.env.ref('project_update.type_validationclient').id)]
-        project.type_ids = [(4, self.env.ref('project_update.type_completed').id)]
-        project.type_ids = [(4, self.env.ref('project_update.type_inprod').id)]
+        project.type_ids = [(4, self.env.ref('project_update.type_produccion').id)]
+        
 
         ## sprint_type_ids = fields.Many2many('project.sprint.type', 'project_sprint_type_rel', 'project_id', 'type_id', string='Sprint Stages')
         project.sprint_type_ids = [(4, self.env.ref('project_update.type_backlog_1').id)]

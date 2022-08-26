@@ -32,7 +32,7 @@ class TaskTemplate(models.Model):
             vals['first_attempt']=True
 
         if 'stage_id' in vals:
-            if vals['stage_id'] == self.env.ref('project_update.type_backlog').id:
+            if vals['stage_id'] == self.env.ref('project_update.type_epicas').id:
                 vals['sprint'] = False
             else:
                 if 'sprint_name' in self.activity_ids.env.context:

@@ -10,7 +10,7 @@ odoo.define('planning_slot_custom.gantt_row.js', function (require) {
             
             var self = this;
             this.pills.forEach(function (pill) {
-                if (pill != null && pill != undefined && pill.x_expiration_date != false)
+                if (pill != null && pill != undefined && pill.x_expiration_date != false && pill.x_expiration_date != null && pill.x_expiration_date != undefined)
                 {
                     var date_now = new Date();
                     date_now.setHours(0, 0, 0, 0);
@@ -19,7 +19,7 @@ odoo.define('planning_slot_custom.gantt_row.js', function (require) {
 
                     var expiration_date = pill.x_expiration_date.toDate();
                     
-                    if (expiration_date < d)
+                    if (expiration_date < d && pill.x_kanban_state != 'done')
                     {
                         // self.$('.o_gantt_pill[data-id=12558]')
                         var row = self.$('.o_gantt_pill[data-id=' + pill.id + ']');

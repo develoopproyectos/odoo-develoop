@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <data noupdate="1">
+        <record id="type_epicas" model="project.task.type">
+            <field name="name">Épicas</field>
+        </record>
+        <record id="type_estudio" model="project.task.type">
+            <field name="name">Estudio/Valoración</field>
+        </record>
+        <record id="type_analisis" model="project.task.type">
+            <field name="name">Análisis</field>
+        </record>
+        <record id="type_diseno" model="project.task.type">
+            <field name="name">Diseño</field>
+        </record>
+        <record id="type_pendientecliente" model="project.task.type">
+            <field name="name">Pendiente Cliente</field>
+        </record>
+        <record id="type_planificacion" model="project.task.type">
+            <field name="name">Planificación</field>
+        </record>
+        <record id="type_desarrollo" model="project.task.type">
+            <field name="name">Desarrollo</field>
+        </record>
+        <record id="type_validationpm" model="project.task.type">
+            <field name="name">Validación PM</field>
+        </record>
+        <record id="type_qa" model="project.task.type">
+            <field name="name">QA</field>
+        </record>
+        <record id="type_validationclient" model="project.task.type">
+            <field name="name">Validación Cliente</field>
+        </record>
+        <record id="type_produccion" model="project.task.type">
+            <field name="name">Producción</field>
+        </record>
+
+    </data>
+
+</odoo>

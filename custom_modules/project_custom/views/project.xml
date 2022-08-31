@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="project_new_fields_custom" model="ir.ui.view">
+        <field name="name">project_new_fields_custom</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='settings']/group[1]" position="after">
+                <group>
+                    <group>
+                        <field name="x_theoretical_start_date" />
+                        <field name="x_theoretical_end_date" />
+                        <field name="x_estimated_end_date" />
+                    </group>
+                    <group>
+                        <field name="x_kanban_state" widget="state_selection" class="ml-auto"/>
+                        <field name="x_phase" />
+                        <field name="x_technology" widget="many2many_tags" />
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

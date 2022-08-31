@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="sprint_kanban" model="ir.ui.view">
+            <field name="name">project.sprint.kanban</field>
+            <field name="model">project.sprint</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="stage_id" group_expand="read_all_stage_ids" class="o_kanban_small_column o_opportunity_kanban"  on_create="quick_create">
+                    <field name="sprint_name"/>
+                    <field name="stage_id"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <div class="oe_kanban_details">
+                                    <strong class="o_kanban_record_title">
+                                        <field name="display_name"/>
+                                    </strong>
+                                    <div class="o_kanban_tags_section"/>
+                                    <ul>
+                                        <li>
+                                        Fecha Incio:
+                                        <field name="fecha_inicio"/>
+                                        </li>
+                                        <li>
+                                        Fecha Fin:
+                                        <field name="fecha_fin"/>
+                                        </li>
+                                        <li>
+                                        Tareas:
+                                        <field name="task_count"/>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+ 
+        <record id="view_sprint_form2" model ="ir.ui.view">
+            <field name="name">project.sprint.form</field>
+            <field name="model">project.sprint</field>
+            <field eval="2" name="priority"/>
+            <field name="arch" type="xml">
+                <form string="Sprint" class="o_form_project_tasks">
+                    <sheet string="Sprint">
+                        <div class="oe_button_box" name="button_box" groups="base.group_user">
+                           <button class="oe_stat_button" type="object"
+                                name="tareas_sprint" icon="fa-tasks">
+                                <field string="Tareas" name="task_count" widget="statinfo" options="{'label_field': 'label_tasks'}"/>
+                           </button>
+<!--
+                           <button class="oe_stat_button" type="object"
+                                name="gantt_sprint" icon="fa-align-left" string="Gantt" />
+
+                           <button class="oe_stat_button" type="action"
+                                name="burn_down_chart_sprint" icon="fa-line-chart" string="Burndown Chart" />
+-->
+                        </div>
+                        <div class="oe_title pr-0">
+                            <h1 class="d-flex flex-row justify-content-between">
+                                <field name="sprint_name" class="o_task_name text-truncate" placeholder="Nombre del sprint..." default_focus="1" />
+                                <field name="kanban_state" widget="state_selection" class="ml-auto"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="project_id" />
+                                <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                            </group>
+                            <group>
+                                <field name="fecha_inicio"/>
+                                <field name="fecha_fin"/>
+                                <field name="horas_planeadas" widget="float_time"/>
+                                <field name="horas_dedicadas" widget="float_time"/>
+                                <field name="horas_dedicadas_porcentage"/>
+                                <field name="desarrollo_porcentage"/>
+                            </group>
+                        </group>
+                         <notebook>
+                            <page name="description_page" string="Objetivo/Descripción">
+                                <field name="description" type="html"/>
+                            </page>
+                         </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="project_update_menu_action" model="ir.actions.act_window">
+            <field name="name">Tasks</field>
+            <field name="res_model">project.sprint</field>
+            <field name="view_mode">kanban,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new task
+                </p><p>
+                    Odoo's project management allows you to manage the pipeline of your tasks efficiently.<br/>
+                    You can track progress, discuss on tasks, attach documents, etc.
+                </p>
+            </field>
+        </record>
+        
+        <record id="sprint_project_view_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_sprint_form2"/>
+            <field name="act_window_id" ref="project_update_menu_action"/>
+        </record>
+
+        <record id="sprint_kanban_view_kanban" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="sprint_kanban"/>
+            <field name="act_window_id" ref="project_update_menu_action"/>
+        </record>
+<!-- 
+        <menuitem id="sprint_menu"
+            name="NUEVO"
+            parent="project.menu_main_pm"
+            action="project_update.project_update_menu_action"
+            sequence="1"/> -->
+
+        <record id="view_project_sprint_graph" model="ir.ui.view">
+            <field name="name">project.sprint.graph</field>
+            <field name="model">project.sprint</field>
+            <field name="arch" type="xml">
+                <graph string="Project Sprint">
+                    <field name="fecha_inicio" interval="day" type="col"/>
+                    <field name="horas_planeadas" type="row"/>
+                    <field name="horas_planeadas" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <data noupdate="1">
+        <record id="type_pendienteiniciar_sprint" model="project.sprint.type">
+            <field name="name">Pendiente Iniciar</field>
+        </record>
+        <record id="type_desarrollo_sprint" model="project.sprint.type">
+            <field name="name">Desarrollo</field>
+        </record>
+        <record id="type_qa_sprint" model="project.sprint.type">
+            <field name="name">QA</field>
+        </record>
+        <record id="type_completado_sprint" model="project.sprint.type">
+            <field name="name">Completado</field>
+        </record>
+
+    </data>
+
+</odoo>

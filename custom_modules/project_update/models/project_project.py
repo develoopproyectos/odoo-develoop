@@ -3,7 +3,9 @@
 from odoo import fields, models, api
 
 class ProjectTemplate(models.Model):
+
     _inherit = 'project.project'
+
     backup = fields.Many2one('res.users', string='Backup', default=lambda self: self.env.user, tracking=True)
     responsable_tecnico = fields.Many2one('res.users', string='Responsable técnico', default=lambda self: self.env.user, tracking=True)
     sprint_id = fields.One2many('project.sprint', 'sprint_name')
@@ -32,7 +34,6 @@ class ProjectTemplate(models.Model):
     def create(self, vals):
         project = super(ProjectTemplate, self).create(vals)
 
-        ### type_ids = fields.Many2many('project.task.type', 'project_task_type_rel', 'project_id', 'type_id', string='Tasks Stages')
         project.type_ids = [(4, self.env.ref('project_update.type_epicas').id)]
         project.type_ids = [(4, self.env.ref('project_update.type_estudio').id)]
         project.type_ids = [(4, self.env.ref('project_update.type_analisis').id)]
@@ -44,17 +45,13 @@ class ProjectTemplate(models.Model):
         project.type_ids = [(4, self.env.ref('project_update.type_qa').id)]
         project.type_ids = [(4, self.env.ref('project_update.type_validationclient').id)]
         project.type_ids = [(4, self.env.ref('project_update.type_produccion').id)]
-        
 
         project.sprint_type_ids = [(4, self.env.ref('project_update.type_pendienteiniciar_sprint').id)]
         project.sprint_type_ids = [(4, self.env.ref('project_update.type_desarrollo_sprint').id)]
         project.sprint_type_ids = [(4, self.env.ref('project_update.type_qa_sprint').id)]
         project.sprint_type_ids = [(4, self.env.ref('project_update.type_completado_sprint').id)]
 
-
-
         return project
-
 
     def _compute_sprint_count(self):
         task_data = self.env['project.sprint'].read_group([ ('project_id', 'in', self.ids)], ['project_id'], ['project_id'])

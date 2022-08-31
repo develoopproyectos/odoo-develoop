@@ -12,15 +12,12 @@ class ProjectSprint(models.Model):
         ('inProgress', 'In Progress'),
         ('done', 'Done')],
         string= "Estado")
-
-
     active = fields.Boolean(default = True)
-
     kanban_state = fields.Selection([
         ('normal', 'Grey'),
         ('done', 'Green'),
-        ('blocked', 'Red')], string='Kanban State',
-        copy=False, default='normal', required=True)
+        ('blocked', 'Red')], 
+        string='Kanban State', copy=False, default='normal', required=True)
 
     sprint_name = fields.Char(placeholder='Name', index=True, required=True, tracking=True)
 

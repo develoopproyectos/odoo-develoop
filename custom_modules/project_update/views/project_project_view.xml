@@ -16,20 +16,6 @@
                         <field string="Sprints" name="sprint_count" icon="statinfo" />
                     </button>
                 </xpath>
-                <xpath expr="//button[@name='action_view_all_rating']" position="after">
-                    <!--
-                    <button type="object"
-                        class="oe_stat_button"
-                        icon="fa-align-left"
-                        string="Gantt">
-                    </button>
-                    <button type="object"
-                        class="oe_stat_button"
-                        icon="fa-line-chart"
-                        string="Burndown chart">
-                    </button>
-                    -->
-                </xpath>
             </field>
         </record>
     </data>

@@ -38,7 +38,7 @@
             </field>
         </record>
         
-                <record id="task_kanban_update" model="ir.ui.view">
+        <record id="task_kanban_update" model="ir.ui.view">
             <field name="name">project.task.kanban.updateCard</field>
             <field name="model">project.task</field>
             <field name="inherit_id" ref="project.view_task_kanban"/>
@@ -48,7 +48,5 @@
                 </xpath>
             </field>
         </record>
-
-
     </data>
 </odoo>

@@ -37,10 +37,7 @@ class ProjectSprint(models.Model):
 
     def _get_default_stage_id(self):
         """ Gives default stage_id """
-        project_id = self.env.context.get('default_project_id')
-        if not project_id:
-            return False
-        return self.stage_find(project_id, [('fold', '=', False)])
+        return self.env.ref('project_update.type_pendienteiniciar_sprint').id
 
 
 
@@ -122,8 +119,16 @@ class ProjectSprint(models.Model):
             'context': ctx
         }
         return action
+    
+    def create(self, vals):
+        if self._context.get('project_id'):
+            vals['project_id']= self._context.get('project_id')
+        return super(ProjectSprint, self).create(vals)
 
-
+    
+    
+    
+    
     def burn_down_chart_sprint(self):
         return self
 

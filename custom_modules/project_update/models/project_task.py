@@ -24,7 +24,7 @@ class TaskTemplate(models.Model):
         if self.first_attempt: self.visible = True
         else: self.first_attempt = True
 
-
+            
     def write(self, vals):
         if 'visible' in vals:
             vals['visible']=False
@@ -32,11 +32,11 @@ class TaskTemplate(models.Model):
             vals['first_attempt']=True
 
         if 'stage_id' in vals:
-            if vals['stage_id'] == self.env.ref('project_update.type_epicas').id:
+            if vals['stage_id'] == self.env.ref('project_update.type_backlog').id:
                 vals['sprint'] = False
-            else:
-                if 'sprint_name' in self.activity_ids.env.context:
-                    vals['sprint'] = self.activity_ids.env.context['sprint_name']
+
+        if 'sprint_name' in self.activity_ids.env.context:
+            vals['sprint'] = self.activity_ids.env.context['sprint_name']
 
         data=super(TaskTemplate, self).write(vals)
         return data

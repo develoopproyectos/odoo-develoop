@@ -116,12 +116,12 @@
             <field name="view_id" ref="sprint_kanban"/>
             <field name="act_window_id" ref="project_update_menu_action"/>
         </record>
-
+<!-- 
         <menuitem id="sprint_menu"
             name="NUEVO"
             parent="project.menu_main_pm"
             action="project_update.project_update_menu_action"
-            sequence="1"/>
+            sequence="1"/> -->
 
         <record id="view_project_sprint_graph" model="ir.ui.view">
             <field name="name">project.sprint.graph</field>

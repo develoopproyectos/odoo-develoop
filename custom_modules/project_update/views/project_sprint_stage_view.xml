@@ -1,41 +1,3 @@
-<!--
-<odoo>
-    <data>
-
-        <record id="project_update_project_sprint_stage_tree" model="ir.ui.view">
-            <field name="name">budgeting.tool.task.tree</field>
-            <field name="model">project.sprint.stage</field>
-            <field name="arch" type="xml">
-                <tree string="Tareas" editable="bottom">
-                    <field name="sequence" widget="handle"/>
-                    <field name="name"/>
-                </tree>
-            </field>
-        </record>
-
-
-        <record id="project_update_project_sprint_stage_action" model="ir.actions.act_window">
-            <field name="name">Etapas Sprint</field>
-            <field name="res_model">project.sprint.stage</field>
-            <field name="view_id" ref="project_update_project_sprint_stage_tree"/>
-            <field name="help" type="html">
-                <p class="o_view_nocontent_smiling_face">
-                    Create a new stage
-                </p><p>
-                    Create a stage to better manage and track your project.
-                </p>
-            </field>
-        </record>
-
-        <menuitem id="project_update_project_sprint_stage_menu"
-                  action="project_update_project_sprint_stage_action"
-                  parent="project.menu_project_config"
-                  sequence="4"
-                  name="Etapas Sprint" />
-
-    </data>
-</odoo>
--->
 <odoo>
     <record id="sprint_type_search" model="ir.ui.view">
             <field name="name">project.sprint.type.search</field>
@@ -73,21 +35,6 @@
                                 You can define here labels that will be displayed for the state instead
                                 of the default labels.
                             </p>
-                        <!--
-
-                            <label for="legend_normal" string=" " class="o_status oe_project_kanban_legend"
-                                title="Task in progress. Click to block or set as done."
-                                aria-label="Task in progress. Click to block or set as done." role="img"/>
-                            <field name="legend_normal" nolabel="1"/>
-                            <label for="legend_blocked" string=" " class="o_status o_status_red oe_project_kanban_legend"
-                                title="Task is blocked. Click to unblock or set as done."
-                                aria-label="Task is blocked. Click to unblock or set as done." role="img"/>
-                            <field name="legend_blocked" nolabel="1"/>
-                            <label for="legend_done" string=" " class="o_status o_status_green oe_project_kanban_legend"
-                                title="This step is done. Click to block or set in progress."
-                                aria-label="This step is done. Click to block or set in progress." role="img"/>
-                            <field name="legend_done" nolabel="1"/>
--->
                             <p class="text-muted" colspan="2">
                                 You can also add a description to help your coworkers understand the meaning and purpose of the stage.
                             </p>

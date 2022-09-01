@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="x_net" model="project.technology">
+            <field name="name">.NET</field>
+        </record>
+        <record id="x_angular" model="project.technology">
+            <field name="name">Angular</field>
+        </record>
+        <record id="x_erp" model="project.technology">
+            <field name="name">ERP</field>
+        </record>
+        <record id="x_flutter" model="project.technology">
+            <field name="name">Flutter</field>
+        </record>
+        <record id="x_ios" model="project.technology">
+            <field name="name">IOS</field>
+        </record>
+        <record id="x_android" model="project.technology">
+            <field name="name">Android</field>
+        </record>
+        <record id="x_java" model="project.technology">
+            <field name="name">Java</field>
+        </record>
+        <record id="x_kais" model="project.technology">
+            <field name="name">Kais</field>
+        </record>
+        <record id="x_odoo" model="project.technology">
+            <field name="name">Odoo</field>
+        </record>
+        <record id="x_php" model="project.technology">
+            <field name="name">PHP</field>
+        </record>
+        <record id="x_prestashop" model="project.technology">
+            <field name="name">Prestashop</field>
+        </record>
+        <record id="x_pwa" model="project.technology">
+            <field name="name">PWA</field>
+        </record>
+        <record id="x_wordpress" model="project.technology">
+            <field name="name">WordPress</field>
+        </record>
+    </data>
+</odoo>

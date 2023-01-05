@@ -9,12 +9,12 @@ class Dev_ProjectTaskCustom(models.Model):
 
     def write(self, vals):
         #if vals.get('planned_hours',False):
-        # if "planned_hours" in vals:
-        #     if vals.get('planned_hours') == 0:
-        #         raise ValidationError("El campo horas planeadas es obligatorio")
-        # else:
-        #     if self.planned_hours == 0:
-        #         raise ValidationError("El campo horas planeadas es obligatorio")
+        if "planned_hours" in vals:
+            if vals.get('planned_hours') == 0:
+                raise ValidationError("El campo horas planeadas es obligatorio")
+        else:
+            if self.planned_hours == 0 and not vals.get('project_id',False):
+                raise ValidationError("El campo horas planeadas es obligatorio")
 
         result = super(Dev_ProjectTaskCustom, self).write(vals)
         return result

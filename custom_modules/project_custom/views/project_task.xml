@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="task_kanban_update" model="ir.ui.view">
+            <field name="name">task_kanban_update</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
+                    <page name="planning_custom" string="Planificacion" >
+                        <group>
+                            <field name="x_planning_slot" nolabel="1" />
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_task_kanban_custom" model="ir.ui.view">
+            <field name="name">view_task_kanban_custom</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_kanban"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='color']" position="after">
+                    <field name="x_planning_slot_str" />
+                </xpath>
+                <xpath expr="//div[@class='o_kanban_record_body']/div[1]" position="after">
+                    <span><t t-raw="record.x_planning_slot_str.raw_value"/></span>
+                    <!-- <field name="x_planning_slot_str" style="font-size:10px;"/> -->
+                    <!-- <field name="x_planning_slot_str" type="html"/> -->
+                </xpath>
+            </field>
+        </record>
+    </data>
+
+</odoo>

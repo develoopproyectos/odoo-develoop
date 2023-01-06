@@ -25,6 +25,7 @@
         # 'security/ir.model.access.csv',
         #'views/views.xml',
         #'views/templates.xml',
+        'views/hr_timesheet.xml',
         'report/report_timesheet_templates.xml',
     ],
     # only loaded in demonstration mode

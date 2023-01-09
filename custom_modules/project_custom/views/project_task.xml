@@ -13,6 +13,11 @@
                         </group>
                     </page>
                 </xpath>
+                <xpath expr="//field[@name='date_deadline']" position="replace" >
+                    <field name="x_is_planning_delay" invisible="1" />
+                    <field name="date_deadline" attrs="{'invisible': [('x_is_planning_delay','=',True)]}" class="font-weight-bold text-danger" />
+                    <field name="date_deadline" attrs="{'invisible': [('x_is_planning_delay','=',False)]}" />
+                </xpath>
             </field>
         </record>
 

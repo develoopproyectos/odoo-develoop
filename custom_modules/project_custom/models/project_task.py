@@ -30,22 +30,23 @@ class Dev_ProjectTaskCustom(models.Model):
 
     def write(self, vals):
         for rec in self:
-            stage_name = rec.stage_id.name.lower()
-            if vals.get('stage_id', False):
-                stage_name = self.env['project.task.type'].browse(vals.get('stage_id')).name
-            if stage_name in task_type_validation:
-                if vals.get('planned_hours', rec.planned_hours) == 0 and (\
-                        vals.get('name', False) or 
-                        vals.get('project_id', False) or 
-                        vals.get('sprint', False) or 
-                        vals.get('user_id', False) or
-                        vals.get('sequence', False) or
-                        vals.get('date_deadline', False) or
-                        vals.get('tag_ids', False) or
-                        vals.get('planned_hours', False) or
-                        vals.get('description', False)
-                        ):
-                    raise ValidationError("El campo horas planeadas es obligatorio")
+            if rec.stage_id.name:
+                stage_name = rec.stage_id.name.lower()
+                if vals.get('stage_id', False):
+                    stage_name = self.env['project.task.type'].browse(vals.get('stage_id')).name
+                if stage_name in task_type_validation:
+                    if vals.get('planned_hours', rec.planned_hours) == 0 and (\
+                            vals.get('name', False) or 
+                            vals.get('project_id', False) or 
+                            vals.get('sprint', False) or 
+                            vals.get('user_id', False) or
+                            vals.get('sequence', False) or
+                            vals.get('date_deadline', False) or
+                            vals.get('tag_ids', False) or
+                            vals.get('planned_hours', False) or
+                            vals.get('description', False)
+                            ):
+                        raise ValidationError("El campo horas planeadas es obligatorio")
 
         result = super(Dev_ProjectTaskCustom, self).write(vals)
         return result

@@ -1,7 +1,7 @@
 
 from odoo import api, fields, models
 
-task_type_validation = ['validacionpm','validaciónpm','validacion pm','validación pm']
+task_type_validation = ['validacionpm','validacionpm','validacion pm','validacion pm']
 
 class dev_planning_slot_custom(models.Model):
     

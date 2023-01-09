@@ -29,12 +29,12 @@ class Dev_ProjectTaskCustom(models.Model):
                 rec.x_is_planning_delay = True
 
     def write(self, vals):
-        if self.stage_id.name:
-            stage_name = self.stage_id.name.lower()
+        for rec in self:
+            stage_name = rec.stage_id.name.lower()
             if vals.get('stage_id', False):
                 stage_name = self.env['project.task.type'].browse(vals.get('stage_id')).name
             if stage_name in task_type_validation:
-                if vals.get('planned_hours', self.planned_hours) == 0 and (\
+                if vals.get('planned_hours', rec.planned_hours) == 0 and (\
                         vals.get('name', False) or 
                         vals.get('project_id', False) or 
                         vals.get('sprint', False) or 

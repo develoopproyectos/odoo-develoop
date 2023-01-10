@@ -30,7 +30,7 @@ class Dev_ProjectTaskCustom(models.Model):
 
     def write(self, vals):
         for rec in self:
-            if rec.stage_id.name:
+            if rec.stage_id.name and not vals.get('sequence'):
                 stage_name = rec.stage_id.name.lower()
                 if vals.get('stage_id', False):
                     stage_name = self.env['project.task.type'].browse(vals.get('stage_id')).name

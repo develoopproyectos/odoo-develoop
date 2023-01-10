@@ -29,13 +29,13 @@
                 <xpath expr="//field[@name='color']" position="after">
                     <field name="x_planning_slot_str" />
                 </xpath>
-                <xpath expr="//div[@class='o_kanban_record_body']/div[1]" position="after">
+                <!-- <xpath expr="//div[@class='o_kanban_record_body']/div[1]" position="after">
                     <div style="font-size:10px;">
                       <t t-raw="record.x_planning_slot_str.raw_value"/>
                     </div>
-                    <!-- <field name="x_planning_slot_str" style="font-size:10px;"/> -->
-                    <!-- <field name="x_planning_slot_str" type="html"/> -->
-                </xpath>
+                </xpath> -->
+                <!-- <field name="x_planning_slot_str" style="font-size:10px;"/> -->
+                <!-- <field name="x_planning_slot_str" type="html"/> -->
             </field>
         </record>
     </data>

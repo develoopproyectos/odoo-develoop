@@ -11,6 +11,7 @@
     'version': '15.0.0.0',
     'depends': ['hr_timesheet','analytic'],
     'data': [
+        'views/hr_timesheet.xml',
         'report/report_timesheet_templates.xml',
     ],
     'license': 'LGPL-3',

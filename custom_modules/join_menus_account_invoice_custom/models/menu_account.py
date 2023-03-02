@@ -13,6 +13,3 @@ class ForecastSales(models.Model):
 
     x_id_old = fields.Integer("Id Antiguo")
     x_id_new_id = fields.Integer("Id Nuevo")
-
-    def update_account_menu_in_one(self):
-        test = ""

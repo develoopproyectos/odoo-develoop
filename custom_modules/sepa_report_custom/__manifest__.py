@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'SEPA Report custom',
-    'version': '13.0.1.0.0',
+    'version': '15.0.0.0',
     'summary': """SEPA Report.""",
     'description': """
         Modulo personalizado impreso mandato SEPA.
@@ -14,8 +14,8 @@
     'images': ['static/description/icon.png'],
     'maintainer': 'Develoop Software',
     'website': 'https://www.develoop.net',
-    'demo': [],
     'installable': True,
     'application': False,
-    'auto_install': False
+    'auto_install': False,
+    'license': 'LGPL-3',
 }

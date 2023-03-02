@@ -10,12 +10,12 @@ class TaskTemplate(models.Model):
     #dependencia = fields.Many2one('project.task', string='Dependencias', default=lambda self: self.env.context.get('active_id'), index=True, tracking=True, check_company=True, change_default=True)
     horas_planeadas = fields.Integer(string="Horas Planeadas")
     horas_dedicadas = fields.Integer(string="Horas dedidacas")
-    horas_dedicadas_pctg = fields.Integer(string="Horas dedicadas (%)",min=0, max= 10)
-    horas_desarrolladas_pctg = fields.Integer(string="Horas desarrollo (%)",min=0, max= 10)
+    horas_dedicadas_pctg = fields.Integer(string="Horas dedicadas (%)") # min=0, max= 10
+    horas_desarrolladas_pctg = fields.Integer(string="Horas desarrollo (%)") # min=0, max= 10
     visible = fields.Boolean(default=False)
     first_attempt =fields.Boolean(default=False)
     motive_deadline = fields.Selection([('t1', 'Reestructuración proyecto'), ('t2', 'Falta de recursos'), ('t3', 'Replanificación otros proyectos'), ('t4','Falta material'), ('t5', 'falta de comunicación')],
-                                       String="Motivo", tracking = True, invisible=True)
+                                       string="Motivo", tracking = True, invisible=True)
 
 
     @api.onchange('date_deadline')

@@ -17,5 +17,6 @@
     "qweb": ["static/src/xml/balance_situacional_widget.xml"],
     "images": ['static/description/icon.png'],
     "installable": True,
-    "application": True
+    "application": True,
+	'license': 'LGPL-3',
 }

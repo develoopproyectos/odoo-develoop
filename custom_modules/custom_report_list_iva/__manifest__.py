@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 {
     'name': "Reporte Listado IVA",
-    'version': '1.0.0.0',
+    'version': '15.0.0.0',
     'author': "Develoop Software",
-    'category': 'Uncategorized',
+    'category': 'Develoop',
     'summary': 'Nuevo reporte listado IVA.',
     'website': "https://www.develoop.net/",
     'description': """
@@ -21,4 +21,5 @@
     "installable": True,
     "application": True,
     "auto_install": False,
+    "license": "AGPL-3",
 }

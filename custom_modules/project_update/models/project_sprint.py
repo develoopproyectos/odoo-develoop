@@ -19,8 +19,7 @@ class ProjectSprint(models.Model):
         ('blocked', 'Red')], 
         string='Kanban State', copy=False, default='normal', required=True)
 
-    sprint_name = fields.Char(placeholder='Name', index=True, required=True, tracking=True)
-
+    sprint_name = fields.Char(required=True, index=True, store=True, tracking=True)
 
     project_id = fields.Many2one('project.project', string='Project', default=lambda self: self.env.context.get('active_id'),
         index=True, tracking=True, check_company=True, change_default=True, readonly=True)
@@ -35,14 +34,14 @@ class ProjectSprint(models.Model):
     desarrollo_porcentage = fields.Float(string="% Desarrollo", compute='_compute_desarrollo_percentage')
     description = fields.Text(translate=True)
 
+    def _valid_field_parameter(self, field, name):
+        # I can't even
+        return name == 'tracking' or super()._valid_field_parameter(field, name)
+
     def _get_default_stage_id(self):
         """ Gives default stage_id """
         return self.env.ref('project_update.type_pendienteiniciar_sprint').id
 
-
-
-    #stage_id = fields.Many2one('project.sprint.type', string='Stage', ondelete='restrict', tracking = True, index = True, copy = False)
-    #stage_id = fields.Many2one('project.sprint.type', string = 'Stage', ondelete='restrict', tracking=True, index=True, domain="[('project_ids', '=', project_id)]", copy=False)
     stage_id = fields.Many2one('project.sprint.type', string='Stage', ondelete='restrict', tracking=True, index=True,
         default=_get_default_stage_id, group_expand='_read_group_stage_ids',
         domain="[('project_ids', '=', project_id)]", copy=False)

@@ -17,4 +17,5 @@
     'images': ['static/description/icon.png'],
     'demo': [],
     'installable': True,
+    'license': 'LGPL-3',
 }

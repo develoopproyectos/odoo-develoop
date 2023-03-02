@@ -1,10 +1,16 @@
 <odoo>
-    <report id="print_iva_report"
-        	string="Listado de IVA"
-        	model="report.list.iva.custom"
-        	report_type="qweb-pdf"
-        	name="custom_report_list_iva.print_iva_report_pdf"
-        	file="custom_report_list_iva.print_iva_report_pdf"
-        	menu="True"
-			print_report_name="'Listado de Iva'"/>
+
+	<data>
+		<record id="print_iva_report_custom" model="ir.actions.report">
+            <field name="name">Listado de IVA</field>
+            <field name="model">report.list.iva.custom</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">custom_report_list_iva.print_iva_report_pdf</field>
+            <field name="report_file">custom_report_list_iva.print_iva_report_pdf</field>
+            <field name="print_report_name">'Listado de Iva'</field>
+            <field name="binding_model_id" ref="model_report_list_iva_custom"/>
+            <field name="binding_type">report</field>
+        </record>
+	</data>
+   
 </odoo>

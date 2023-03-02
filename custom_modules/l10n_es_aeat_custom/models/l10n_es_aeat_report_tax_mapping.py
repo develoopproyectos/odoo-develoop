@@ -18,11 +18,15 @@ class Dev_l10n_es_aeat_report_tax_mapping_Custom(models.AbstractModel):
         ]
         if map_line.move_type == "regular":
             move_line_domain.append(
-                ("move_id.move_type", "in", ("receivable", "payable", "liquidity"))
+                ("move_id.financial_type", "in", ("receivable", "payable", "liquidity"))
             )
         elif map_line.move_type == "refund":
             move_line_domain.append(
-                ("move_id.move_type", "in", ("receivable_refund", "payable_refund"))
+                (
+                    "move_id.financial_type",
+                    "in",
+                    ("receivable_refund", "payable_refund"),
+                )
             )
         if map_line.field_type == "base":
             move_line_domain.append(("tax_ids", "in", taxes.ids))
@@ -45,8 +49,22 @@ class Dev_l10n_es_aeat_report_tax_mapping_Custom(models.AbstractModel):
         elif map_line.sum_type == "credit":
             move_line_domain.append(("credit", ">", 0))
         if map_line.exigible_type == "yes":
-            move_line_domain.append(("tax_exigible", "=", True))
+            move_line_domain.extend(
+                (
+                    "|",
+                    ("move_id.tax_cash_basis_rec_id", "!=", False),
+                    "|",
+                    ("tax_line_id.tax_exigibility", "!=", "on_payment"),
+                    ("tax_ids.tax_exigibility", "!=", "on_payment"),
+                )
+            )
         elif map_line.exigible_type == "no":
-            move_line_domain.append(("tax_exigible", "=", False))
+            move_line_domain.extend(
+                (
+                    ("move_id.tax_cash_basis_rec_id", "=", False),
+                    ("tax_line_id.tax_exigibility", "=", "on_payment"),
+                    ("tax_ids.tax_exigibility", "=", "on_payment"),
+                )
+            )
         move_line_domain += self._get_partner_domain()
         return move_line_domain

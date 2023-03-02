@@ -35,7 +35,7 @@
                                 <t t-set="price_total" t-value="price_total + o.x_amount_untaxed_signed"/>
                                 <t t-set="tax_total" t-value="tax_total + o.x_amount_tax_signed"/>
                                 <t t-set="amount_total" t-value="amount_total + o.x_amount_total_signed"/>
-                                <t t-set="currency_id" t-value="o.currency_id" />
+                                <t t-set="currency_id" t-value="o.company_currency_id" />
                                 <tr>
                                     <td class="text-left">
                                         <span class="small" t-field="o.partner_id"></span>
@@ -44,7 +44,7 @@
                                         <span class="small" t-field="o.invoice_date"></span>
                                     </td>  
                                     <td class="text-left">
-                                        <span class="small" t-field="o.name"></span>
+                                        <span class="small" t-field="o.move_id"></span>
                                     </td>                                                                      
                                     <td class="text-left">
                                         <span class="small" t-field="o.invoice_user_id"></span>

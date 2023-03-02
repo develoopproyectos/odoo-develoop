@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'HR Leaves Custom',
-    'version': '13.0.1.0',
+    'version': '15.0.0.0',
     'author': 'Develoop Software S.A.',
     'category': 'Morillas',
     'website': 'https://www.develoop.net/',
@@ -10,8 +10,8 @@
     'data': [
         'data/data.xml',
     ],
-    'qweb': [],
     'images': ['static/description/icon.png'],
     'demo': [],
     'installable': True,
+    'license': 'LGPL-3',
 }

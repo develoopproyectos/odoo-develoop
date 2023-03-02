@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="task_kanban_update_progressbar" model="ir.ui.view">
+            <field name="name">task_kanban_update_progressbar</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='progress']" position="attributes" >
+                    <attribute name="widget">progressbar_task_custom</attribute>
+                </xpath>
+            </field>
+        </record>
+     
+    </data>
+
+</odoo>

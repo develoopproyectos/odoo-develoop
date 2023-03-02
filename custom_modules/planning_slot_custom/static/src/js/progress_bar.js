@@ -7,7 +7,6 @@ odoo.define('planning_slot_custom.progress_bar', function (require) {
 
     var progressbar = FieldProgressBar.extend({
         _render_value: function (v) {
-            console.log("ANDRES");
             var value = this.value;
             var max_value = this.max_value;
             if (!isNaN(v)) {

@@ -1,5 +1,6 @@
 
-from odoo import api, fields, models
+from odoo import api, models
+from odoo.exceptions import ValidationError
 
 class account_analitic_line_report(models.Model):
     
@@ -17,3 +18,43 @@ class account_analitic_line_report(models.Model):
         toreturn = dict()
         toreturn['planned_hours'] = planned_hours
         return toreturn
+
+    @api.onchange('date','project_id','user_id')
+    def get_default_task_domain(self):
+        if self.env.user.has_group('hr_timesheet_custom.x_force_task_in_planing_for_day'):
+            task_ids = list()
+
+            project_id = self.project_id.id if self.project_id.id else 0
+            query = """
+                SELECT id
+                FROM planning_slot
+                WHERE date_trunc('day',start_datetime) >= '%s' and date_trunc('day',end_datetime) <= '%s' and project_id = %s and user_id = %s
+            """ % (self.date, self.date, project_id, self.user_id.id)
+
+            self.env.cr.execute(query)
+            data = self.env.cr.fetchall()
+            
+            for rec in data: 
+                task_ids.append(rec[0])
+            
+            # planning = self.env['planning.slot'].search([
+            #     ('start_datetime','>=',self.date),('end_datetime','<',self.date),('project_id','=',self.project_id.id),('user_id','=',self.user_id.id)])
+            # task_ids = list(data.task_id.id for data in planning)
+            return { 
+                'domain': { 
+                    'task_id': [('project_id','=',self.project_id.id),('id','in',task_ids)] 
+                }
+            }
+
+    @api.model
+    def create(self, vals):
+        name = vals.get('name') if vals.get('name') else ''
+        if len(name) < 4:
+            raise ValidationError("La descripción debe tener al menos 4 caracteres")
+        return super(account_analitic_line_report, self).create(vals)
+
+    def write(self, vals):
+        name = vals.get('name') if vals.get('name') else self.name
+        if len(name) < 4:
+            raise ValidationError("La descripción debe tener al menos 4 caracteres")
+        return super(account_analitic_line_report, self).write(vals)

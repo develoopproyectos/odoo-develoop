@@ -14,6 +14,9 @@
             <xpath expr="//field[@name='task_id']" position="attributes">
                 <attribute name="options">{"no_create":true}</attribute>
             </xpath>
+            <xpath expr="//field[@name='project_id']" position="before">
+                <field name="user_id" />
+            </xpath>
         </field>
     </record>
 

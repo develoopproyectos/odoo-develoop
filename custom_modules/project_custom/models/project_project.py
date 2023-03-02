@@ -13,7 +13,7 @@ class Dev_pc_ProjectProjectCustom(models.Model):
     x_kanban_state = fields.Selection([
         ('normal', 'In progress'),
         ('done', 'Completed'),
-        ('blocked', 'Blocked')], string='Kanban State',
+        ('blocked', 'Blocked')], string='Estado',
         copy=False, default='normal', required=True)
     x_phase = fields.Selection([
         ('functional_analysis', 'Functional Analysis'),

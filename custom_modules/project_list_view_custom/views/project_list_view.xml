@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="project_list_tree_view" model="ir.ui.view">
+            <field name="name">project_list_view.project_list.tree</field>
+            <field name="model">project.project</field>
+            <field name="arch" type="xml">
+                <tree string="Informe de Proyectos">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="user_id"/>
+                    <field name="backup" string="Backup"/>
+                    <field name="responsable_tecnico" string="Responsable técnico"/>
+                    <field name="x_theoretical_start_date"/>
+                    <field name="x_theoretical_end_date"/>
+                    <field name="x_estimated_end_date"/>
+                    <field name="x_kanban_state"/>
+                    <field name="x_phase"/>
+                    <field name="x_technology" widget="many2many_tags" />
+                    <field name="x_custom_filter" invisible="1" />
+                </tree>
+            </field>
+        </record>
+        
+        <record id="project_list_search_view" model="ir.ui.view">
+            <field name="name">project_list.search</field>
+            <field name="model">project.project</field>
+            <field name="arch" type="xml">
+                <search string="Projects">
+                    <field name="name" string="Nombre del Proyecto"/>
+                    <field name="partner_id" string="Cliente"/>
+                    <field name="user_id" string="Responsable del Proyecto"/>
+                    <field name="backup" string="Backup"/>
+                    <field name="responsable_tecnico" string="Responsable técnico"/>
+                    <field name="x_theoretical_start_date" string="Fecha inicio teórica"/>
+                    <field name="x_theoretical_end_date" string="Fecha fin teórica"/>
+                    <field name="x_estimated_end_date" string="Fecha fin estimada"/>
+                    <field name="x_kanban_state" string="Estado"/>
+                    <field name="x_phase" string="Fase"/>
+                    <field name="x_technology" string="Tecnología"/>
+                    <filter string="Fecha fin teórica &lt; Fecha fin estimada" name="x_theoretical_end_date" domain="[('x_custom_filter', '=', 1)]"/>
+                    <group expand="1" string="Group By">
+                        <filter string="Cliente" name="partner_id" context="{'group_by': 'partner_id'}"/>
+                        <filter string="Responsable del Proyecto" name="user_id" context="{'group_by': 'user_id'}"/>
+                        <filter string="Backup" name="backup" context="{'group_by': 'backup'}"/>
+                        <filter string="Responsable técnico" name="responsable_tecnico" context="{'group_by': 'responsable_tecnico'}"/>
+                        <filter string="Fase" name="x_phase" context="{'group_by': 'x_phase'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="project_list_act_window" model="ir.actions.act_window">
+            <field name="name">Informe de Proyectos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">project.project</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                    (0, 0, {'view_mode': 'tree', 'view_id': ref('project_list_view_custom.project_list_tree_view')}),
+                    ]"/>
+            <field name="search_view_id" ref="project_list_search_view"/>
+            <field name="context">{'edit': 0,'create': 0}</field>
+            <field name="view_mode">tree</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    No hay ejemplos, Por favor agregue nuevos protectos.
+                </p>
+            </field>
+        </record>
+
+        <menuitem name="Informe de Proyectos"
+            id="project_list_act_menu"
+            parent="project.menu_project_report"
+            action="project_list_act_window"
+            sequence="10"/>
+    </data>
+</odoo>

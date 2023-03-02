@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': "hr_planning_custom",
+    'version': '15.0.0.0',
     'summary': """
         Modificacion del planning""",
 
@@ -8,15 +9,16 @@
     """,
     'author': "Develoop Software",
     'website': "http://www.yourcompany.com",
-    'category': 'Uncategorized',
-    'version': '0.1',
-    'depends': ['web','planning','project_forecast','web_gantt','hr_timesheet'],
+    'category': 'Custom',
+    'depends': ['planning','project_forecast','web_gantt'],
     'data': [
-        "views/assets.xml",
         "views/planning_slot.xml",
-        "views/project_task.xml",
     ],
-    'qweb': [
-        #"static/src/xml/web_gantt.xml",
-    ],
+    'assets': {
+        'web.assets_backend': [
+            'planning_slot_custom/static/src/css/style.css',
+            'planning_slot_custom/static/src/js/gantt_row.js',
+        ],
+    },
+    'license': 'LGPL-3',
 }

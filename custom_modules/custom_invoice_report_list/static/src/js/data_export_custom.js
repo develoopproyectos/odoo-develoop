@@ -4,7 +4,7 @@ odoo.define('custom_invoice_report_list.dataExport_custom.js', function (require
     var DataExport = require('web.DataExport');
 
     var IncludeListView = {
-        _exportData: function() {
+        export_data: function() {
             if(this.record.model == "account.invoice.report" && this.record.viewType == "list")
             {    
                 this.record.model = "account.invoice.report2";

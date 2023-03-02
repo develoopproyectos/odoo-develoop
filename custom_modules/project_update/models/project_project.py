@@ -9,7 +9,7 @@ class ProjectTemplate(models.Model):
     backup = fields.Many2one('res.users', string='Backup', default=lambda self: self.env.user, tracking=True)
     responsable_tecnico = fields.Many2one('res.users', string='Responsable técnico', default=lambda self: self.env.user, tracking=True)
     sprint_id = fields.One2many('project.sprint', 'sprint_name')
-    sprint_count = fields.Integer(compute= '_compute_sprint_count', String="Sprints")
+    sprint_count = fields.Integer(compute= '_compute_sprint_count', string="Sprints")
 
     sprint_type_ids = fields.Many2many('project.sprint.type', 'project_sprint_type_rel', 'project_id', 'type_id', string='Sprint Stages')
 

@@ -11,11 +11,12 @@
                     <field name="responsable_tecnico" attrs="{'readonly':[('active','=',False)]}"/>
                 </field>
 
-                <xpath expr="//button[@name='attachment_tree_view']" position="after">
-                    <button type="object" name="sprint_action" class="oe_stat_button" icon="fa-calendar-times-o" string="Sprints">
-                        <field string="Sprints" name="sprint_count" icon="statinfo" />
+                <xpath expr="//form[1]/sheet[1]/div[@name='button_box']/button[@icon='fa-tasks']" position="before">
+                    <button class="oe_stat_button" icon="fa-calendar-times-o" type="object" name="sprint_action">
+                        <field widget="statinfo" name="sprint_count" string="Sprints"/>
                     </button>
                 </xpath>
+
             </field>
         </record>
     </data>

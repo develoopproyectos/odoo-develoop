@@ -6,7 +6,7 @@
         <field name="model">planning.slot</field>
         <field name="inherit_id" ref="planning.planning_view_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='allocated_percentage']" position="after">
+            <xpath expr="//field[@name='allocated_hours']" position="after">
                 <field name="x_expiration_date" string="Fecha límite" />
             </xpath>
         </field>
@@ -20,11 +20,6 @@
             <xpath expr="//field[@name='allocated_hours']" position="after">
                 <field name="x_expiration_date" />
                 <field name="x_kanban_state" />
-                <field name="x_is_validation" />
-                <field name="task_id"/>
-            </xpath>
-            <xpath expr="//ul[@class='pl-1 mb-0']/li[1]" position="before">
-                <li><strong>Tarea: </strong> <t t-esc="task_id[1]"/></li>
             </xpath>
         </field>
     </record>

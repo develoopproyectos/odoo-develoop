@@ -1,28 +1,19 @@
 # -*- coding: utf-8 -*-
 {
     'name': "project_update",
-
     'summary': """
         Texto molon de verdad
         """,
-
     'description': """
         Esto es una extension para el modulo de proyectos
     """,
-
     'author': "Marc Cortadellas",
-    'website': "http://www.yourcompany.com",
+    'website': "http://www.develoop.com",
+    'category': 'Develoop',
+    'version': '15.0.0.0',
 
-    # Categories can be used to filter modules in modules listing
-    # Check https://github.com/odoo/odoo/blob/13.0/odoo/addons/base/data/ir_module_category_data.xml
-    # for the full list
-    'category': 'Uncategorized',
-    'version': '0.1',
-
-    # any module necessary for this one to work correctly
     'depends': ['base','project'],
 
-    # always loaded
     'data': [
         'security/ir.model.access.csv',
         'views/project_project_view.xml',
@@ -32,4 +23,5 @@
         'data/project_task_type_data.xml',
         'data/project_sprint_type_data.xml',
       ],
+      'license': 'LGPL-3',
 }

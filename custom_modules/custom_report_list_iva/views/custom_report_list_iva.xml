@@ -26,13 +26,11 @@
             <field name="model">report.list.iva.custom</field>
             <field name="arch" type="xml">
                 <search string="Listado de IVA">
-                    <filter name="x_type" string="Asiento contable" domain="[('x_type','=','entry')]"/>
+                    <field name="x_invoice_number"/>
                     <filter name="x_type" string="Factura Cliente" domain="[('x_type','=','out_invoice')]"/>
                     <filter name="x_type" string="Factura Rectificativa Cliente" domain="[('x_type','=','out_refund')]"/>
                     <filter name="x_type" string="Factura Proveedor" domain="[('x_type','=','in_invoice')]"/>
                     <filter name="x_type" string="Factura Rectificativa Proveedor" domain="[('x_type','=','in_refund')]"/>
-                    <filter name="x_type" string="Recibo de ventas" domain="[('x_type','=','out_receipt')]"/>
-                    <filter name="x_type" string="Recibo de compra" domain="[('x_type','=','in_receipt')]"/>
                     <group expand="1" string="Group By">
                         <filter string="Tipo de Factura" name="x_type" context="{'group_by': 'x_type'}"/>
                     </group>

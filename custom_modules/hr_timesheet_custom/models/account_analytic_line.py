@@ -26,25 +26,26 @@ class account_analitic_line_report(models.Model):
 
     @api.depends('date','project_id','user_id')
     def _compute_domain_for_task(self):
-        if self.env.user.has_group('hr_timesheet_custom.x_force_task_in_planing_for_day'):
-            task_ids = list()
+        for rec in self:
+            if self.env.user.has_group('hr_timesheet_custom.x_force_task_in_planing_for_day'):
+                task_ids = list()
 
-            project_id = self.project_id.id if self.project_id.id else 0
-            query = """
-                SELECT id
-                FROM planning_slot
-                WHERE date_trunc('day',start_datetime) >= '%s' and date_trunc('day',end_datetime) <= '%s' and project_id = %s and user_id = %s
-            """ % (self.date, self.date, project_id, self.user_id.id)
+                project_id = rec.project_id.id if rec.project_id.id else 0
+                query = """
+                    SELECT task_id
+                    FROM planning_slot
+                    WHERE task_id is not null and date_trunc('day',start_datetime) >= '%s' and date_trunc('day',end_datetime) <= '%s' and project_id = %s and user_id = %s
+                """ % (rec.date, rec.date, project_id, rec.user_id.id)
 
-            self.env.cr.execute(query)
-            data = self.env.cr.fetchall()
-            
-            for rec in data: 
-                task_ids.append(rec[0])
-            
-            self.x_compute_domain_for_task = self.env['project.task'].search([('project_id','=',self.project_id.id),('id','in',task_ids)])
-        else:
-            self.x_compute_domain_for_task = self.env['project.task'].search([('project_id','=',self.project_id.id)])
+                self.env.cr.execute(query)
+                data = self.env.cr.fetchall()
+                
+                for rec2 in data: 
+                    task_ids.append(rec2[0])
+                
+                rec.x_compute_domain_for_task = self.env['project.task'].search([('project_id','=',rec.project_id.id),('id','in',task_ids)])
+            else:
+                rec.x_compute_domain_for_task = self.env['project.task'].search([('project_id','=',rec.project_id.id)])
 
     @api.model
     def create(self, vals):

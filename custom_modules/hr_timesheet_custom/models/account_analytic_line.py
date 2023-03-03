@@ -1,5 +1,6 @@
 
-from odoo import api, fields, models
+from odoo import api, models
+from odoo.exceptions import ValidationError
 
 class account_analitic_line_report(models.Model):
     
@@ -22,11 +23,11 @@ class account_analitic_line_report(models.Model):
     def create(self, vals):
         name = vals.get('name') if vals.get('name') else ''
         if len(name) < 4:
-            raise ValidationError("La descripción debe tener al menos 4 caracteres")
+            raise ValidationError("La descripciÃ³n debe tener al menos 4 caracteres")
         return super(account_analitic_line_report, self).create(vals)
 
     def write(self, vals):
         name = vals.get('name') if vals.get('name') else self.name
         if len(name) < 4:
-            raise ValidationError("La descripción debe tener al menos 4 caracteres")
+            raise ValidationError("La descripciÃ³n debe tener al menos 4 caracteres")
         return super(account_analitic_line_report, self).write(vals)

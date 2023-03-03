@@ -1,12 +1,15 @@
 
+import logging
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
+
+_logger = logging.getLogger(__name__)
 
 class account_analitic_line_report(models.Model):
     
     _inherit = "account.analytic.line"
 
-    x_compute_domain_for_task = fields.Many2many(comodel_name="project.task", _compute="_compute_domain_for_task")
+    x_compute_domain_for_task = fields.Many2many(comodel_name="project.task", compute="_compute_domain_for_task")
 
     def get_report_timesheet_custom(self):
         project_ids = []
@@ -42,7 +45,6 @@ class account_analitic_line_report(models.Model):
             self.x_compute_domain_for_task = self.env['project.task'].search([('project_id','=',self.project_id.id),('id','in',task_ids)])
         else:
             self.x_compute_domain_for_task = self.env['project.task'].search([('project_id','=',self.project_id.id)])
-        test = ""
 
     @api.model
     def create(self, vals):

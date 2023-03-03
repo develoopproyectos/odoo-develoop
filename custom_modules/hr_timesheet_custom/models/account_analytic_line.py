@@ -1,10 +1,12 @@
 
-from odoo import api, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 class account_analitic_line_report(models.Model):
     
     _inherit = "account.analytic.line"
+
+    x_compute_domain_for_task = fields.Many2many(comodel_name="project.task", _compute="_compute_domain_for_task")
 
     def get_report_timesheet_custom(self):
         project_ids = []
@@ -19,8 +21,8 @@ class account_analitic_line_report(models.Model):
         toreturn['planned_hours'] = planned_hours
         return toreturn
 
-    @api.onchange('date','project_id','user_id')
-    def get_default_task_domain(self):
+    @api.depends('date','project_id','user_id')
+    def _compute_domain_for_task(self):
         if self.env.user.has_group('hr_timesheet_custom.x_force_task_in_planing_for_day'):
             task_ids = list()
 
@@ -37,14 +39,10 @@ class account_analitic_line_report(models.Model):
             for rec in data: 
                 task_ids.append(rec[0])
             
-            # planning = self.env['planning.slot'].search([
-            #     ('start_datetime','>=',self.date),('end_datetime','<',self.date),('project_id','=',self.project_id.id),('user_id','=',self.user_id.id)])
-            # task_ids = list(data.task_id.id for data in planning)
-            return { 
-                'domain': { 
-                    'task_id': [('project_id','=',self.project_id.id),('id','in',task_ids)] 
-                }
-            }
+            self.x_compute_domain_for_task = self.env['project.task'].search([('project_id','=',self.project_id.id),('id','in',task_ids)])
+        else:
+            self.x_compute_domain_for_task = self.env['project.task'].search([('project_id','=',self.project_id.id)])
+        test = ""
 
     @api.model
     def create(self, vals):

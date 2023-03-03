@@ -17,3 +17,16 @@ class account_analitic_line_report(models.Model):
         toreturn = dict()
         toreturn['planned_hours'] = planned_hours
         return toreturn
+
+    @api.model
+    def create(self, vals):
+        name = vals.get('name') if vals.get('name') else ''
+        if len(name) < 4:
+            raise ValidationError("La descripción debe tener al menos 4 caracteres")
+        return super(account_analitic_line_report, self).create(vals)
+
+    def write(self, vals):
+        name = vals.get('name') if vals.get('name') else self.name
+        if len(name) < 4:
+            raise ValidationError("La descripción debe tener al menos 4 caracteres")
+        return super(account_analitic_line_report, self).write(vals)

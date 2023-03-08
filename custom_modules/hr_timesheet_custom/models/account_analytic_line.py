@@ -1,6 +1,9 @@
-
-from odoo import api, models
+import logging
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
+
+_logger = logging.getLogger(__name__)
+
 
 class account_analitic_line_report(models.Model):
     
@@ -12,7 +15,8 @@ class account_analitic_line_report(models.Model):
             if record.project_id.id not in project_ids:
                 project_ids.append(record.project_id.id)
 
-        project_task_ids = self.env['project.task'].search([('project_id','in',project_ids),('parent_id','=',False)])
+        project_task_ids = self.env['project.task'].search(
+            [('project_id', 'in', project_ids), ('parent_id', '=', False)])
         planned_hours = sum(data.planned_hours for data in project_task_ids)
 
         toreturn = dict()
@@ -21,13 +25,23 @@ class account_analitic_line_report(models.Model):
 
     @api.model
     def create(self, vals):
-        name = vals.get('name') if vals.get('name') else ''
-        if len(name) < 4:
+        name = False
+        if vals.get('name'):
+            name = vals.get('name')
+        elif len(self) == 1:
+            name = self.name
+
+        if name and len(name) < 4:
             raise ValidationError("La descripción debe tener al menos 4 caracteres")
         return super(account_analitic_line_report, self).create(vals)
 
     def write(self, vals):
-        name = vals.get('name') if vals.get('name') else self.name
-        if len(name) < 4:
+        name = False
+        if vals.get('name'):
+            name = vals.get('name')
+        elif len(self) == 1:
+            name = self.name
+
+        if name and len(name) < 4:
             raise ValidationError("La descripción debe tener al menos 4 caracteres")
         return super(account_analitic_line_report, self).write(vals)

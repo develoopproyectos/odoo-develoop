@@ -17,6 +17,7 @@ class HRLeave(models.Model):
                             'template_id': None,
                             'project_id': leave.holiday_status_id.timesheet_project_id.id,
                             'employee_id': leave.employee_id.id,
+                            'resource_id': leave.employee_id.resource_id.id,
                             'role_id': role_id,
                             'start_datetime': leave.date_from,
                             'end_datetime': leave.date_to,

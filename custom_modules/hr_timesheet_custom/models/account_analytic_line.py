@@ -1,3 +1,5 @@
+
+from datetime import datetime
 import logging
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
@@ -34,8 +36,11 @@ class account_analitic_line_report(models.Model):
                 query = """
                     SELECT task_id
                     FROM planning_slot
-                    WHERE task_id is not null and date_trunc('day',start_datetime) >= '%s' and date_trunc('day',end_datetime) <= '%s' and project_id = %s and user_id = %s
-                """ % (rec.date, rec.date, project_id, rec.user_id.id)
+                    WHERE task_id is not null and project_id = %s and user_id = %s and 
+                    (CAST(start_datetime AS DATE) >= '%s' and CAST(start_datetime AS DATE) <= '%s') or
+	                (CAST(end_datetime AS DATE) >= '%s' and CAST(end_datetime AS DATE) <= '%s') 
+                    
+                """ % (project_id, rec.user_id.id, rec.date, rec.date, rec.date, rec.date)
 
                 self.env.cr.execute(query)
                 data = self.env.cr.fetchall()

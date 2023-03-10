@@ -1,0 +1,9 @@
+<odoo>
+    <data>
+
+        <record id="x_force_task_in_planing_for_day" model="res.groups">
+            <field name="name">Partes de horas: Forzar filtro de tareas por dia planificadas</field>
+        </record>
+        
+    </data>
+</odoo>

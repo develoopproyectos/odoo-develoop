@@ -7,12 +7,17 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='task_id']" position="attributes">
                 <attribute name="required">1</attribute>
+                <attribute name="domain">[('project_id','=',project_id),('id','in',x_compute_domain_for_task)]</attribute>
             </xpath>
             <xpath expr="//field[@name='project_id']" position="attributes">
                 <attribute name="options">{"no_create":true}</attribute>
             </xpath>
             <xpath expr="//field[@name='task_id']" position="attributes">
                 <attribute name="options">{"no_create":true}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='project_id']" position="before">
+                <field name="user_id" />
+                <field name="x_compute_domain_for_task" invisible="1" />
             </xpath>
         </field>
     </record>

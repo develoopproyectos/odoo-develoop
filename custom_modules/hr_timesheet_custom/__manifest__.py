@@ -11,6 +11,7 @@
     'version': '15.0.0.0',
     'depends': ['hr_timesheet','analytic'],
     'data': [
+        'data/data.xml',
         'views/hr_timesheet.xml',
         'report/report_timesheet_templates.xml',
     ],

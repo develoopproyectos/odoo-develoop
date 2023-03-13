@@ -37,8 +37,8 @@ class account_analitic_line_report(models.Model):
                     SELECT task_id
                     FROM planning_slot
                     WHERE task_id is not null and project_id = %s and user_id = %s and 
-                    (CAST(start_datetime AS DATE) >= '%s' and CAST(start_datetime AS DATE) <= '%s') or
-	                (CAST(end_datetime AS DATE) >= '%s' and CAST(end_datetime AS DATE) <= '%s') 
+                        (CAST(start_datetime AS DATE) <= '%s' AND CAST(end_datetime AS DATE) >= '%s') or
+                        (CAST(start_datetime AS DATE) = '%s' and CAST(end_datetime AS DATE) = '%s')
                     
                 """ % (project_id, rec.user_id.id, rec.date, rec.date, rec.date, rec.date)
 

@@ -38,6 +38,15 @@
                 <!-- <field name="x_planning_slot_str" type="html"/> -->
             </field>
         </record>
+
+        <!-- ACTUALIZA LOS DOMINIOS DE LOS REGISTROS EXISTENTES -->
+        <record id="project.act_project_project_2_project_task_all" model="ir.actions.act_window">
+                <field name="domain">[('project_id', '=', active_id)]</field>
+        </record>
+        <record id="project.action_view_task" model="ir.actions.act_window">
+                <field name="domain">[('project_id', '=', active_id)]</field>
+        </record>
+
     </data>
 
 </odoo>

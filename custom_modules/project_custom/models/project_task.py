@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields
+from odoo import api, models, fields
 from odoo.exceptions import ValidationError
 from datetime import date
 
@@ -28,6 +28,14 @@ class Dev_ProjectTaskCustom(models.Model):
             if rec.date_deadline and rec.date_deadline >= date.today():
                 rec.x_is_planning_delay = True
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get('display_project_id', False) == False:
+                vals['display_project_id'] = vals.get('project_id')
+        result = super(Dev_ProjectTaskCustom, self).create(vals_list)
+        return result
+
     def write(self, vals):
         for rec in self:
             if rec.stage_id.name and not vals.get('sequence'):
@@ -47,6 +55,10 @@ class Dev_ProjectTaskCustom(models.Model):
                             vals.get('description', False)
                             ):
                         raise ValidationError("El campo horas planeadas es obligatorio")
+        for rec2 in vals.get('child_ids', []):
+            if len(rec2) == 3:
+                if rec2[2]:
+                    rec2[2]['display_project_id'] = rec2[2]['project_id']
 
         result = super(Dev_ProjectTaskCustom, self).write(vals)
         return result

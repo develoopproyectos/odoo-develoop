@@ -36,11 +36,11 @@ class account_analitic_line_report(models.Model):
                 query = """
                     SELECT ps.task_id
                     FROM planning_slot as ps INNER JOIN project_task as pt ON ps.task_id = pt.id
-                    WHERE ps.task_id is not null and pt.name like '%s' and ps.project_id = %s and ps.user_id = %s and 
+                    WHERE ps.task_id is not null and ps.project_id = %s and ps.user_id = %s and (pt.name like '%s' or
                         (CAST(ps.start_datetime AS DATE) <= '%s' AND CAST(ps.end_datetime AS DATE) >= '%s') or
-                        (CAST(ps.start_datetime AS DATE) = '%s' and CAST(ps.end_datetime AS DATE) = '%s')
+                        (CAST(ps.start_datetime AS DATE) = '%s' and CAST(ps.end_datetime AS DATE) = '%s'))
                     
-                """ % ('%no facturable%', project_id, rec.user_id.id, rec.date, rec.date, rec.date, rec.date)
+                """ % (project_id, rec.user_id.id, '%no facturable%', rec.date, rec.date, rec.date, rec.date)
 
                 self.env.cr.execute(query)
                 data = self.env.cr.fetchall()

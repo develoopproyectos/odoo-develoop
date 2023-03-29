@@ -42,7 +42,7 @@ class account_analitic_line_report(models.Model):
                     UNION 
                     SELECT id as id
                     FROM project_task
-                    WHERE project_id='%s' and name like '%s'
+                    WHERE project_id='%s' and lower(name) like '%s'
                 """ % (project_id, rec.user_id.id, rec.date, rec.date, rec.date, rec.date, project_id, '%no facturable%')
 
                 self.env.cr.execute(query)

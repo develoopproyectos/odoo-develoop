@@ -1,4 +1,4 @@
-
+from odoo.tools import pytz
 from datetime import datetime, date, timedelta
 import logging
 from odoo import api, fields, models
@@ -81,11 +81,14 @@ class account_analitic_line_report(models.Model):
 
         if self.env.user.has_group('hr_timesheet_custom.x_force_task_in_planing_for_day'):
             if 'no facturable' not in self.task_id.name:
+                tz = pytz.timezone(self.env.user.tz) or pytz.utc
+                user_tz_date = pytz.utc.localize(fields.datetime.now()).astimezone(tz)
+
                 project_id = vals.get('project_id', self.project_id.id)
                 task_id = self.task_id.id
                 employee_res = self.employee_id.resource_id.id
-                start_day = fields.datetime(self.date.year, self.date.month, self.date.day)
-                end_day = fields.datetime(self.date.year, self.date.month, self.date.day) + timedelta(days=1)
+                start_day = fields.datetime(user_tz_date.year, user_tz_date.month, user_tz_date.day)
+                end_day = fields.datetime(user_tz_date.year, user_tz_date.month, user_tz_date.day) + timedelta(days=1)
                 query = """
                     SELECT task_id as id
                     FROM planning_slot

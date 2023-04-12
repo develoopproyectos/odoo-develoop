@@ -1,5 +1,5 @@
-
-from datetime import datetime
+from odoo.tools import pytz
+from datetime import datetime, date, timedelta
 import logging
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
@@ -78,4 +78,30 @@ class account_analitic_line_report(models.Model):
 
         if name and len(name) < 4:
             raise ValidationError("La descripción debe tener al menos 4 caracteres")
+
+        if self.env.user.has_group('hr_timesheet_custom.x_force_task_in_planing_for_day'):
+            if 'no facturable' not in self.task_id.name:
+                tz = pytz.timezone(self.env.user.tz) or pytz.utc
+                user_tz_date = pytz.utc.localize(fields.datetime.now()).astimezone(tz)
+
+                project_id = vals.get('project_id', self.project_id.id)
+                task_id = self.task_id.id
+                employee_res = self.employee_id.resource_id.id
+                start_day = fields.datetime(user_tz_date.year, user_tz_date.month, user_tz_date.day)
+                end_day = fields.datetime(user_tz_date.year, user_tz_date.month, user_tz_date.day) + timedelta(days=1)
+                query = """
+                    SELECT task_id as id
+                    FROM planning_slot
+                    WHERE project_id = %s and task_id = %s and resource_id = %s and (
+                        (CAST(start_datetime AS DATE) <= '%s' AND CAST(start_datetime AS DATE) > '%s') or
+                        (CAST(end_datetime AS DATE) <= '%s' and CAST(end_datetime AS DATE) > '%s') or 
+                        (CAST(start_datetime AS DATE) <= '%s' and CAST(end_datetime AS DATE) >= '%s') )
+                """ % (project_id, task_id, employee_res, start_day, end_day, start_day, end_day, start_day, end_day)
+                
+                self.env.cr.execute(query)
+                planning = self.env.cr.fetchall()
+
+                if not planning:
+                    raise ValidationError("No puede ingresar horas si no se encuentra planificado para la fecha indicada")
+              
         return super(account_analitic_line_report, self).write(vals)

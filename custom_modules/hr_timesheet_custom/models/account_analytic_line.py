@@ -80,7 +80,7 @@ class account_analitic_line_report(models.Model):
             raise ValidationError("La descripción debe tener al menos 4 caracteres")
 
         if self.env.user.has_group('hr_timesheet_custom.x_force_task_in_planing_for_day'):
-            if 'no facturable' not in self.task_id.name:
+            if 'no facturable' not in self.task_id.name.lower():
                 tz = pytz.timezone(self.env.user.tz) or pytz.utc
                 user_tz_date = pytz.utc.localize(fields.datetime.now()).astimezone(tz)
 

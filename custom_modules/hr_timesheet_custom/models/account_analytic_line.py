@@ -89,6 +89,9 @@ class account_analitic_line_report(models.Model):
                 employee_res = self.employee_id.resource_id.id
                 start_day = fields.datetime(user_tz_date.year, user_tz_date.month, user_tz_date.day)
                 end_day = fields.datetime(user_tz_date.year, user_tz_date.month, user_tz_date.day) + timedelta(days=1)
+                _logger.info("--------")
+                _logger.info(start_day)
+                _logger.info(end_day)
                 query = """
                     SELECT task_id as id
                     FROM planning_slot

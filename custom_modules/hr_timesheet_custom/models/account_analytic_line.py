@@ -89,17 +89,15 @@ class account_analitic_line_report(models.Model):
                 employee_res = self.employee_id.resource_id.id
                 start_day = fields.datetime(user_tz_date.year, user_tz_date.month, user_tz_date.day)
                 end_day = fields.datetime(user_tz_date.year, user_tz_date.month, user_tz_date.day) + timedelta(days=1)
-                _logger.info("--------")
-                _logger.info(start_day)
-                _logger.info(end_day)
                 query = """
                     SELECT task_id as id
                     FROM planning_slot
                     WHERE project_id = %s and task_id = %s and resource_id = %s and (
                         (CAST(start_datetime AS DATE) <= '%s' AND CAST(start_datetime AS DATE) > '%s') or
                         (CAST(end_datetime AS DATE) <= '%s' and CAST(end_datetime AS DATE) > '%s') or 
-                        (CAST(start_datetime AS DATE) <= '%s' and CAST(end_datetime AS DATE) >= '%s') )
-                """ % (project_id, task_id, employee_res, start_day, end_day, start_day, end_day, start_day, end_day)
+                        (CAST(start_datetime AS DATE) <= '%s' and CAST(end_datetime AS DATE) >= '%s') or
+                        (CAST(start_datetime AS DATE) = CAST(end_datetime AS DATE) and CAST(start_datetime AS DATE) = '%s' ) )
+                """ % (project_id, task_id, employee_res, start_day, end_day, start_day, end_day, start_day, end_day, start_day)
                 
                 self.env.cr.execute(query)
                 planning = self.env.cr.fetchall()

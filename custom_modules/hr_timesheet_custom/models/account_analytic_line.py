@@ -97,8 +97,9 @@ class account_analitic_line_report(models.Model):
                         (CAST(start_datetime AS DATE) <= '%s' AND CAST(start_datetime AS DATE) > '%s') or
                         (CAST(end_datetime AS DATE) <= '%s' and CAST(end_datetime AS DATE) > '%s') or 
                         (CAST(start_datetime AS DATE) <= '%s' and CAST(end_datetime AS DATE) >= '%s') or
+                        (CAST(start_datetime AS DATE) <= '%s' and CAST(end_datetime AS DATE) <= '%s') or
                         (CAST(start_datetime AS DATE) = CAST(end_datetime AS DATE) and CAST(start_datetime AS DATE) = '%s' ) )
-                """ % (project_id, task_id, employee_res, start_day, end_day, start_day, end_day, start_day, end_day, start_day)
+                """ % (project_id, task_id, employee_res, start_day, end_day, start_day, end_day, start_day, end_day, start_day, end_day, start_day)
                 
                 self.env.cr.execute(query)
                 planning = self.env.cr.fetchall()

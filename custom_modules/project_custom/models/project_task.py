@@ -10,9 +10,26 @@ class Dev_ProjectTaskCustom(models.Model):
     
     _inherit = "project.task"
 
+    @api.model
+    def _search_x_is_planned(self, operator, operand):
+        ext = "" # date_now = fields.Date.today()
+        if self._context.get('active_id', False):
+            ext = "WHERE project_id=" + str(self._context.get('active_id'))
+        sql = """
+            SELECT task_id FROM planning_slot WHERE end_datetime > NOW() and task_id in (SELECT id FROM project_task %s)
+        """ % (ext)
+        res = self._cr.execute(sql)
+        ids = self._cr.fetchall()
+        return [('id','not in', ids)]
+
     x_planning_slot = fields.One2many("planning.slot", compute="get_x_planning_slot", string="Planificaciones", help="Listado de planificaciones")
     x_planning_slot_str = fields.Char(string="Planificacion", compute="get_x_planning_slot")
     x_is_planning_delay = fields.Boolean("Tarea retrasada?", compute="get_x_is_planning_delay")
+    x_is_planned = fields.Boolean(string="Esta planificada bool", compute='_compute_x_is_planned', search=_search_x_is_planned)
+
+    def _compute_x_is_planned(self):
+        for rec in self:
+            rec.x_is_planned = False
 
     def get_x_planning_slot(self):
         for rec in self:

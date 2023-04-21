@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+
+        <record id="view_task_search_form_extended_custom" model="ir.ui.view">
+            <field name="name">project.task.search.form.extended.custom</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_search_form"></field>
+            <field name="mode">extension</field>
+            <field name="type">search</field>
+            <field name="priority">99</field>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='unassigned']" position="after">
+                    <separator/>
+                    <filter string="No planificado" name="x_is_planned" domain="[('x_is_planned', '=', True)]"/>
+                </xpath>
+            </field>
+        </record>
+
         <record id="task_kanban_update" model="ir.ui.view">
             <field name="name">task_kanban_update</field>
             <field name="model">project.task</field>

@@ -4,8 +4,7 @@ odoo.define('planning_slot_custom.gantt_row.js', function (require) {
     var GanttRow = require('web_gantt.GanttRow');
 
     var GanttRowReturn = {
-        // init: function (parent, pillsInfo, viewInfo, options) {
-        start: function (ev) {
+        start() {
             this._super.apply(this, arguments);
             
             var self = this;
@@ -19,9 +18,9 @@ odoo.define('planning_slot_custom.gantt_row.js', function (require) {
 
                     var expiration_date = pill.x_expiration_date.toDate();
                     
-                    if (expiration_date < d && pill.x_kanban_state != 'done')
+                    if (expiration_date < d && pill.x_kanban_state != 'done' && pill.x_stage_id != undefined && 
+                        (pill.x_stage_id[1].toLowerCase().includes("desarrollo") || pill.x_stage_id[1].toLowerCase().includes("planifica")))
                     {
-                        // self.$('.o_gantt_pill[data-id=12558]')
                         var row = self.$('.o_gantt_pill[data-id=' + pill.id + ']');
                         if (row.length > 0)
                         {
@@ -30,7 +29,7 @@ odoo.define('planning_slot_custom.gantt_row.js', function (require) {
                     }
                 }
             });
-        }
+        },
     };
 
     return GanttRow.include(GanttRowReturn);

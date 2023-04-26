@@ -1,5 +1,10 @@
 
 from odoo import api, fields, models
+from odoo.exceptions import ValidationError
+
+import logging
+
+_logger = logging.getLogger(__name__)
 
 class dev_planning_slot_custom(models.Model):
     
@@ -8,3 +13,10 @@ class dev_planning_slot_custom(models.Model):
     x_expiration_date = fields.Date(related='task_id.date_deadline')
     x_kanban_state = fields.Selection(related='task_id.kanban_state')
     x_stage_id =  fields.Many2one(related='task_id.stage_id')
+
+    @api.constrains('task_id', 'project_id')
+    def _check_task_in_project(self):
+        for forecast in self:
+            if forecast.task_id and (forecast.task_id not in forecast.project_id.with_context(active_test=False).tasks):
+                _logger.info("ERROR: ID %s, Tarea (%s) %s, Proyecto (%s) %s" % (forecast.id, forecast.task_id.id, forecast.task_id.name, forecast.project_id.id, forecast.project_id.name))
+                # raise ValidationError(_("Your task is not in the selected project."))

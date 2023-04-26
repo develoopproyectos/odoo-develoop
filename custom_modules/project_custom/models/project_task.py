@@ -16,7 +16,7 @@ class Dev_ProjectTaskCustom(models.Model):
         if self._context.get('active_id', False):
             ext = "WHERE project_id=" + str(self._context.get('active_id'))
         sql = """
-            SELECT task_id FROM planning_slot WHERE end_datetime > NOW() and task_id in (SELECT id FROM project_task %s)
+            SELECT task_id FROM planning_slot WHERE end_datetime < cast(now() as date) and task_id in (SELECT id FROM project_task %s)
         """ % (ext)
         res = self._cr.execute(sql)
         ids = self._cr.fetchall()

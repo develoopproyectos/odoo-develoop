@@ -81,25 +81,20 @@ class account_analitic_line_report(models.Model):
 
         if self.env.user.has_group('hr_timesheet_custom.x_force_task_in_planing_for_day'):
             if 'no facturable' not in self.task_id.name.lower():
-                tz = pytz.timezone(self.env.user.tz) or pytz.utc
-                _date = vals.get('date', self.date)
-                #user_tz_date = pytz.utc.localize(_date).astimezone(tz) #fields.datetime.now()
-
+                start_date, end_date = self.get_timezone(vals)
+               
                 project_id = vals.get('project_id', self.project_id.id)
                 task_id = self.task_id.id
                 employee_res = self.employee_id.resource_id.id
-                start_day = fields.datetime(_date.year, _date.month, _date.day)
-                end_day = fields.datetime(_date.year, _date.month, _date.day) + timedelta(days=1)
                 query = """
                     SELECT task_id as id
                     FROM planning_slot
                     WHERE project_id = %s and task_id = %s and resource_id = %s and (
-                        (CAST(start_datetime AS DATE) <= '%s' AND CAST(start_datetime AS DATE) > '%s') or
-                        (CAST(end_datetime AS DATE) <= '%s' and CAST(end_datetime AS DATE) > '%s') or 
-                        (CAST(start_datetime AS DATE) <= '%s' and CAST(end_datetime AS DATE) >= '%s') or
-                        (CAST(start_datetime AS DATE) <= '%s' and CAST(end_datetime AS DATE) <= '%s') or
-                        (CAST(start_datetime AS DATE) = CAST(end_datetime AS DATE) and CAST(start_datetime AS DATE) = '%s' ) )
-                """ % (project_id, task_id, employee_res, start_day, end_day, start_day, end_day, start_day, end_day, start_day, end_day, start_day)
+                        (start_datetime > '%s' AND start_datetime < '%s') or
+                        (end_datetime > '%s' and end_datetime < '%s') or 
+                        (start_datetime > '%s' and end_datetime < '%s') or
+                        (start_datetime < '%s' and end_datetime > '%s'))
+                """ % (project_id, task_id, employee_res, start_date, end_date, start_date, end_date, start_date, end_date, start_date, end_date)
                 
                 self.env.cr.execute(query)
                 planning = self.env.cr.fetchall()
@@ -108,3 +103,14 @@ class account_analitic_line_report(models.Model):
                     raise ValidationError("No puede ingresar horas si no se encuentra planificado para la fecha indicada")
               
         return super(account_analitic_line_report, self).write(vals)
+
+    def get_timezone(self, vals):
+        #tz_user = pytz.timezone(self.env.user.tz) or pytz.utc
+        _date = vals.get('date', self.date)
+
+        seconds = (fields.datetime.utcnow() - fields.datetime.now()).total_seconds()
+        hour = int(seconds / (3600))
+        start_date = fields.datetime(_date.year, _date.month, _date.day) + timedelta(hours=hour)
+        end_date = start_date + timedelta(days=1)
+
+        return start_date, end_date

@@ -1,18 +1,18 @@
 ﻿<odoo>
-	<data>
-		<template id="report_invoice_document_custom" inherit_id="account.report_invoice_document">
-		
-			<xpath expr="//div[@class='page']//h2" position="replace">
-				<h2 t-if="o.move_type == 'out_refund'">
-					<span>Factura Rectificativa</span>
-				</h2>
-				<h2 t-if="o.move_type != 'out_refund'">
-					<span>Factura</span>
-				</h2>
-			</xpath>
-            
+    <data>
+        <template id="report_invoice_document_custom" inherit_id="account.report_invoice_document">
+
+            <xpath expr="//div[@class='page']//h2" position="replace">
+                <h2 t-if="o.move_type == 'out_refund'">
+                    <span>Factura Rectificativa</span>
+                </h2>
+                <h2 t-if="o.move_type != 'out_refund'">
+                    <span>Factura</span>
+                </h2>
+            </xpath>
+
             <xpath expr="//div[@class='row mt-4 mb-4']" position="replace">
-				<div id="informations" class="row mt-4 mb-4">
+                <div id="informations" class="row mt-4 mb-4">
                     <div class="col-auto col-3 mw-100 mb-2" t-if="o.invoice_date" name="invoice_date">
                         <strong>Fecha factura:</strong>
                         <p class="m-0" t-field="o.invoice_date"/>
@@ -22,11 +22,11 @@
                         <p class="m-0" t-field="o.name"/>
                     </div>
                 </div>
-			</xpath>
-			
-			
-			<xpath expr="//table[@class='table table-sm o_main_table']" position="replace">
-				<table class="table table-sm o_main_table" name="invoice_line_table">
+            </xpath>
+
+
+            <xpath expr="//table[@class='table table-sm o_main_table']" position="replace">
+                <table class="table table-sm o_main_table" name="invoice_line_table">
                     <thead>
                         <tr>
                             <!-- TODO: remove in master -->
@@ -82,14 +82,15 @@
                                     </td>
                                 </t>
                             </tr>
-
-                            <t t-if="current_section and (line_last or lines[line_index+1].display_type == 'line_section')">
-                                <tr class="is-subtotal text-right">
-                                    <td colspan="99">
-                                        <strong class="mr16">Subtotal</strong>
-                                        <span t-esc="current_subtotal" t-options='{"widget": "monetary", "display_currency": o.currency_id}' />
-                                    </td>
-                                </tr>
+                            <t t-if="lines">
+                                <t t-if="current_section and (line_last or lines[line_index+1].display_type == 'line_section')">
+                                    <tr class="is-subtotal text-right">
+                                        <td colspan="99">
+                                            <strong class="mr16">Subtotal</strong>
+                                            <span t-esc="current_subtotal" t-options='{"widget": "monetary", "display_currency": o.currency_id}' />
+                                        </td>
+                                    </tr>
+                                </t>
                             </t>
                         </t>
                     </tbody>
@@ -98,54 +99,54 @@
 			
 			<xpath expr="//t/t/div/p[1]" position="replace">
                 <p t-if="o.team_id.name == 'Mantenimientos'">
-					<strong>Esta factura cubre el siguiente periodo:</strong>
-					<span t-field="o.invoice_date" t-options='{"format": "MM/yyyy"}'/>
+                    <strong>Esta factura cubre el siguiente periodo:</strong>
+                    <span t-field="o.invoice_date" t-options='{"format": "MM/yyyy"}'/>
                     <br/>
-				</p>
+                </p>
             </xpath>
-            
+
             <xpath expr="//div[@t-if='not is_html_empty(o.narration)']" position="replace">
                 <p t-if="o.team_id.name == 'ERP'">
-					<strong>Notas:</strong>
+                    <strong>Notas:</strong>
                     <br/>
-					<span t-field="o.narration"/>
+                    <span t-field="o.narration"/>
                     <br/>
-				</p>
+                </p>
                 <p t-if="o.team_id.name == 'Software a medida'">
-					<strong>Notas:</strong>
+                    <strong>Notas:</strong>
                     <br/>
-					<span t-field="o.narration"/>
+                    <span t-field="o.narration"/>
                     <br/>
-				</p>
-				<p t-if="o.team_id.name == 'SERVICIOS'">
-					<strong>Notas:</strong>
+                </p>
+                <p t-if="o.team_id.name == 'SERVICIOS'">
+                    <strong>Notas:</strong>
                     <br/>
-					<span t-field="o.narration"/>
+                    <span t-field="o.narration"/>
                     <br/>
-				</p>
+                </p>
             </xpath>
-                    
+
             <xpath expr="//p[@t-if='o.invoice_payment_term_id']" position="replace">
-				<p t-if="o.invoice_payment_term_id" name="payment_term">
+                <p t-if="o.invoice_payment_term_id" name="payment_term">
                     <span style="color:white" t-field="o.invoice_payment_term_id.note"/>
                 </p>
-			</xpath>
-                    
+            </xpath>
+
             <xpath expr="//p[@t-if='o.invoice_payment_term_id']" position="after">
-				<p t-if="o.team_id.name == 'Mantenimientos'">
-					<strong>Fecha vencimiento:</strong>
-					<span t-field="o.invoice_date_due"/>
-				</p>
-			</xpath>
-            
+                <p t-if="o.team_id.name == 'Mantenimientos'">
+                    <strong>Fecha vencimiento:</strong>
+                    <span t-field="o.invoice_date_due"/>
+                </p>
+            </xpath>
+
             <xpath expr="//p[@t-if='not is_html_empty(o.fiscal_position_id.note)']" position="replace">
                 <p t-if="o.team_id.name == 'Mantenimientos'">
-					<strong>Forma de pago:</strong>
-					<span t-field="o.invoice_payment_term_id"/>
-				</p>
+                    <strong>Forma de pago:</strong>
+                    <span t-field="o.invoice_payment_term_id"/>
+                </p>
             </xpath>
-			
-        </template>   
-	</data>
+
+        </template>
+    </data>
 </odoo>
         

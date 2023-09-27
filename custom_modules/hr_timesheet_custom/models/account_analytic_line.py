@@ -79,25 +79,26 @@ class account_analitic_line_report(models.Model):
         if name and len(name) < 4:
             raise ValidationError("La descripción debe tener al menos 4 caracteres")     
         employee_time_zone = self.env.user.partner_id.tz
-        if employee_time_zone == 'America/La_Paz':
-            if 'no facturable' not in self.task_id.name.lower():
-                # start_date, end_date = self.get_timezone(vals)               
-                project_id = vals.get('project_id', self.project_id.id)
-                task_id = self.task_id.id
-                employee_res = self.employee_id.resource_id.id            
-                query = """
-                    SELECT task_id as id
-                    FROM planning_slot
-                    WHERE project_id = %s and task_id = %s and resource_id = %s and  '%s' >= DATE_TRUNC('day', start_datetime) and '%s' <= DATE_TRUNC('day', end_datetime)                
-                    """ % (project_id, task_id, employee_res, self.date, self.date)
+        if self.env.user.has_group('hr_timesheet_custom.x_force_task_in_planing_for_day'):
+            if employee_time_zone == 'America/La_Paz':
+                if 'no facturable' not in self.task_id.name.lower():
+                    # start_date, end_date = self.get_timezone(vals)               
+                    project_id = vals.get('project_id', self.project_id.id)
+                    task_id = self.task_id.id
+                    employee_res = self.employee_id.resource_id.id            
+                    query = """
+                        SELECT task_id as id
+                        FROM planning_slot
+                        WHERE project_id = %s and task_id = %s and resource_id = %s and  '%s' >= DATE_TRUNC('day', start_datetime) and '%s' <= DATE_TRUNC('day', end_datetime)                
+                        """ % (project_id, task_id, employee_res, self.date, self.date)
                 
-                self.env.cr.execute(query)
-                planning = self.env.cr.fetchall()
-                if not planning:
-                    raise ValidationError("No puede ingresar horas si no se encuentra planificado para la fecha indicada") 
-            elif 'no facturable' in self.project_id.name.lower():
-                if self.unit_amount >0.5:
-                    raise ValidationError("No puede ingresar mas de 30 min de Horas No Facturadas") 
+                    self.env.cr.execute(query)
+                    planning = self.env.cr.fetchall()
+                    if not planning:
+                        raise ValidationError("No puede ingresar horas si no se encuentra planificado para la fecha indicada") 
+                elif 'no facturable' in self.project_id.name.lower():
+                    if self.unit_amount >0.5:
+                        raise ValidationError("No puede ingresar mas de 30 min de Horas No Facturadas") 
         return super(account_analitic_line_report, self).write(vals)
 
     def get_timezone(self, vals):

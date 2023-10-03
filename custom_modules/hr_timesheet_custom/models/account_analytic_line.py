@@ -81,7 +81,7 @@ class account_analitic_line_report(models.Model):
         employee_time_zone = self.env.user.partner_id.tz
         if self.env.user.has_group('hr_timesheet_custom.x_force_task_in_planing_for_day'):
             if employee_time_zone == 'America/La_Paz':
-                if 'no facturable' not in self.task_id.name.lower():
+                if 'no facturable' not in self.project_id.name.lower():
                     # start_date, end_date = self.get_timezone(vals)               
                     project_id = vals.get('project_id', self.project_id.id)
                     task_id = self.task_id.id
@@ -96,7 +96,7 @@ class account_analitic_line_report(models.Model):
                     planning = self.env.cr.fetchall()
                     if not planning:
                         raise ValidationError("No puede ingresar horas si no se encuentra planificado para la fecha indicada") 
-                elif 'no facturable' in self.project_id.name.lower():
+                else:
                     if self.unit_amount >0.5:
                         raise ValidationError("No puede ingresar mas de 30 min de Horas No Facturadas") 
         return super(account_analitic_line_report, self).write(vals)

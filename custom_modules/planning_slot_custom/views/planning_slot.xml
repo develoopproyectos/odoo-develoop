@@ -23,18 +23,7 @@
                 <field name="x_stage_id" />
             </xpath>
         </field>
-    </record>
-    
-    <record id="color_task_planning_gantt" model="ir.ui.view">
-        <field name="name">planning.slot.gantt.task.color</field>
-        <field name="model">planning.slot</field>
-        <field name="inherit_id" ref="planning.planning_view_gantt"/>
-        <field name="arch" type="xml">
-            <xpath expr="//gantt" position="attributes">                
-                <attribute name="color">color</attribute>
-            </xpath>
-        </field>
-    </record>
+    </record>  
 
 
 </odoo>

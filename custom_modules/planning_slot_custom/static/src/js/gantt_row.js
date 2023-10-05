@@ -9,6 +9,7 @@ odoo.define('planning_slot_custom.gantt_row.js', function (require) {
             
             var self = this;
             this.pills.forEach(function (pill) {
+                console.log(pill);
                 if (pill != null && pill != undefined && pill.x_expiration_date != false && pill.x_expiration_date != null && pill.x_expiration_date != undefined)
                 {
                     var date_now = new Date();
@@ -27,7 +28,29 @@ odoo.define('planning_slot_custom.gantt_row.js', function (require) {
                             row[0].className = row[0].className + " warning_red ";
                         }
                     }
+                    else if (pill.color == "3") {
+                        var row = self.$('.o_gantt_pill[data-id=' + pill.id + ']');
+                        if (row.length > 0)
+                        {
+                            row[0].className = row[0].className + " warning_yellow ";
+                        }                    
+                    }
+                    else if(pill.color == "10"){
+                        var row = self.$('.o_gantt_pill[data-id=' + pill.id + ']');
+                        if (row.length > 0)
+                        {
+                            row[0].className = row[0].className + " warning_green ";
+                        }
+                    }                  
+                    else if(pill.color == "1" && (pill.x_stage_id[1].toLowerCase().includes("desarrollo") || pill.x_stage_id[1].toLowerCase().includes("planifica"))){
+                        var row = self.$('.o_gantt_pill[data-id=' + pill.id + ']');
+                        if (row.length > 0)
+                        {
+                            row[0].className = row[0].className + " warning_orange ";
+                        }
+                    }                  
                 }
+                
             });
         },
     };

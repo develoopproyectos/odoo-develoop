@@ -19,6 +19,7 @@
         'web.assets_backend': [
             'planning_slot_custom/static/src/css/style.css',
             'planning_slot_custom/static/src/js/gantt_row.js',
+            # 'planning_slot_custom/static/src/js/gantt_change_color.js',
 			'planning_slot_custom/static/src/js/progress_bar.js',
         ],
     },

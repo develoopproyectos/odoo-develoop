@@ -23,6 +23,7 @@
                 <field name="x_stage_id" />
             </xpath>
         </field>
-    </record>
+    </record>  
+
 
 </odoo>

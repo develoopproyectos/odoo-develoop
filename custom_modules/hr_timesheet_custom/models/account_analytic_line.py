@@ -82,6 +82,7 @@ class account_analitic_line_report(models.Model):
         if self.env.user.has_group('hr_timesheet_custom.x_force_task_in_planing_for_day'):
             if employee_time_zone == 'America/La_Paz':
                 if 'no facturable' not in self.project_id.name.lower():
+                    
                     # start_date, end_date = self.get_timezone(vals)               
                     project_id = vals.get('project_id', self.project_id.id)
                     task_id = self.task_id.id
@@ -95,7 +96,9 @@ class account_analitic_line_report(models.Model):
                     self.env.cr.execute(query)
                     planning = self.env.cr.fetchall()
                     if not planning:
-                        raise ValidationError("No puede ingresar horas si no se encuentra planificado para la fecha indicada") 
+                        raise ValidationError("No puede ingresar horas si no se encuentra planificado para la fecha indicada")
+                    self.get_hours_per_day(self.employee_id, self.date)
+                    
                 else:
                     if self.unit_amount >0.5:
                         raise ValidationError("No puede ingresar mas de 30 min de Horas No Facturadas") 
@@ -111,3 +114,37 @@ class account_analitic_line_report(models.Model):
         end_date = start_date + timedelta(days=1)
 
         return start_date, end_date
+    
+    def get_hours_per_day(self, employee_id, date):
+        is_correct_hours = False        
+        tasks_day = self.env['account.analytic.line'].search([
+            ('date', '=', date),
+            ('employee_id', '=', employee_id.id)
+            # Agrega más condiciones si es necesario
+        ])
+        message = "No puede ingresar más horas que las que tiene en asistencia"
+        total_hours = 0        
+        for task in tasks_day:
+            total_hours += task.unit_amount
+        
+        attendances_day = self.env['hr.attendance'].search([
+            ('check_in', 'like', f"{date}%"),
+            ('employee_id', '=', employee_id.id)
+            # Agrega más condiciones si es necesario
+        ])
+        total_attendance_hours = 0 
+        
+        for attendance in attendances_day:
+            total_attendance_hours += attendance.worked_hours
+
+        if total_attendance_hours<8:
+            total_attendance_hours = 8
+            message = "Si no haz completado la asistencia en tu jornada, la cantidad maxima de horas para registrar son 8h"
+        
+        if total_hours<=total_attendance_hours:
+            is_correct_hours = True
+
+        if not is_correct_hours:
+                        raise ValidationError(message)
+        
+        

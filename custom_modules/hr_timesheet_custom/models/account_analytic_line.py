@@ -97,9 +97,8 @@ class account_analitic_line_report(models.Model):
                     planning = self.env.cr.fetchall()
                     if not planning:
                         raise ValidationError("No puede ingresar horas si no se encuentra planificado para la fecha indicada")
-                    is_under_asist_hours = self.get_hours_per_day(self.employee_id, self.date)
-                    if not is_under_asist_hours:
-                        raise ValidationError("No puede ingresar más horas que las que tiene en asistencia")
+                    self.get_hours_per_day(self.employee_id, self.date)
+                    
                 else:
                     if self.unit_amount >0.5:
                         raise ValidationError("No puede ingresar mas de 30 min de Horas No Facturadas") 
@@ -123,10 +122,10 @@ class account_analitic_line_report(models.Model):
             ('employee_id', '=', employee_id.id)
             # Agrega más condiciones si es necesario
         ])
-        total_hours = 0 
-        if tasks_day:
-            for task in tasks_day:
-                total_hours += task.unit_amount
+        message = "No puede ingresar más horas que las que tiene en asistencia"
+        total_hours = 0        
+        for task in tasks_day:
+            total_hours += task.unit_amount
         
         attendances_day = self.env['hr.attendance'].search([
             ('check_in', 'like', f"{date}%"),
@@ -134,11 +133,18 @@ class account_analitic_line_report(models.Model):
             # Agrega más condiciones si es necesario
         ])
         total_attendance_hours = 0 
-        if attendances_day:
-            for attendance in attendances_day:
-                total_attendance_hours += attendance.worked_hours
+        
+        for attendance in attendances_day:
+            total_attendance_hours += attendance.worked_hours
+
+        if total_attendance_hours<8:
+            total_attendance_hours = 8
+            message = "Si no haz completado la asistencia en tu jornada, la cantidad maxima de horas para registrar son 8h"
         
         if total_hours<=total_attendance_hours:
             is_correct_hours = True
+
+        if not is_correct_hours:
+                        raise ValidationError(message)
         
-        return is_correct_hours
+        

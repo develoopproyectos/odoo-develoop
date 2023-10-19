@@ -44,17 +44,19 @@ class dev_planning_slot_custom(models.Model):
                 # raise ValidationError(_("Your task is not in the selected project."))
     
     def create(self, vals_list):
-        if vals_list:
-            resources_ids = vals_list[0]['resource_ids'][0][2]        
-            if resources_ids:
-                for resource in resources_ids:                
-                    vals_list[0]['resource_id'] = resource                
-                    res=super(dev_planning_slot_custom,self).create(vals_list)                
-                return res
+
+        for val in vals_list:
+            if 'resource_ids' in val:
+                resources_ids = val['resource_ids'][0][2]        
+                if resources_ids:
+                    for resource in resources_ids:                
+                        vals_list[0]['resource_id'] = resource                
+                        res=super(dev_planning_slot_custom,self).create(vals_list)                
+                    return res
+                else:
+                    return super(dev_planning_slot_custom,self).create(vals_list)
             else:
                 return super(dev_planning_slot_custom,self).create(vals_list)
-        else:
-            return super(dev_planning_slot_custom,self).create(vals_list)
     # def write(self, vals_list):
     #     resources = self.resource_ids
     #     for resource in resources.ids:

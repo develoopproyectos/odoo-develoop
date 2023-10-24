@@ -10,7 +10,7 @@
     'author': "Develoop Software",
     'website': "http://www.yourcompany.com",
     'category': 'Custom',
-    'depends': ['planning','project_forecast','web_gantt'],
+    'depends': ['planning','project_forecast','web_gantt', 'sale_planning'],
     'data': [
         "views/planning_slot.xml",
         "views/project_task.xml",

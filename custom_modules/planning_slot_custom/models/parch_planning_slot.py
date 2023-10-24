@@ -10,8 +10,8 @@ class CustomPlanningSlot(models.Model):
 
         # Agrega la condición if res: aquí
         if res:
-            if res.sale_line_id:
+            if res.sale_line_id and res.sale_line_id.id:
                 res.sale_line_id.sudo()._post_process_planning_sale_line(ids_to_exclude=res.ids)
-                return res
+            return res
 
         

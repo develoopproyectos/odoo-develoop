@@ -22,6 +22,9 @@
             <field name="model">project.task</field>
             <field name="inherit_id" ref="project.view_task_form2"/>
             <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="replace" >
+                    <field name="name" class="o_task_name" placeholder="Título de tarea..." default_focus="1" modifiers="{&quot;required&quot;: true}"/>
+                </xpath>
                 <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
                     <page name="planning_custom" string="Planificacion" >
                         <group>

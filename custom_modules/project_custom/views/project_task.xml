@@ -65,6 +65,18 @@
         <record id="project.action_view_task" model="ir.actions.act_window">
                 <field name="domain">[('project_id', '=', active_id)]</field>
         </record>
+        <record id="view_search_inherit" model="ir.ui.view">
+            <field name="name">web.SearchView.inherit</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_search_form_extended"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//search/field[@name='name']" position="before">
+                        <field name="id"/>
+                    </xpath>
+                </data>            
+            </field>
+        </record>      
 
     </data>
 

@@ -101,6 +101,19 @@ class Dev_ProjectTaskCustom(models.Model):
                             vals.get('description', False)
                             ):
                         raise ValidationError("El campo horas planeadas es obligatorio")
+                    
+            if 'stage_id' in vals:
+                stage_name = self.env['project.task.type'].browse(vals.get('stage_id')).name.lower()
+                if stage_name in task_type_validation:
+                    users_to_subscribe = self.env['res.users'].search([('id','=', 48)])  # Puedes obtener el usuario actual o cualquier otro
+                    rec.message_subscribe(partner_ids=users_to_subscribe.partner_id.ids)
+                    self.enviar_notificacion_a_usuario(users_to_subscribe, f"Fuiste suscrito a la tarea <strong style='font-size:16px'>{rec.name}</strong> que paso a la etapa de <strong style='font-size:16px'>{stage_name}</strong>", rec, f"Tarea {rec.name} Cambio de Estapa")                    
+                    
+                    
+                else:
+                    users_to_subscribe = self.env['res.users'].search([('id','=', 48)])
+                    rec.message_unsubscribe(partner_ids=users_to_subscribe.partner_id.ids)           
+
         for rec2 in vals.get('child_ids', []):
             if len(rec2) == 3:
                 if rec2[2]:
@@ -129,6 +142,9 @@ class Dev_ProjectTaskCustom(models.Model):
                 self.message_post(body=removed_notes)
         old_users = self.user_ids
         result = super(Dev_ProjectTaskCustom, self).write(vals)
+        if 'user_ids' in vals and self.stage_id.name.lower() in task_type_validation:
+                users_to_notifi = self.env['res.users'].search([('id','=', 48)])
+                self.enviar_notificacion_a_usuario(users_to_notifi, "La tarea <strong style='font-size:16px'>{}</strong> fue asignada a:  <strong style='font-size:16px'>{}</strong><div title='Cambiado' role='img' class='o_Message_trackingValueSeparator o_Message_trackingValueItem fa fa-long-arrow-right'></div><strong style='font-size:16px'>{}</strong>".format(rec.name, "".join(f" {user.name}," for user in old_users.user_ids),"".join(f" {user.name}," for user in self.user_ids)) , self, f"Tarea {self.name} Re Asignacion")
         return result
 
     def get_bootstrap_color_class(self, color_number):
@@ -157,3 +173,21 @@ class Dev_ProjectTaskCustom(models.Model):
             attrs.append(bootstrap_colors.get(0))
             attrs.append(font_color)
         return attrs
+
+
+    @api.model
+    def enviar_notificacion_a_usuario(self, user, mensaje, tarea, subj):               
+        
+        enlace_tarea = f"<p style='padding-top:24px; padding-bottom:16px'><a style='background-color:#875A7B; padding:10px; text-decoration:none; color:#fff; border-radius:5px' href='/web#id={tarea.id}&view_type=form&model=project.task'>Ver Tarea</a></p>"
+
+        mensaje_con_enlace = f"{mensaje}<br> Ver la tarea aquí: <br> {enlace_tarea}"
+
+        user.partner_id.message_post(body=mensaje_con_enlace, partner_ids=user.partner_id.ids, subject=subj)
+    
+    @api.model
+    def search(self, args, offset=0, limit=None, order=None, count=False):
+        if self._context.get('search_by_id'):
+            # Agregar lógica para buscar por ID
+            args += [('id', '=', self._context.get('search', False))]
+
+        return super(Dev_ProjectTaskCustom, self).search(args, offset=offset, limit=limit, order=order, count=count)

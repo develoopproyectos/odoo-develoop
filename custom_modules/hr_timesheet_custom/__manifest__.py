@@ -9,7 +9,7 @@
     'website': "http://www.develoop.net",
     'category': 'Develoop',
     'version': '15.0.0.0',
-    'depends': ['hr_timesheet','analytic'],
+    'depends': ['hr_timesheet','analytic','hr_attendance'],
     'data': [
         'data/data.xml',
         'views/hr_timesheet.xml',

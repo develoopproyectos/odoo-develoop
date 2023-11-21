@@ -35,7 +35,7 @@ class dev_planning_slot_custom(models.Model):
                     tags_ids = task.tag_ids
                     if tags_ids:
                         for tag in reversed(tags_ids):
-                            if tag.name == 'prioritario' or tag.name == 'Subir a Producción' or tag.name == 'incidencia':
+                            if tag.name == 'prioritario' or tag.name == 'Subir a Producci\u00F3n' or tag.name == 'incidencia':
                                 print(tag.color)
                                 planning.color = tag.color
                                 has_color = True

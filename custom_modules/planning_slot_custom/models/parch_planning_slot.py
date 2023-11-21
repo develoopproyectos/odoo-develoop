@@ -8,7 +8,7 @@ class CustomPlanningSlot(models.Model):
     def create(self, vals_list):
         res = super(CustomPlanningSlot, self).create(vals_list)
 
-        # Agrega la condición if res: aquí
+        # Agrega la condiciÃ³n if res: aquÃ­
         if res:
             if res.sale_line_id and res.sale_line_id.id:
                 res.sale_line_id.sudo()._post_process_planning_sale_line(ids_to_exclude=res.ids)

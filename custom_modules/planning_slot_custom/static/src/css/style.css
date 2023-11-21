@@ -2,3 +2,15 @@
     /* background-color: #dc3545 !important; */
     background-color: rgba(220, 53, 69, 0.8) !important;
 }
+.warning_yellow {
+    /* background-color: #dc3545 !important; */
+    background-color: #F7CD1F!important;
+}
+.warning_green {
+    /* background-color: #dc3545 !important; */
+    background-color: #2aa76e!important;
+}
+.warning_orange {
+    /* background-color: #dc3545 !important; */
+    background-color: #F06050!important;
+}

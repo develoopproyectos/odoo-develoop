@@ -78,7 +78,7 @@ class Dev_ProjectTaskCustom(models.Model):
             if stage_name in task_type_validation:
                 users_to_subscribe = self.env['res.users'].search([('id','=', 48)]).partner_id  # Puedes obtener el usuario actual o cualquier otro
                 result.message_subscribe(partner_ids=users_to_subscribe.ids)
-                self.enviar_notificacion_a_usuario(users_to_subscribe, f"Fuiste suscrito a la tarea <strong style='font-size:16px'>{rec.name}</strong> que paso a la etapa de <strong style='font-size:16px'>{stage_name}</strong>", rec, f"Tarea {rec.name} Cambio de Estapa")                
+                self.enviar_notificacion_a_usuario(users_to_subscribe, f"Fuiste suscrito a la tarea <strong style='font-size:16px'>{result.name}</strong> que paso a la etapa de <strong style='font-size:16px'>{stage_name}</strong>", result, f"Tarea {result.name} Cambio de Estapa")                
                 
         return result
 

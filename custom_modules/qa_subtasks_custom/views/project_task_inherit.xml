@@ -8,7 +8,7 @@
             <field name="inherit_id" ref="project.view_task_form2"/>
             <field name="arch" type="xml">
                 <xpath expr="//page[@name='planning_custom']" position="after">
-                    <page name="qa_subtask_page" string="QA" attrs="{'invisible': [('qa_parent_id', '!=', False)]}">
+                    <page name="qa_subtask_page" string="QA" attrs="{'invisible': ['|', ('qa_parent_id', '!=', False), ('test_parent_id', '!=', False)]}">
                         <field name="qa_child_ids" context="{'default_project_id': project_id if not parent_id or not display_project_id else display_project_id, 'default_user_ids': user_ids, 'default_parent_id': id, 'default_partner_id': partner_id}">
                             <tree editable="bottom">
                                 <field name="project_id" invisible="1"/>
@@ -29,8 +29,42 @@
                         </field>
                     </page>
                 </xpath>
+                <xpath expr="//page[@name='qa_subtask_page']" position="after">
+                    <page name="qa_test_page" string="Test Case" attrs="{'invisible': [('test_parent_id', '!=', False)]}">
+                        <button string="Agregar Tareas Existente." type="object" name="action_add_existing_tasks" class="oe_highlight"/>
+                        <field name="test_child_ids" context="{'default_project_id': project_id if not parent_id or not display_project_id else display_project_id, 'default_user_ids': user_ids, 'default_parent_id': id, 'default_partner_id': partner_id}">
+                            <tree editable="bottom">
+                                
+                                <field name="project_id" invisible="1"/>
+                                <field name="is_closed" invisible="1"/>
+                                <field name="sequence" widget="handle"/>
+                                <!-- <field name="test_parent_id" /> -->
+                                <field name="name"/>
+                                <field name="display_project_id" string="Project" optional="hide"/>
+                                <field name="partner_id" optional="hide"/>
+                                <field name="user_ids" widget="many2many_avatar_user" optional="show" domain="[('share', '=', False), ('active', '=', True)]"/>
+                                <field name="severity"/>
+                                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+                                <field name="activity_ids" widget="list_activity" optional="hide"/>
+                                <field name="date_deadline" attrs="{'invisible': [('is_closed', '=', True)]}" optional="show"/>
+                                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}" optional="hide"/>
+                                <field name="kanban_state" widget="state_selection" optional="hide"/>
+                                <!-- <field name="stage_id" optional="show" context="{'default_project_id': project_id}"/> -->
+                                <field name="test_state"/>
+                                <button name="action_open_task" type="object" title="View Task" string="Abrir Tarea" class="btn btn-link "/>
+                                <button string="Quitar" type="object" name="action_remove_child_task" class="oe_highlight" icon="fa-times" />
+                                
+                            </tree>
+                            
+                        </field>
+                       
+                    </page>
+                </xpath>
                 <xpath expr="//field[@name='parent_id']" position="after">                    
                     <field name="qa_parent_id" attrs="{'invisible': [('qa_parent_id', '=', False)]}"/>
+                </xpath>
+                <xpath expr="//field[@name='parent_id']" position="after">                    
+                    <field name="test_parent_id" attrs="{'invisible': [('test_parent_id', '=', False)]}"/>
                 </xpath>
             </field>
         </record>

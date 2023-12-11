@@ -7,7 +7,7 @@
             <field name="model">project.task</field>
             <field name="inherit_id" ref="project.view_task_form2"/>
             <field name="arch" type="xml">
-                <xpath expr="//page[@name='planning_custom']" position="after">
+                <xpath expr="//notebook" position="inside">
                     <page name="qa_subtask_page" string="QA" attrs="{'invisible': ['|', ('qa_parent_id', '!=', False), ('test_parent_id', '!=', False)]}">
                         <field name="qa_child_ids" context="{'default_project_id': project_id if not parent_id or not display_project_id else display_project_id, 'default_user_ids': user_ids, 'default_parent_id': id, 'default_partner_id': partner_id}">
                             <tree editable="bottom">
@@ -29,7 +29,7 @@
                         </field>
                     </page>
                 </xpath>
-                <xpath expr="//page[@name='qa_subtask_page']" position="after">
+                <xpath expr="//notebook" position="inside">
                     <page name="qa_test_page" string="Test Case" attrs="{'invisible': [('test_parent_id', '!=', False)]}">
                         <button string="Agregar Tareas Existente." type="object" name="action_add_existing_tasks" class="oe_highlight"/>
                         <field name="test_child_ids" context="{'default_project_id': project_id if not parent_id or not display_project_id else display_project_id, 'default_user_ids': user_ids, 'default_parent_id': id, 'default_partner_id': partner_id}">

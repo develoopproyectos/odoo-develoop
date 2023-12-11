@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_add_existing_tasks_wizard" model="ir.ui.view">
+            <field name="name">qa.subtask.custom.wizard.form</field>
+            <field name="model">project.task.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="task_ids" widget="many2many_tags" domain="[('test_parent_id', '!=', False)]"/>
+                    </group>
+                    <footer>
+                        <button string="Agregar Tareas" type="object" class="oe_highlight" name="action_add_existing_tasks"/>
+                        <button string="Cancelar" class="oe_secondary_action" onclick="window.close()"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

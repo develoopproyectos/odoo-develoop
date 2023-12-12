@@ -8,9 +8,10 @@
     'depends': ['base', 'project'],
     'summary': 'Se creara una vista para las sub tareas que corresponde a QA y que tendran como tarea padre a otra',
     'data': [
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         # 'data/data.xml',
         'views/project_task_inherit.xml',
+        'wizard/test_cases_wizard.xml',
         # 'data/project_technology.xml',
         # 'views/project.xml',
         # 'views/project_task.xml',

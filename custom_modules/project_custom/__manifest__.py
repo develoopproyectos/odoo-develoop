@@ -5,7 +5,7 @@
     'author': 'Develoop Software S.A.',
     'category': 'Develoop',
     'website': 'https://www.develoop.net/',
-    'depends': ['base', 'project'],
+    'depends': ['base', 'project', 'sale_timesheet','planning'],
     'summary': 'Añade campos al proyecto',
     'data': [
         'security/ir.model.access.csv',

@@ -45,8 +45,8 @@
                     </thead>
                     <tbody class="invoice_tbody">
                         <t t-set="current_subtotal" t-value="0"/>
-
-                        <t t-foreach="o.invoice_line_ids.sorted(key=lambda r: r.sequence)" t-as="line">
+                        <t t-set="lines" t-value="o.invoice_line_ids.sorted(key=lambda r: r.sequence)"/>
+                        <t t-foreach="lines" t-as="line">
 
                             <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
                             <t t-set="current_subtotal" t-value="current_subtotal + line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
@@ -74,7 +74,7 @@
                                         <span t-field="line.name" t-options="{'widget': 'text'}"/>
                                     </td>
                                     <t t-set="current_section" t-value="line"/>
-                                    <!-- <t t-set="current_subtotal" t-value="0"/> -->
+                                    <t t-set="current_subtotal" t-value="0"/>
                                 </t>
                                 <t t-if="line.display_type == 'line_note'">
                                     <td colspan="99">
@@ -82,16 +82,14 @@
                                     </td>
                                 </t>
                             </tr>
-                            <t t-if="line">
-                                <t t-if="current_section and line_last">
+                            <t t-if="current_section and (line_last or lines[line_index+1].display_type == 'line_section')">
                                     <tr class="is-subtotal text-right">
                                         <td colspan="99">
                                             <strong class="mr16">Subtotal</strong>
                                             <span t-esc="current_subtotal" t-options='{"widget": "monetary", "display_currency": o.currency_id}' />
                                         </td>
                                     </tr>
-                                </t>
-                            </t>
+                            </t>                            
                         </t>
                     </tbody>
                 </table>

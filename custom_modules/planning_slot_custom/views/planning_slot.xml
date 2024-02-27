@@ -25,6 +25,7 @@
                 <field name="x_expiration_date" />
                 <field name="x_kanban_state" />
                 <field name="x_stage_id" />
+                <field name="planned_date_end" invisible='1'/>
             </xpath>
         </field>
     </record>  

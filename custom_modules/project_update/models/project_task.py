@@ -14,7 +14,7 @@ class TaskTemplate(models.Model):
     horas_desarrolladas_pctg = fields.Integer(string="Horas desarrollo (%)") # min=0, max= 10
     visible = fields.Boolean(default=False)
     first_attempt =fields.Boolean(default=False)
-    motive_deadline = fields.Selection([('t1', 'Reestructuración proyecto'), ('t2', 'Falta de recursos'), ('t3', 'Replanificación otros proyectos'), ('t4','Falta material'), ('t5', 'falta de comunicación')],
+    motive_deadline = fields.Selection([('t1', 'Reestructuración proyecto'), ('t2', 'Falta de recursos'), ('t3', 'Replanificación otros proyectos'), ('t4','Falta material'), ('t5', 'falta de comunicación'), ('t6', 'Feedback')],
                                        string="Motivo", tracking = True, invisible=True)
 
 

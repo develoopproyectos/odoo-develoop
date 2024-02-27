@@ -10,14 +10,14 @@ odoo.define('planning_slot_custom.gantt_row.js', function (require) {
             var self = this;
             this.pills.forEach(function (pill) {
                 console.log(pill);
-                if (pill != null && pill != undefined && pill.x_expiration_date != false && pill.x_expiration_date != null && pill.x_expiration_date != undefined)
+                if (pill != null && pill != undefined && pill.planned_date_end != false && pill.planned_date_end != null && pill.planned_date_end != undefined)
                 {
                     var date_now = new Date();
                     date_now.setHours(0, 0, 0, 0);
                     const userTimezoneOffset = date_now.getTimezoneOffset() * 60000;
                     const d = new Date(date_now.getTime() - userTimezoneOffset);
 
-                    var expiration_date = pill.x_expiration_date.toDate();
+                    var expiration_date = pill.planned_date_end.toDate();
                     
                     if (expiration_date < d && pill.x_kanban_state != 'done' && pill.x_stage_id != undefined && 
                         (pill.x_stage_id[1].toLowerCase().includes("desarrollo") || pill.x_stage_id[1].toLowerCase().includes("planifica")))

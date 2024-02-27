@@ -10,6 +10,7 @@
                 <field name="x_expiration_date" string="Fecha límite" />
             </xpath>
             <xpath expr="//field[@name='role_id']" position="before">
+                <field name="planned_date_end" invisible='1'/>
                 <field name="resource_ids" string="Recursos" widget="many2many_tags" attrs="{'readonly': [('id', '!=', False)]}"/>
             </xpath>
         </field>

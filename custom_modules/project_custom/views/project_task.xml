@@ -48,6 +48,11 @@
                 <xpath expr="//field[@name='color']" position="after">
                     <field name="x_planning_slot_str" />
                 </xpath>
+                <xpath expr="//div[@name='date_deadline']" position="replace">
+                    <div t-if="record.planned_date_end.raw_value" name="planned_date_end" attrs="{'invisible': [('is_closed', '=', True)]}">
+                        <field name="planned_date_end" widget="remaining_days"/>
+                    </div>
+                </xpath>
                 <!-- <xpath expr="//div[@class='o_kanban_record_body']/div[1]" position="after">
                     <div style="font-size:10px;">
                       <t t-raw="record.x_planning_slot_str.raw_value"/>

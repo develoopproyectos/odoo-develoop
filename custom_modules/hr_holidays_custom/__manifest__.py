@@ -9,6 +9,7 @@
     'summary': 'Crea y agrega opciones para que un empleado no pueda ser asignado a una planificacion cuando esta fuera.',
     'data': [
         'data/data.xml',
+        'views/hr_holidays_calendar_custom.xml'
     ],
     'images': ['static/description/icon.png'],
     'demo': [],

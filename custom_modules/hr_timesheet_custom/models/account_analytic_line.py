@@ -20,7 +20,7 @@ class account_analitic_line_report(models.Model):
                 project_ids.append(record.project_id.id)
 
         project_task_ids = self.env['project.task'].search(
-            [('project_id', 'in', project_ids), ('parent_id', '=', False)])
+            [('project_id', 'in', project_ids), ('parent_id', '=', False),('stage_id.name','ilike', 'épica%')])
         planned_hours = sum(data.planned_hours for data in project_task_ids)
 
         toreturn = dict()

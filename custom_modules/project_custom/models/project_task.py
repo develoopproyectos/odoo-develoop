@@ -103,8 +103,9 @@ class Dev_ProjectTaskCustom(models.Model):
                         raise ValidationError("El campo horas planeadas es obligatorio")
                     
             if 'stage_id' in vals:
-                stage_name = self.env['project.task.type'].browse(vals.get('stage_id')).name.lower()
-                if stage_name in task_type_validation:
+                stage = self.env['project.task.type'].browse(vals.get('stage_id')).name
+                stage_name = stage.lower() if stage else False
+                if stage_name and stage_name in task_type_validation:
                     users_to_subscribe = self.env['res.users'].sudo().search([('id','=', 48)])  # Puedes obtener el usuario actual o cualquier otro
                     rec.message_subscribe(partner_ids=users_to_subscribe.partner_id.ids)
                     self.enviar_notificacion_a_usuario(users_to_subscribe, f"Fuiste suscrito a la tarea <strong style='font-size:16px'>{rec.name}</strong> que paso a la etapa de <strong style='font-size:16px'>{stage_name}</strong>", rec, f"Tarea {rec.name} Cambio de Estapa")                    

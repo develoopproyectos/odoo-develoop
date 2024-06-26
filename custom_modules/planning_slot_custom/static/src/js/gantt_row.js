@@ -4,6 +4,7 @@ odoo.define('planning_slot_custom.gantt_row.js', function (require) {
     var GanttRow = require('web_gantt.GanttRow');
 
     var GanttRowReturn = {
+        template: 'CustomGanttView.Row',
         start() {
             this._super.apply(this, arguments);
             
@@ -60,6 +61,23 @@ odoo.define('planning_slot_custom.gantt_row.js', function (require) {
                 }
                 
             });
+        },
+        _aggregateGroupedPills: function () {
+            debugger
+            this._super.apply(this, arguments);
+            this.pills.forEach(function (pill) {
+                pill.consolidated = true;
+                if (self.consolidate && self.consolidationParams.maxValue) {
+                    
+                } else {
+                    var total_hours  = 0
+                    pill.aggregatedPills.forEach(function (agPill){
+                        total_hours += agPill.allocated_hours;
+                    })
+                    pill.display_name = pill.display_name + ' - '+ total_hours + 'Hrs';
+                }
+                
+            });        
         },
     };
 

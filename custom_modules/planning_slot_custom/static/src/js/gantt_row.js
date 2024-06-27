@@ -168,7 +168,7 @@ odoo.define('planning_slot_custom.gantt_row.js', function (require) {
                         let start_date = agPill.start_datetime
                         let end_date = agPill.end_datetime
                         let difference_ms = end_date - start_date;
-                        let difference_days = difference_ms / (1000 * 60 * 60 * 24);
+                        let difference_days = Math.ceil(difference_ms / (1000 * 60 * 60 * 24));
                         if (difference_days > 1) {
                             total_hours += (agPill.allocated_hours/((difference_days)+1));
                         } else {

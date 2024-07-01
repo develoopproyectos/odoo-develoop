@@ -9,8 +9,9 @@
     'description': """
         - Remover restricciones de rangos cuando se aplica un comparativo
         """,
-    'depends': ['base','l10n_es_reports'],
+    'depends': ['base','l10n_es_reports','sale'],
     'data': [
+        'reports/sale_order_report_inherit.xml'
     ],
     'demo': [],
     "images": ['static/description/icon.png'],

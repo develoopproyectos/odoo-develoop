@@ -16,6 +16,14 @@ odoo.define('planning_slot_custom.gantt_row.js', function (require) {
                     date_now.setHours(0, 0, 0, 0);
                     const userTimezoneOffset = date_now.getTimezoneOffset() * 60000;
                     const d = new Date(date_now.getTime() - userTimezoneOffset);
+                    // Asignar nuevo texto a las Pill con horas asiganadas y el nombre de la tarea
+                    let cell = self.$('.o_gantt_pill[data-id=' + pill.id + '] .o_gantt_pill_title');
+                    if (cell.length > 0)
+                        {
+                            let hours = Math.floor(pill.allocated_hours);
+                            let minutes = Math.round((pill.allocated_hours - hours) * 60);
+                            cell.text('('+hours+'h'+(minutes < 10 ? "0" : "")+ minutes +') - '+ pill.display_name) 
+                        }
 
                     var expiration_date = pill.x_expiration_date.toDate();
                     

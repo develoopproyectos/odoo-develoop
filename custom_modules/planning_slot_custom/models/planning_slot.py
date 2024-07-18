@@ -61,6 +61,29 @@ class dev_planning_slot_custom(models.Model):
                         return res
 
             return super(dev_planning_slot_custom,self).create(vals_list)
+			
+def name_get(self):
+        group_by = self.env.context.get('group_by', [])
+        field_list = ['task_id']
+
+        # Sudo as a planning manager is not able to read private project if he is not project manager.
+        self = self.sudo()
+        result = []
+        for slot in self:
+            # label part, depending on context `groupby`
+            name_values = [
+                self._fields[fname].convert_to_display_name(slot[fname], slot) if fname != 'resource_id' else slot.resource_id.name
+                for fname in field_list
+                if slot[fname]
+            ][:3]  # limit to 3 labels
+            name = ' - '.join(name_values) or slot.resource_id.name
+
+            # add unicode bubble to tell there is a note
+            if slot.name:
+                name = u'%s \U0001F4AC' % name
+
+            result.append([slot.id, name or ''])
+        return result
 
     def write(self, vals_list):
        

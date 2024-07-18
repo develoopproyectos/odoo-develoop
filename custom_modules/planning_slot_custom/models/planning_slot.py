@@ -62,7 +62,7 @@ class dev_planning_slot_custom(models.Model):
 
             return super(dev_planning_slot_custom,self).create(vals_list)
 			
-def name_get(self):
+	def name_get(self):
         group_by = self.env.context.get('group_by', [])
         field_list = ['task_id']
 

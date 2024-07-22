@@ -87,9 +87,10 @@ odoo.define('planning_slot_custom.gantt_row.js', function (require) {
                     var previousPill = pills[pills.length - 1];
                     var isContinuous = previousPill &&
                         _.intersection(previousPill.aggregatedPills, pillsInThisInterval).length;
+                    // Here odoo slice or concat pills
                     if (isContinuous && previousPill.count === pillsInThisInterval.length) {
                             // Enlarge previous pill so that it spans the current slot
-                            previousPill.stopDate = intervalStop;
+                            // previousPill.stopDate = intervalStop;
                             // previousPill.aggregatedPills = previousPill.aggregatedPills.concat(pillsInThisInterval);
                     } 
                     var newPill = {

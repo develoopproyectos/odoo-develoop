@@ -65,7 +65,6 @@ class dev_planning_slot_custom(models.Model):
 	def name_get(self):
         group_by = self.env.context.get('group_by', [])
         field_list = ['task_id']
-
         # Sudo as a planning manager is not able to read private project if he is not project manager.
         self = self.sudo()
         result = []
@@ -77,7 +76,6 @@ class dev_planning_slot_custom(models.Model):
                 if slot[fname]
             ][:3]  # limit to 3 labels
             name = ' - '.join(name_values) or slot.resource_id.name
-
             # add unicode bubble to tell there is a note
             if slot.name:
                 name = u'%s \U0001F4AC' % name

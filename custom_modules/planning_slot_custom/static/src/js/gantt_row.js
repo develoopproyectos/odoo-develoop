@@ -9,8 +9,15 @@ odoo.define('planning_slot_custom.gantt_row.js', function (require) {
             this._super.apply(this, arguments);
             
             var self = this;
-            this.pills.forEach(function (pill) {
-                console.log(pill);
+            this.pills.forEach(function (pill) {                
+                // Asignar nuevo texto a las Pill con horas asiganadas y el nombre de la tarea
+                let cell = self.$('.o_gantt_pill[data-id=' + pill.id + '] .o_gantt_pill_title');
+                if (cell.length > 0)
+                    {
+                        let hours = Math.floor(pill.allocated_hours);
+                        let minutes = Math.round((pill.allocated_hours - hours) * 60);
+                        cell.text('('+hours+'h'+(minutes < 10 ? "0" : "")+ minutes +') - '+ pill.display_name) 
+                    }
                 if (pill != null && pill != undefined)
                 {
                     var date_now = new Date();
@@ -19,7 +26,7 @@ odoo.define('planning_slot_custom.gantt_row.js', function (require) {
                     const d = new Date(date_now.getTime() - userTimezoneOffset);
                     let is_red = false;
                     if(pill.planned_date_end != false && pill.planned_date_end != null && pill.planned_date_end != undefined){
-                        console.log("FECHA");
+                        
                         
                         var expiration_date = pill.planned_date_end.toDate();
                         
@@ -35,7 +42,7 @@ odoo.define('planning_slot_custom.gantt_row.js', function (require) {
                         }
                     }
                     if (pill.color == "3" && is_red == false ) {
-                        console.log("3");
+                        
                         var row = self.$('.o_gantt_pill[data-id=' + pill.id + ']');
                         if (row.length > 0)
                         {
@@ -43,7 +50,7 @@ odoo.define('planning_slot_custom.gantt_row.js', function (require) {
                         }                    
                     }
                     else if(pill.color == "10" && is_red == false){
-                        console.log("10");
+                        
                         var row = self.$('.o_gantt_pill[data-id=' + pill.id + ']');
                         if (row.length > 0)
                         {
@@ -51,7 +58,7 @@ odoo.define('planning_slot_custom.gantt_row.js', function (require) {
                         }
                     }                  
                     else if(pill.color == "1" && (pill.x_stage_id[1].toLowerCase().includes("desarrollo") || pill.x_stage_id[1].toLowerCase().includes("planifica"))&& is_red == false){
-                        console.log("1");
+                        
                         var row = self.$('.o_gantt_pill[data-id=' + pill.id + ']');
                         if (row.length > 0)
                         {
@@ -62,8 +69,7 @@ odoo.define('planning_slot_custom.gantt_row.js', function (require) {
                 
             });
         },
-        _aggregateGroupedPills: function () {
-            debugger
+        _aggregateGroupedPills: function () {            
             var self = this;
             var sortedPills = _.sortBy(_.map(this.pills, _.clone), 'startDate');
             var firstPill = sortedPills[0];

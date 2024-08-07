@@ -28,6 +28,9 @@ class Dev_pc_ProjectProjectCustom(models.Model):
     ], index=True, string="Phase")
     x_technology = fields.One2many("project.technology", "project_id", string="Technology")
 
+    has_trello = fields.Boolean(string='Tiene Trello', store=True)
+    url_trello = fields.Char(string='Enlace Trello')
+
     def _get_sale_order_lines(self):
         super()._get_sale_order_lines()
         sale_orders = self._get_sale_orders()

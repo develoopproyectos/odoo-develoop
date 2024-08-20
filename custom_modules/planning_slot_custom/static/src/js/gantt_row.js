@@ -18,25 +18,6 @@ odoo.define('planning_slot_custom.gantt_row.js', function (require) {
                         let minutes = Math.round((pill.allocated_hours - hours) * 60);
                         cell.text('('+hours+'h'+(minutes < 10 ? "0" : "")+ minutes +') - '+ pill.display_name) 
                     }
-                
-                if(pill.aggregatedPills){                
-                    var row = self.$('div[title="' + pill.display_name + '"]').parent();                    
-                    /* const regex = /(\d+):(\d+)Hrs/;
-                    const match = (pill.display_name).match(regex); */
-                    const total_hours = (pill.display_name).split(' - ');
-                    const [hora, minutos] = total_hours[1].replace("Hrs", "").split(":");
-                    if (!pill.is_total) {
-                        const hora_int = parseInt(hora,10)
-                        const minutos_int = parseInt(minutos,10)
-                        const hours = hora_int + (minutos_int / 60);                     
-                        if(pill.aggregatedPills[0].x_resourse_plannable_hours && hours > pill.aggregatedPills[0].x_resourse_plannable_hours)
-                        {
-                            if(row.length > 0)
-                                row[0].className = row[0].className + " warning_red ";
-                        }
-                    }
-                }
-                
                 if (pill != null && pill != undefined)
                 {
                     var date_now = new Date();
@@ -120,7 +101,6 @@ odoo.define('planning_slot_custom.gantt_row.js', function (require) {
                             // previousPill.aggregatedPills = previousPill.aggregatedPills.concat(pillsInThisInterval);
                     } 
                     var newPill = {
-                        is_total: self.name == 'Total'? true: false,
                         id: 0,
                         count: pillsInThisInterval.length,
                         aggregatedPills: pillsInThisInterval,

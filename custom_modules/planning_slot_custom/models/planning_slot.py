@@ -19,7 +19,6 @@ class dev_planning_slot_custom(models.Model):
         comodel_name='resource.resource',
         relation='planning_slot_resource_resource_rel',
         column1='pslot_id', column2='resource_id', string='Resource_ids')
-    x_resourse_plannable_hours = fields.Integer(related='employee_id.x_plannable_hours')
 
     
 

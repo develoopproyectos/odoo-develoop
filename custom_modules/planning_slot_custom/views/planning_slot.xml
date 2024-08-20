@@ -12,6 +12,7 @@
             </xpath>
             <xpath expr="//field[@name='role_id']" position="before">
                 <field name="resource_ids" string="Recursos" widget="many2many_tags" />
+                <field name="x_resourse_plannable_hours" invisible='1'/>
             </xpath>
         </field>
     </record>
@@ -41,6 +42,7 @@
                 <field name="x_expiration_date" />
                 <field name="x_kanban_state" />
                 <field name="x_stage_id" />
+                <field name="x_resourse_plannable_hours" invisible='1'/>
             </xpath>
         </field>
     </record>

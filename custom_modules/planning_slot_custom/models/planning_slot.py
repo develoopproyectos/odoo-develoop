@@ -19,6 +19,7 @@ class dev_planning_slot_custom(models.Model):
         relation='planning_slot_resource_resource_rel',
         column1='pslot_id', column2='resource_id', string='Resource_ids')
     x_check_change_all = fields.Boolean("Cambiar para todos?", store=False)
+    x_resourse_plannable_hours = fields.Integer(related='employee_id.x_plannable_hours')
 
 
     def _compute_x_check_chenge_all(self):

@@ -34,7 +34,7 @@
                 </div>
             </xpath>
             <xpath expr="//field[@name='tag_ids']" position="after">
-                <field name="url_trello" attrs="{'invisible': [('has_trello','=', False)]}"></field>
+                <field name="url_trello" widget="url" attrs="{'invisible': [('has_trello','=', False)]}"></field>
             </xpath>
         </field>
     </record>   

@@ -28,3 +28,5 @@ class Dev_pc_ProjectProjectCustom(models.Model):
         ('rejected', 'Rejected'),
     ], index=True, string="Phase")
     x_technology = fields.One2many("project.technology", "project_id", string="Technology")
+    has_trello = fields.Boolean(string='Tiene Trello', store=True)
+    url_trello = fields.Char(string='Enlace Trello')

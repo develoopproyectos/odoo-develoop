@@ -26,6 +26,8 @@ class Dev_ProjectTaskCustom(models.Model):
     x_planning_slot_str = fields.Char(string="Planificacion", compute="get_x_planning_slot")
     x_is_planning_delay = fields.Boolean("Tarea retrasada?", compute="get_x_is_planning_delay")
     x_is_planned = fields.Boolean(string="Esta planificada bool", compute='_compute_x_is_planned', search=_search_x_is_planned)
+    has_trello = fields.Boolean(related='project_id.has_trello')
+    url_trello = fields.Char(string='Enlace Trello')
 
     def _compute_x_is_planned(self):
         for rec in self:

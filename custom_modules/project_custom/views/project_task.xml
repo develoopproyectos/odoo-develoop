@@ -37,6 +37,10 @@
                     <field name="date_deadline" attrs="{'invisible': [('x_is_planning_delay','=',True)]}" class="font-weight-bold text-danger" />
                     <field name="date_deadline" attrs="{'invisible': [('x_is_planning_delay','=',False)]}" />
                 </xpath>
+                <xpath expr="//field[@name='parent_id']" position="after">
+                    <field name="has_trello" invisible='1'></field>
+                    <field name="url_trello" widget="url" attrs="{'invisible': [('has_trello','=', False)]}"></field>
+                </xpath>
             </field>
         </record>
 

@@ -2,6 +2,10 @@ from odoo import fields, models, api, _
 from odoo.exceptions import ValidationError
 
 
+class EmployeePublicInherit(models.Model):
+    _inherit = 'hr.employee.public'
+
+    x_plannable_hours = fields.Integer(string="Horas planificables")
 class EmployeeInherit(models.Model):
     _inherit = 'hr.employee'
 

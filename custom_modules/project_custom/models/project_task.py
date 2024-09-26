@@ -75,8 +75,8 @@ class Dev_ProjectTaskCustom(models.Model):
                 removed_notes = "Se quitaron las siguientes etiquetas:<ul style='list-style-position: inside;'>{}</ul>".format("".join(f"<li><div class='badge badge-pill mt-2' style='border-color: {self.get_bootstrap_color_class(tag.color)[0]}; background-color: {self.get_bootstrap_color_class(tag.color)[0]}; color: {self.get_bootstrap_color_class(tag.color)[1]} ;font-size: 11px; padding: 6px;'>{tag.name}</div></li>" for tag in tags))
                 result.message_post(body=removed_notes)
 
-        if 'stage_id' in vals:
-            stage_name = self.env['project.task.type'].browse(vals.get('stage_id')).name.lower()
+        # if 'stage_id' in vals:
+            # stage_name = self.env['project.task.type'].browse(vals.get('stage_id')).name.lower()
             # if stage_name in task_type_validation:
             #     users_to_subscribe = self.env['res.users'].sudo().search([('id','=', 48)])  # Puedes obtener el usuario actual o cualquier otro
             #     result.message_subscribe(partner_ids=users_to_subscribe.partner_id.ids)

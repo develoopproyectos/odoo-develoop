@@ -17,6 +17,7 @@ odoo.define('planning_slot_custom.gantt_row.js', function (require) {
                         let hours = Math.floor(pill.allocated_hours);
                         let minutes = Math.round((pill.allocated_hours - hours) * 60);
                         cell.text('('+hours+'h'+(minutes < 10 ? "0" : "")+ minutes +') - '+ pill.display_name) 
+                    }
                 if(pill.aggregatedPills){                
                     var row = self.$('div[title="' + pill.display_name + '"]').parent();                    
                     /* const regex = /(\d+):(\d+)Hrs/;

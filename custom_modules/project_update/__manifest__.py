@@ -10,7 +10,7 @@
     'author': "Marc Cortadellas",
     'website': "http://www.develoop.com",
     'category': 'Develoop',
-    'version': '15.0.0.0',
+    'version': '15.0',
 
     'depends': ['base','project'],
 

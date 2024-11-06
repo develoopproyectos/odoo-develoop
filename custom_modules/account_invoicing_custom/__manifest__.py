@@ -1,19 +1,17 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "account_invoicing_custom",
-    'summary': """
-            Edición factura para Develoop Software""",
-    'description': """
-            Modificaciones en el impreso factura para Develoop Software
-        """,
-    'author': "Develoop Software",
-    'website': "http://www.develoop.net",
+    'name': 'Account Invoicing Custom',
+    'version': '17.0',
+    'author': 'Develoop Software S.A.',
     'category': 'Develoop',
-    'version': '15.0.0.0',
+    'website': 'https://www.develoop.net/',
     'depends': ['account'],
-
+    'summary': 'Modificaciones en el impreso de factura para Develoop Software.',
     'data': [
         'views/templates.xml',
     ],
-    "license": "AGPL-3",
+    'qweb': [],    
+    'demo': [],
+    'installable': True,
+    'license': 'LGPL-3',
 }

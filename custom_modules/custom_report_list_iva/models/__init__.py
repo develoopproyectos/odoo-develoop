@@ -1,3 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from . import custom_report_list_iva
+# COMENTADO PARA LA MIGRACION HACE FALTA PREGUNTAR FUNCIONALIDAD
+# from . import custom_report_list_iva
+

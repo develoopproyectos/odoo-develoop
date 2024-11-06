@@ -6,11 +6,11 @@
         <field name="model">planning.slot</field>
         <field name="inherit_id" ref="planning.planning_view_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='allocated_hours']" position="after">
+            <!-- <xpath expr="//field[@name='allocated_hours']" position="after">
                 <field name="x_expiration_date" string="Fecha límite" />
-            </xpath>
+            </xpath> -->
             <xpath expr="//field[@name='role_id']" position="before">
-                <field name="planned_date_end" invisible='1'/>
+                <!-- <field name="planned_date_end" invisible='1'/> -->
                 <field name="resource_ids" string="Recursos" widget="many2many_tags" attrs="{'readonly': [('id', '!=', False)]}"/>
                 <field name="x_resourse_plannable_hours" invisible='1'/>
             </xpath>
@@ -39,10 +39,10 @@
         <field name="inherit_id" ref="planning.planning_view_gantt"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='allocated_hours']" position="after">
-                <field name="x_expiration_date" />
+                <!-- <field name="x_expiration_date" />
                 <field name="x_kanban_state" />
                 <field name="x_stage_id" />
-                <field name="planned_date_end" invisible='1'/>
+                <field name="planned_date_end" invisible='1'/> -->
                 <field name="x_resourse_plannable_hours" invisible='1'/>
             </xpath>
         </field>

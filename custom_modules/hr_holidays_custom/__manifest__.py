@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'HR Leaves Custom',
-    'version': '15.0.0.0',
+    'version': '15.0',
     'author': 'Develoop Software S.A.',
     'category': 'Morillas',
     'website': 'https://www.develoop.net/',

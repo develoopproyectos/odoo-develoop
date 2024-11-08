@@ -9,7 +9,7 @@
     'depends': ['planning'],
     'data': [],
     'assets': {
-        'web.assets_qweb': [
+        'web.assets_backend': [
             'copy_weks_remove_custom/static/src/xml/planning_gantt.xml',
         ],
     },

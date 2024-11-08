@@ -4,7 +4,7 @@
         <xpath expr="//h1" position="before">
             <link rel='stylesheet' href="/sepa_report_custom/static/src/css/custom.css"/>
         </xpath>
-        <xpath expr="//div[2]/div[@class='row']/div[2]/p[4]" position="replace">
+        <!-- <xpath expr="//div[2]/div[@class='row']/div[2]/p[4]" position="replace">
             <p/>
         </xpath>
         <xpath expr="//div[2]/div[@class='row']/div[2]/p[5]" position="replace">
@@ -12,7 +12,7 @@
         </xpath>
         <xpath expr="//div[2]/div[@class='row']/div[2]/p[6]" position="replace">
             <p/>
-        </xpath>
+        </xpath> MIGRACION 17-->
         <xpath expr="//div[@id='signature']/div[1]/p[1]" position="replace">
             <p><strong>Name debtor:</strong> ......................................</p>
         </xpath>

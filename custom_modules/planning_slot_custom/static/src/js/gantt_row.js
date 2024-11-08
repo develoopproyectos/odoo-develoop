@@ -1,4 +1,4 @@
-odoo.define('planning_slot_custom.gantt_row.js', function (require) {
+odoo.define('planning_slot_custom.gantt_row.js', [], function (require) {
     "use strict";
 
     var GanttRow = require('web_gantt.GanttRow');

@@ -103,7 +103,11 @@
 				</p>
             </xpath> -->
             
-            <xpath expr="//div[@t-if='not is_html_empty(o.narration)']" position="replace">
+            <xpath expr="//div[@t-if='not is_html_empty(o.narration)']" position="attributes">
+                <attribute name="style">display: none</attribute>
+            </xpath>
+
+            <xpath expr="//div[@t-if='not is_html_empty(o.narration)']" position="after">
                 <p t-if="o.team_id.name == 'ERP'">
 					<strong>Notas:</strong>
                     <br/>

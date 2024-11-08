@@ -1,4 +1,4 @@
-odoo.define('planning_slot_custom.progress_bar', function (require) {
+odoo.define('planning_slot_custom.progress_bar', [], function (require) {
     "use strict";
 
     var utils = require('web.utils');

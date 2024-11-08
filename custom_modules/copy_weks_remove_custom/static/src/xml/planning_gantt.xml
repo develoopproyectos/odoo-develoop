@@ -3,8 +3,8 @@
 <templates>
     <t 
         t-name="PlanningGanttView_buttons_custom" 
-        t-inherit="planning.PlanningGanttView.buttons"
+        t-inherit="planning.PlanningGanttView.Buttons"
         t-inherit-mode="extension" >
-        <xpath expr="//button[1]" position="replace"/>
+        <xpath expr="//button[@title='Copy previous week']" position="replace"/>
     </t>
 </templates>

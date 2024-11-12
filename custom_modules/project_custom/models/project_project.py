@@ -27,6 +27,6 @@ class Dev_pc_ProjectProjectCustom(models.Model):
         ('stopped_by_customer', 'Stopped by customer'),
         ('rejected', 'Rejected'),
     ], index=True, string="Phase")
-    x_technology = fields.One2many("project.technology", "project_id", string="Technology")
+    x_technology = fields.Many2many("project.technology", "project_id", string="Technology")
     has_trello = fields.Boolean(string='Tiene Trello', store=True)
     url_trello = fields.Char(string='Enlace Trello')

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': "Libro Iva Correccion Errores Custom",
-    'version': '0.1',
+    'version': '17.0',
     'author': "Develoop Software",
     'category': 'Uncategorized',
     'summary': 'Libro Iva Correccion Errores Custom',

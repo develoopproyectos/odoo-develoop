@@ -186,11 +186,3 @@ class Dev_ProjectTaskCustom(models.Model):
         mensaje_con_enlace = f"{mensaje}<br> Ver la tarea aquí: <br> {enlace_tarea}"
 
         user.partner_id.sudo().message_post(body=mensaje_con_enlace, partner_ids=user.partner_id.ids, subject=subj)
-    
-    @api.model
-    def search(self, args, offset=0, limit=None, order=None, count=False):
-        if self._context.get('search_by_id'):
-            # Agregar lógica para buscar por ID
-            args += [('id', '=', self._context.get('search', False))]
-
-        return super(Dev_ProjectTaskCustom, self).search(args, offset=offset, limit=limit, order=order, count=count)

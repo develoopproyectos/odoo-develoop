@@ -45,6 +45,7 @@ class dev_planning_slot_custom(models.Model):
     #             _logger.info("ERROR: ID %s, Tarea (%s) %s, Proyecto (%s) %s" % (forecast.id, forecast.task_id.id, forecast.task_id.name, forecast.project_id.id, forecast.project_id.name))
                 # raise ValidationError(_("Your task is not in the selected project."))
     
+    @api.model
     def create(self, vals_list):
 
         for val in vals_list:

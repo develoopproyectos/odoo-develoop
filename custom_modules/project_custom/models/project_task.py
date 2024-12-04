@@ -50,6 +50,7 @@ class Dev_ProjectTaskCustom(models.Model):
             if rec.date_deadline and rec.date_deadline >= datetime.today():
                 rec.x_is_planning_delay = True
 
+    
     @api.model_create_multi
     def create(self, vals_list):
         #COMENTADO por que ya no existe display_project_id

@@ -39,48 +39,53 @@ class dev_planning_slot_custom(models.Model):
     #                             break                 
     #         if not has_color:
     #             planning.color = '0'        
-    @api.constrains('task_id', 'project_id')
-    def _check_task_in_project(self):
-        for forecast in self:
-            if forecast.task_id and (forecast.task_id not in forecast.project_id.with_context(active_test=False).tasks):
-                _logger.info("ERROR: ID %s, Tarea (%s) %s, Proyecto (%s) %s" % (forecast.id, forecast.task_id.id, forecast.task_id.name, forecast.project_id.id, forecast.project_id.name))
+    # @api.constrains('task_id', 'project_id')
+    # def _check_task_in_project(self):
+    #     for forecast in self:
+    #         if forecast.task_id and (forecast.task_id not in forecast.project_id.with_context(active_test=False).tasks):
+    #             _logger.info("ERROR: ID %s, Tarea (%s) %s, Proyecto (%s) %s" % (forecast.id, forecast.task_id.id, forecast.task_id.name, forecast.project_id.id, forecast.project_id.name))
                 # raise ValidationError(_("Your task is not in the selected project."))
     
     def create(self, vals_list):
 
         for val in vals_list:
-            if 'resource_ids' in val:
-                resources_ids = val['resource_ids'][0][2]        
-                if resources_ids:
-                    for resource in resources_ids:                
-                        vals_list[0]['resource_id'] = resource                
-                        res=super(dev_planning_slot_custom,self).create(vals_list)                
-                    return res
-                else:
-                    return super(dev_planning_slot_custom,self).create(vals_list)
-            else:
+            if not 'resource_ids' in val:
                 return super(dev_planning_slot_custom,self).create(vals_list)
-    
-    def name_get(self):
-        group_by = self.env.context.get('group_by', [])
-        field_list = ['task_id']
-        # Sudo as a planning manager is not able to read private project if he is not project manager.
-        self = self.sudo()
-        result = []
-        for slot in self:
-            # label part, depending on context `groupby`
-            name_values = [
-                self._fields[fname].convert_to_display_name(slot[fname], slot) if fname != 'resource_id' else slot.resource_id.name
-                for fname in field_list
-                if slot[fname]
-            ][:3]  # limit to 3 labels
-            name = ' - '.join(name_values) or slot.resource_id.name
-            # add unicode bubble to tell there is a note
-            if slot.name:
-                name = u'%s \U0001F4AC' % name
+            
+            resources_ids = val['resource_ids'][0][2]        
+            if not resources_ids:
+                return super(dev_planning_slot_custom,self).create(vals_list)
 
-            result.append([slot.id, name or ''])
-        return result
+            for resource in resources_ids:                
+                vals_list[0]['resource_id'] = resource                
+                res=super(dev_planning_slot_custom,self).create(vals_list)                
+            return res
+                
+            
+                
+    #COMENTADO POR QUE YA NO EXISTE task_id
+    # def name_get(self):
+    #     group_by = self.env.context.get('group_by', [])
+    #     field_list = ['task_id']
+    #     # Sudo as a planning manager is not able to read private project if he is not project manager.
+    #     self = self.sudo()
+    #     result = []
+    #     for slot in self:
+    #         # label part, depending on context `groupby`
+    #         name_values = [
+    #             self._fields[fname].convert_to_display_name(slot[fname], slot) if fname != 'resource_id' else slot.resource_id.name
+    #             for fname in field_list
+    #             if slot[fname]
+    #         ][:3]  # limit to 3 labels
+    #         name = ' - '.join(name_values) or slot.resource_id.name
+    #         # add unicode bubble to tell there is a note
+    #         if slot.name:
+    #             name = u'%s \U0001F4AC' % name
+
+    #         result.append([slot.id, name or ''])
+    #     return result
+
+
     # def write(self, vals_list):
     #     resources = self.resource_ids
     #     for resource in resources.ids:

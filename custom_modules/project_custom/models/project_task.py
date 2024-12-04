@@ -2,7 +2,7 @@
 
 from odoo import api, models, fields
 from odoo.exceptions import ValidationError
-from datetime import date
+from datetime import date, datetime
 
 task_type_validation = ['planificacion','planificación','en desarrollo','desarrollo']
 
@@ -35,29 +35,32 @@ class Dev_ProjectTaskCustom(models.Model):
 
     def get_x_planning_slot(self):
         for rec in self:
+            #COMENTADO por que ya no existe task_id
             # plannings = self.env['planning.slot'].search([('task_id','=',rec.id)])
             # rec.x_planning_slot = plannings
             rec.x_planning_slot = False
             rec.x_planning_slot_str = ""
+            #COMENTADO por que ya no existe task_id
             # for data in plannings:
             #     rec.x_planning_slot_str += "<span>{} - {} ({}) - {} </span><br/>".format(data.start_datetime.strftime("%m/%d/%Y"), data.employee_id.name, str(data.allocated_hours), data.end_datetime.strftime("%m/%d/%Y"))
 
     def get_x_is_planning_delay(self):
         for rec in self:
             rec.x_is_planning_delay = False
-            if rec.date_deadline and rec.date_deadline >= date.today():
+            if rec.date_deadline and rec.date_deadline >= datetime.today():
                 rec.x_is_planning_delay = True
 
     @api.model_create_multi
     def create(self, vals_list):
-        for vals in vals_list:
-            if vals.get('display_project_id', False) == False:
-                vals['display_project_id'] = vals.get('project_id')
+        #COMENTADO por que ya no existe display_project_id
+        # for vals in vals_list:
+        #     if vals.get('display_project_id', False) == False:
+        #         vals['display_project_id'] = vals.get('project_id')
         result = super(Dev_ProjectTaskCustom, self).create(vals_list)
         #Crear notas a partir del cambio de tags
-        if 'tag_ids' in vals:
+        if 'tag_ids' in vals_list:
             old_tags = self.tag_ids.ids
-            new_tags = vals.get('tag_ids', [])[0][2]
+            new_tags = vals_list.get('tag_ids', [])[0][2]
             added_tags = list(set(new_tags)-set(old_tags))
             removed_tags = list(set(old_tags)-set(new_tags))
             # Creamos notas para las etiquetas agregadas
@@ -91,6 +94,7 @@ class Dev_ProjectTaskCustom(models.Model):
                 stage_name = rec.stage_id.name.lower()
                 if vals.get('stage_id', False):
                     stage_name = self.env['project.task.type'].browse(vals.get('stage_id')).name
+                #COMENTADO por que ya no existe planned_hours
                 # if stage_name in task_type_validation:
                 #     if vals.get('planned_hours', rec.planned_hours) == 0 and (\
                 #             vals.get('name', False) or 
@@ -118,10 +122,11 @@ class Dev_ProjectTaskCustom(models.Model):
                 #     users_to_subscribe = self.env['res.users'].sudo().search([('id','=', 48)])
                 #     rec.message_unsubscribe(partner_ids=users_to_subscribe.partner_id.ids)           
 
-        for rec2 in vals.get('child_ids', []):
-            if len(rec2) == 3:
-                if rec2[2]:
-                    rec2[2]['display_project_id'] = rec2[2]['project_id']
+        #Comentado por que ya no existe display_project_id
+        # for rec2 in vals.get('child_ids', []):
+        #     if len(rec2) == 3:
+        #         if rec2[2]:
+        #             rec2[2]['display_project_id'] = rec2[2]['project_id']
         
         #Crear notas a partir del cambio de tags
         if 'tag_ids' in vals:

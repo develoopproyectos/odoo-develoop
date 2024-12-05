@@ -4,6 +4,7 @@
     <!-- <menuitem id="account_payment_order.payment_root" parent="account_accountant.menu_accounting" sequence="41" name="Payments"/> -->
     <!-- <menuitem id="account_asset_management.menu_finance_assets" parent="account_accountant.menu_accounting" sequence="42" name="Assets"/> -->
     
-    <menuitem id="l10n_es_reports.spanish_reports_menu" name="Reportes AEAT" parent="account_accountant.menu_accounting" sequence="43"/>
+    <!-- COMENTADO POR QUE YA NO EXISTE EL MENU NI LOS SUBMENUS DE REPORTES AEAT -->
+    <!-- <menuitem id="l10n_es_reports.spanish_reports_menu" name="Reportes AEAT" parent="account_accountant.menu_accounting" sequence="43"/> -->
     
 </odoo>

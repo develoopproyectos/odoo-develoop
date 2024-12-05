@@ -1,7 +1,7 @@
 <odoo>
 
     <template id="report_timesheet_custom" inherit_id="hr_timesheet.timesheet_table">
-		<xpath expr="//div[1]/div[1]/table[1]/tbody[1]" position="replace">
+		<xpath expr="//table//tbody" position="replace">
 			<tbody>
 				<t t-set="total_planned_hours" t-value="docs.get_report_timesheet_custom()"/>
 				<tr t-foreach="lines" t-as="line">

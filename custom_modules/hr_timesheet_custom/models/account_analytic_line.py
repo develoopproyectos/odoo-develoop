@@ -30,33 +30,34 @@ class account_analitic_line_report(models.Model):
     @api.depends('date', 'project_id', 'user_id')
     def _compute_domain_for_task(self):
         for rec in self:
-            if self.env.user.has_group('hr_timesheet_custom.x_force_task_in_planing_for_day'):
-                task_ids = list()
+            #COMENTADO POR QUE LAS TAREAS YA NO ESTAN RELACIONADAS A LA PLANIFICACION
+            # if self.env.user.has_group('hr_timesheet_custom.x_force_task_in_planing_for_day'):
+            #     task_ids = list()
 
-                project_id = rec.project_id.id if rec.project_id.id else 0
-                query = """
-                    SELECT task_id as id
-                    FROM planning_slot
-                    WHERE task_id is not null and project_id = %s and user_id = %s and 
-                        (CAST(start_datetime AS DATE) <= '%s' AND CAST(end_datetime AS DATE) >= '%s') or
-                        (CAST(start_datetime AS DATE) = '%s' and CAST(end_datetime AS DATE) = '%s')
-                    UNION 
-                    SELECT id as id
-                    FROM project_task
-                    WHERE project_id='%s' and lower(name) like '%s'
-                """ % (project_id, rec.user_id.id, rec.date, rec.date, rec.date, rec.date, project_id, '%no facturable%')
+            #     project_id = rec.project_id.id if rec.project_id.id else 0
+            #     query = """
+            #         SELECT task_id as id
+            #         FROM planning_slot
+            #         WHERE task_id is not null and project_id = %s and user_id = %s and 
+            #             (CAST(start_datetime AS DATE) <= '%s' AND CAST(end_datetime AS DATE) >= '%s') or
+            #             (CAST(start_datetime AS DATE) = '%s' and CAST(end_datetime AS DATE) = '%s')
+            #         UNION 
+            #         SELECT id as id
+            #         FROM project_task
+            #         WHERE project_id='%s' and lower(name) like '%s'
+            #     """ % (project_id, rec.user_id.id, rec.date, rec.date, rec.date, rec.date, project_id, '%no facturable%')
 
-                self.env.cr.execute(query)
-                data = self.env.cr.fetchall()
+            #     self.env.cr.execute(query)
+            #     data = self.env.cr.fetchall()
 
-                for rec2 in data:
-                    task_ids.append(rec2[0])
+            #     for rec2 in data:
+            #         task_ids.append(rec2[0])
 
-                rec.x_compute_domain_for_task = self.env['project.task'].search(
-                    [('project_id', '=', rec.project_id.id), ('id', 'in', task_ids)])
-            else:
-                rec.x_compute_domain_for_task = self.env['project.task'].search(
-                    [('project_id', '=', rec.project_id.id)])
+            #     rec.x_compute_domain_for_task = self.env['project.task'].search(
+            #         [('project_id', '=', rec.project_id.id), ('id', 'in', task_ids)])
+            # else:
+            rec.x_compute_domain_for_task = self.env['project.task'].search(
+                [('project_id', '=', rec.project_id.id)])
 
     @api.model
     def create(self, vals):
@@ -83,26 +84,28 @@ class account_analitic_line_report(models.Model):
         if self.env.user.has_group('hr_timesheet_custom.x_force_task_in_planing_for_day'):
             if employee_time_zone == 'America/La_Paz':
                 if 'no facturable' not in self.project_id.name.lower():
-                    try:                    
-                        # start_date, end_date = self.get_timezone(vals)               
-                        project_id = vals.get('project_id', self.project_id.id)
-                        task_id = self.task_id.id
-                        employee_res = self.employee_id.resource_id.id            
-                        query = """
-                            SELECT task_id as id
-                            FROM planning_slot
-                            WHERE project_id = %s and task_id = %s and resource_id = %s and  '%s' >= DATE_TRUNC('day', start_datetime) and '%s' <= DATE_TRUNC('day', end_datetime)                
-                            """ % (project_id, task_id, employee_res, self.date, self.date)
+                    print(self)
+                    # COMENTADO POR QUE LAS TAREAS YA NO ESTAN RELACIONADAS CON LA PLANIFICACION
+                    # try:                    
+                    #     # start_date, end_date = self.get_timezone(vals)               
+                    #     project_id = vals.get('project_id', self.project_id.id)
+                    #     task_id = self.task_id.id
+                    #     employee_res = self.employee_id.resource_id.id            
+                    #     query = """
+                    #         SELECT task_id as id
+                    #         FROM planning_slot
+                    #         WHERE project_id = %s and task_id = %s and resource_id = %s and  '%s' >= DATE_TRUNC('day', start_datetime) and '%s' <= DATE_TRUNC('day', end_datetime)                
+                    #         """ % (project_id, task_id, employee_res, self.date, self.date)
                     
-                        self.env.cr.execute(query)
-                        planning = self.env.cr.fetchall()
-                        if not planning:
-                            raise ValidationError("No puede ingresar horas si no se encuentra planificado para la fecha indicada")
-                        res = super(account_analitic_line_report, self).write(vals)
-                        self.get_hours_per_day(self.employee_id, self.date)
-                        return res
-                    except Exception as e:
-                        raise ValidationError(e)
+                    #     self.env.cr.execute(query)
+                    #     planning = self.env.cr.fetchall()
+                    #     if not planning:
+                    #         raise ValidationError("No puede ingresar horas si no se encuentra planificado para la fecha indicada")
+                    #     res = super(account_analitic_line_report, self).write(vals)
+                    #     self.get_hours_per_day(self.employee_id, self.date)
+                    #     return res
+                    # except Exception as e:
+                    #     raise ValidationError(e)
                 else:
                     if self.unit_amount >0.5:
                         raise ValidationError("No puede ingresar mas de 30 min de Horas No Facturadas") 

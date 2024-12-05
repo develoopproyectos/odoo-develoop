@@ -20,6 +20,7 @@ class LeaveReportCalendar(models.Model):
             hl.employee_id AS employee_id,
             hl.state AS state,
             hl.department_id AS department_id,
+            hl.number_of_days as duration,
             em.company_id AS company_id,
             em.job_id AS job_id,
             hl.holiday_status_id AS hr_leave_type_id,
@@ -43,5 +44,6 @@ class LeaveReportCalendar(models.Model):
                 ON cc.id = co.resource_calendar_id
         WHERE 
             hl.state IN ('confirm', 'validate', 'validate1')
+            AND hl.active IS TRUE
         );
         """)

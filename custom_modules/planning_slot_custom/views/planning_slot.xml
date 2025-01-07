@@ -17,20 +17,6 @@
         </field>
     </record>
 
-    <!-- <record id="planning_forecast_inherit" model="ir.ui.view">
-        <field name="name">planning.slot.custom.view.form</field>
-        <field name="model">planning.slot</field>
-        <field name="inherit_id" ref="project_forecast.planning_slot_view_form"/>
-        <field name="arch" type="xml">
-            <data>
-                <xpath expr="//field[@name='task_id']" position="attributes">                    
-                    <attribute name="domain">[('project_id', '=', project_id),'|',
-                        '|',('stage_id.name', 'ilike', 'qa'),('stage_id.name', 'ilike', 'desarrollo'),('stage_id.name', 'ilike', 'planifi')]
-                    </attribute>                    
-                </xpath>
-            </data>
-        </field>
-    </record> -->
 
 
     <record id="planning_view_gantt_custom" model="ir.ui.view">
@@ -48,4 +34,26 @@
         </field>
     </record>
 
+
+    <record id="planning_forecast_inherit" model="ir.ui.view">
+        <field name="name">planning.slot.custom.view.form</field>
+        <field name="model">planning.slot</field>
+        <field name="inherit_id" ref="project_forecast.planning_slot_view_form"/>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="(//field[@name='project_id'])[2]" position="after">  
+                    <field name="task_id"/>
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+    <!-- <record id="planning_view_form_in_gantt_custom" model="ir.ui.view">
+        <field name="name">planning.view.form.in.gantt.custom</field>
+        <field name="model">planning.slot</field>
+        <field name="inherit_id" ref="planning.planning_view_form_in_gantt"/>
+        <field name="arch" type="xml">
+            <xpath expr="//footer" position="replace"/>
+        </field>
+    </record> -->
 </odoo>

@@ -1,5 +1,5 @@
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 
 import logging
@@ -10,7 +10,7 @@ class dev_planning_slot_custom(models.Model):
     
     _inherit = "planning.slot"
 
-    # planned_date_end = fields.Datetime(related='task_id.planned_date_end')
+    #planned_date_end = fields.Datetime(related='task_id.planned_date_end')
     # x_expiration_date = fields.Date(related='task_id.date_deadline')
     # x_kanban_state = fields.Selection(related='task_id.kanban_state')
     # x_stage_id =  fields.Many2one(related='task_id.stage_id')
@@ -22,28 +22,28 @@ class dev_planning_slot_custom(models.Model):
     x_resourse_plannable_hours = fields.Integer(related='employee_id.x_plannable_hours')
    
 
-    # def _compute_color_from_taks_tags(self):
-    #     for planning in self:
-    #         task_ids = planning.task_id
-    #         has_color = False
-    #         if task_ids:                         
-    #             for task in task_ids:
-    #                 tags_ids = task.tag_ids
-    #                 if tags_ids:
-    #                     for tag in reversed(tags_ids):
-    #                         if tag.name == 'prioritario' or tag.name == 'Subir a Producción' or tag.name == 'incidencia':
-    #                             print(tag.color)
-    #                             planning.color = tag.color
-    #                             has_color = True
-    #                             break                 
-    #         if not has_color:
-    #             planning.color = '0'        
-    # @api.constrains('task_id', 'project_id')
-    # def _check_task_in_project(self):
-    #     for forecast in self:
-    #         if forecast.task_id and (forecast.task_id not in forecast.project_id.with_context(active_test=False).tasks):
-    #             _logger.info("ERROR: ID %s, Tarea (%s) %s, Proyecto (%s) %s" % (forecast.id, forecast.task_id.id, forecast.task_id.name, forecast.project_id.id, forecast.project_id.name))
-                # raise ValidationError(_("Your task is not in the selected project."))
+    def _compute_color_from_taks_tags(self):
+        for planning in self:
+            task_ids = planning.task_id
+            has_color = False
+            if task_ids:                         
+                for task in task_ids:
+                    tags_ids = task.tag_ids
+                    if tags_ids:
+                        for tag in reversed(tags_ids):
+                            if tag.name == 'prioritario' or tag.name == 'Subir a Producción' or tag.name == 'incidencia':
+                                print(tag.color)
+                                planning.color = tag.color
+                                has_color = True
+                                break                 
+            if not has_color:
+                planning.color = '0'        
+    @api.constrains('task_id', 'project_id')
+    def _check_task_in_project(self):
+        for forecast in self:
+            if forecast.task_id and (forecast.task_id not in forecast.project_id.with_context(active_test=False).tasks):
+                _logger.info("ERROR: ID %s, Tarea (%s) %s, Proyecto (%s) %s" % (forecast.id, forecast.task_id.id, forecast.task_id.name, forecast.project_id.id, forecast.project_id.name))
+                raise ValidationError(_("Your task is not in the selected project."))
     
     @api.model
     def create(self, vals_list):
@@ -62,35 +62,13 @@ class dev_planning_slot_custom(models.Model):
             return res
                 
             
-                
-    #COMENTADO POR QUE YA NO EXISTE task_id
-    # def name_get(self):
-    #     group_by = self.env.context.get('group_by', [])
-    #     field_list = ['task_id']
-    #     # Sudo as a planning manager is not able to read private project if he is not project manager.
-    #     self = self.sudo()
-    #     result = []
-    #     for slot in self:
-    #         # label part, depending on context `groupby`
-    #         name_values = [
-    #             self._fields[fname].convert_to_display_name(slot[fname], slot) if fname != 'resource_id' else slot.resource_id.name
-    #             for fname in field_list
-    #             if slot[fname]
-    #         ][:3]  # limit to 3 labels
-    #         name = ' - '.join(name_values) or slot.resource_id.name
-    #         # add unicode bubble to tell there is a note
-    #         if slot.name:
-    #             name = u'%s \U0001F4AC' % name
+            
 
-    #         result.append([slot.id, name or ''])
-    #     return result
-
-
-    # def write(self, vals_list):
-    #     resources = self.resource_ids
-    #     for resource in resources.ids:
-    #         if resource == self.resource_id.id:
-    #             resource = vals_list[0]['resource_id']
-    #     res = super(dev_planning_slot_custom,self).write(vals_list)
-    #     return res
+    def write(self, vals_list):
+        resources = self.resource_ids
+        for resource in resources.ids:
+            if resource == self.resource_id.id:
+                resource = vals_list[0]['resource_id']
+        res = super(dev_planning_slot_custom,self).write(vals_list)
+        return res
        

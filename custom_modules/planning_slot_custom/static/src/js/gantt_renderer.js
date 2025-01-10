@@ -100,14 +100,14 @@ patch(GanttRenderer.prototype, {
     
     const minColor = 215;
     const maxColor = 100;
-
     const newPill = {
         id: `__pill__${this.nextPillId++}`,
         level: 0,
         aggregateValue: group.aggregateValue,
         grid: group.grid,
         // TODO =========== CAMBIO HERENCIA - NEW =============
-        pills_length: group.pills.length
+        pills_length: group.pills.length,
+        recourse_plannable_hours: group.pills[0].record.x_resourse_plannable_hours
         // TODO =========== END    =============
     };
 
@@ -137,6 +137,11 @@ patch(GanttRenderer.prototype, {
         // TODO =========== CAMBIO HERENCIA - OLD =============
         //newPill.displayName = this.getGroupPillDisplayName(newPill);
         // TODO =========== NEW =============
+        if(newPill.aggregateValue > newPill.recourse_plannable_hours) {
+          newPill.className = 'warning_red';
+        } else {
+          newPill.className = 'transparente';
+        }
         newPill.displayName = `${newPill.pills_length} - ${this.getGroupPillDisplayName(newPill)}`;
         // TODO =========== END    =============
     }
@@ -148,7 +153,6 @@ patch(GanttRenderer.prototype, {
     const { records } = this.model.data;
     const { dateStartField } = this.model.metaData;
     const pills = [];
-    debugger
     // TODO =========== CAMBIO HERENCIA - NEW =============
     let date_now = new Date();
     date_now.setHours(0, 0, 0, 0);

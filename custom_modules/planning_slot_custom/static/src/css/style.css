@@ -1,7 +1,14 @@
 .warning_red {
     /* background-color: #dc3545 !important; */
     background-color: rgba(220, 53, 69, 0.8) !important;
+    color: rgba(220, 53, 69, 0.8) !important;
 }
+.transparente {
+    /* background-color: #dc3545 !important; */
+    background-color: transparent !important;
+    color: transparent !important;
+}
+
 .warning_yellow {
     /* background-color: #dc3545 !important; */
     background-color: #F7CD1F!important;

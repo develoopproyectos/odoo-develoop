@@ -35,14 +35,11 @@ class Dev_ProjectTaskCustom(models.Model):
 
     def get_x_planning_slot(self):
         for rec in self:
-            #COMENTADO por que ya no existe task_id
-            # plannings = self.env['planning.slot'].search([('task_id','=',rec.id)])
-            # rec.x_planning_slot = plannings
-            rec.x_planning_slot = False
+            plannings = self.env['planning.slot'].search([('task_id','=',rec.id)])
+            rec.x_planning_slot = plannings
             rec.x_planning_slot_str = ""
-            #COMENTADO por que ya no existe task_id
-            # for data in plannings:
-            #     rec.x_planning_slot_str += "<span>{} - {} ({}) - {} </span><br/>".format(data.start_datetime.strftime("%m/%d/%Y"), data.employee_id.name, str(data.allocated_hours), data.end_datetime.strftime("%m/%d/%Y"))
+            for data in plannings:
+                rec.x_planning_slot_str += "<span>{} - {} ({}) - {} </span><br/>".format(data.start_datetime.strftime("%m/%d/%Y"), data.employee_id.name, str(data.allocated_hours), data.end_datetime.strftime("%m/%d/%Y"))
 
     def get_x_is_planning_delay(self):
         for rec in self:

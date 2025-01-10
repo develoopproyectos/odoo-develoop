@@ -27,9 +27,20 @@
                 </xpath>
                 <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
                     <page name="planning_custom" string="Planificacion" >
-                        <group>
-                            <field name="x_planning_slot" nolabel="1" />
-                        </group>
+                        <field name="x_planning_slot" nolabel="1" >
+                            <tree>
+                                <field name="resource_id" widget="many2one_avatar_resource" optional="show" readonly="not start_datetime or not end_datetime" context="{'from_planning': True, 'search_view_ref': 'planning.resource_resource_search_view_roles', 'search_default_role_ids': role_id, 'show_job_title': True, 'form_view_ref': 'planning.resource_resource_with_employee_form_view_inherit'}" placeholder="Turno abierto" column_invisible="context.get('planning_slots_to_schedule', False)" on_change="1"/>
+                                <field name="role_id" optional="show" context="{'search_default_resource_ids': resource_id}" placeholder="p. ej. bartender" on_change="1"/>
+                                <field name="sale_line_id" optional="show" options="{'no_create': True}" on_change="1"/>
+                                <field name="sale_line_plannable" column_invisible="True"/>
+                                <field name="project_id" optional="show" options="{'no_open': True}" on_change="1"/>
+                                <field name="start_datetime" widget="daterange" options="{'end_date_field': 'end_datetime'}" column_invisible="context.get('planning_slots_to_schedule', False)" readonly="sale_line_plannable and not start_datetime and not end_datetime" required="not sale_line_plannable and start_datetime and end_datetime" on_change="1"/>
+                                <field name="end_datetime" column_invisible="True" on_change="1"/>
+                                <field name="allocated_hours" widget="float_time" sum="Horas asignadas" readonly="1" decoration-danger="allocated_percentage &gt; 100" on_change="1"/>
+                                <field name="allocated_percentage" avg="Porcentaje asignado" optional="hide" decoration-danger="allocated_percentage &gt; 100" readonly="1" invisible="resource_type == 'material'" on_change="1"/>
+                                <field name="resource_type" column_invisible="True" on_change="1"/>
+                            </tree>
+                        </field>
                     </page>
                 </xpath>
                 <xpath expr="//field[@name='date_deadline']" position="replace" >
@@ -74,7 +85,6 @@
         <record id="project.action_view_task" model="ir.actions.act_window">
                 <field name="domain">[('project_id', '=', active_id)]</field>
         </record>
-        
     </data>
 
 </odoo>

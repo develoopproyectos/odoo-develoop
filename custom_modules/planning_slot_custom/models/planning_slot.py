@@ -11,10 +11,10 @@ class dev_planning_slot_custom(models.Model):
     _inherit = "planning.slot"
 
     #planned_date_end = fields.Datetime(related='task_id.planned_date_end')
-    # x_expiration_date = fields.Date(related='task_id.date_deadline')
+    x_task_date_deadline = fields.Datetime(related='task_id.date_deadline')
     # x_kanban_state = fields.Selection(related='task_id.kanban_state')
-    # x_stage_id =  fields.Many2one(related='task_id.stage_id')
-    # color = fields.Char(compute='_compute_color_from_taks_tags', default="0")
+    x_stage_id =  fields.Many2one(related='task_id.stage_id')
+    color = fields.Char(compute='_compute_color_from_taks_tags', default="0")
     resource_ids = fields.Many2many(
         comodel_name='resource.resource',
         relation='planning_slot_resource_resource_rel',

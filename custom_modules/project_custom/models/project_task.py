@@ -3,7 +3,7 @@
 from odoo import api, models, fields
 from odoo.exceptions import ValidationError
 from datetime import date, datetime
-
+from markupsafe import Markup
 task_type_validation = ['planificacion','planificación','en desarrollo','desarrollo']
 
 class Dev_ProjectTaskCustom(models.Model):
@@ -58,27 +58,7 @@ class Dev_ProjectTaskCustom(models.Model):
         #         vals['display_project_id'] = vals.get('project_id')
         result = super(Dev_ProjectTaskCustom, self).create(vals_list)
         #Crear notas a partir del cambio de tags
-        if 'tag_ids' in vals_list:
-            old_tags = self.tag_ids.ids
-            new_tags = vals_list.get('tag_ids', [])[0][2]
-            added_tags = list(set(new_tags)-set(old_tags))
-            removed_tags = list(set(old_tags)-set(new_tags))
-            # Creamos notas para las etiquetas agregadas
-            if added_tags:
-                tags = []
-                for tag in added_tags:
-                    tags.append(self.env['project.tags'].search([('id', '=', tag)]))
-                added_notes = "Se agregaron las siguientes etiquetas:<ul style='list-style-position: inside;'>{}</ul>".format("".join(f"<li><div class='badge badge-pill mt-2' style='border-color: {self.get_bootstrap_color_class(tag.color)[0]}; background-color: {self.get_bootstrap_color_class(tag.color)[0]}; color: {self.get_bootstrap_color_class(tag.color)[1]} ;font-size: 11px; padding: 6px;'>{tag.name}</div></li>" for tag in tags))
-                result.message_post(body=added_notes)
-
-            # Creamos notas para las etiquetas eliminadas
-            if removed_tags:
-                tags = []
-                for tag in removed_tags:
-                    tags.append(self.env['project.tags'].search([('id', '=', tag)]))
-                removed_notes = "Se quitaron las siguientes etiquetas:<ul style='list-style-position: inside;'>{}</ul>".format("".join(f"<li><div class='badge badge-pill mt-2' style='border-color: {self.get_bootstrap_color_class(tag.color)[0]}; background-color: {self.get_bootstrap_color_class(tag.color)[0]}; color: {self.get_bootstrap_color_class(tag.color)[1]} ;font-size: 11px; padding: 6px;'>{tag.name}</div></li>" for tag in tags))
-                result.message_post(body=removed_notes)
-
+        self.message_post_tags(vals_list[0],result)
         # if 'stage_id' in vals:
             # stage_name = self.env['project.task.type'].browse(vals.get('stage_id')).name.lower()
             # if stage_name in task_type_validation:
@@ -129,32 +109,40 @@ class Dev_ProjectTaskCustom(models.Model):
         #             rec2[2]['display_project_id'] = rec2[2]['project_id']
         
         #Crear notas a partir del cambio de tags
-        if 'tag_ids' in vals:
-            old_tags = self.tag_ids.ids
-            new_tags = vals.get('tag_ids', [])[0][2]
-            added_tags = list(set(new_tags)-set(old_tags))
-            removed_tags = list(set(old_tags)-set(new_tags))
-            # Creamos notas para las etiquetas agregadas
-            if added_tags:
-                tags = []
-                for tag in added_tags:
-                    tags.append(self.env['project.tags'].search([('id', '=', tag)]))
-                added_notes = "Se agregaron las siguientes etiquetas:<ul style='list-style-position: inside;'>{}</ul>".format("".join(f"<li><div class='badge badge-pill mt-2' style='border-color: {self.get_bootstrap_color_class(tag.color)[0]}; background-color: {self.get_bootstrap_color_class(tag.color)[0]}; color: {self.get_bootstrap_color_class(tag.color)[1]} ;font-size: 11px; padding: 6px;'>{tag.name}</div></li>" for tag in tags))
-                self.message_post(body=added_notes)
-
-            # Creamos notas para las etiquetas eliminadas
-            if removed_tags:
-                tags = []
-                for tag in removed_tags:
-                    tags.append(self.env['project.tags'].search([('id', '=', tag)]))
-                removed_notes = "Se quitaron las siguientes etiquetas:<ul style='list-style-position: inside;'>{}</ul>".format("".join(f"<li><div class='badge badge-pill mt-2' style='border-color: {self.get_bootstrap_color_class(tag.color)[0]}; background-color: {self.get_bootstrap_color_class(tag.color)[0]}; color: {self.get_bootstrap_color_class(tag.color)[1]} ;font-size: 11px; padding: 6px;'>{tag.name}</div></li>" for tag in tags))
-                self.message_post(body=removed_notes)
+        self.message_post_tags(vals,False)
         old_users = self.user_ids
         result = super(Dev_ProjectTaskCustom, self).write(vals)
         # if 'user_ids' in vals and self.stage_id.name.lower() in task_type_validation:
         #         users_to_notifi = self.env['res.users'].sudo().search([('id','=', 48)])
         #         self.enviar_notificacion_a_usuario(users_to_notifi, "La tarea <strong style='font-size:16px'>{}</strong> fue asignada a:  <strong style='font-size:16px'>{}</strong><div title='Cambiado' role='img' class='o_Message_trackingValueSeparator o_Message_trackingValueItem fa fa-long-arrow-right'></div><strong style='font-size:16px'>{}</strong>".format(rec.name, "".join(f" {user.name}," for user in old_users.user_ids),"".join(f" {user.name}," for user in self.user_ids)) , self, f"Tarea {self.name} Re Asignacion")
         return result
+
+
+    def message_post_tags(self,vals,result): 
+        if vals.get('tag_ids', []):
+            new_tags_old = vals.get('tag_ids', [])
+            added_tags = [tag[1] for tag in new_tags_old if tag[0] == 4]
+            removed_tags = [tag[1] for tag in new_tags_old if tag[0] == 3]
+            if added_tags:
+                tags = []
+                for tag in added_tags:
+                    tags.append(self.env['project.tags'].search([('id', '=', tag)]))
+                added_notes = "Se agregaron las siguientes etiquetas:<ul style='list-style-position: inside;'>{}</ul>".format("".join(f"<li><div class='border-radius: 10px;  badge rounded-pill mt-2' style='border-color: {self.get_bootstrap_color_class(tag.color)[0]}; background-color: {self.get_bootstrap_color_class(tag.color)[0]}; color: {self.get_bootstrap_color_class(tag.color)[1]} ;font-size: 11px; padding: 6px;'>{tag.name}</div></li>" for tag in tags))
+                if result:
+                    result.message_post(body=Markup(added_notes))
+                else:    
+                    self.message_post(body=Markup(added_notes))
+
+            # Creamos notas para las etiquetas eliminadas
+            if removed_tags:
+                tags = []
+                for tag in removed_tags:
+                    tags.append(self.env['project.tags'].search([('id', '=', tag)]))
+                removed_notes = "Se quitaron las siguientes etiquetas:<ul style='list-style-position: inside;'>{}</ul>".format("".join(f"<li><div class='border-radius: 10px;  badge rounded-pill mt-2' style='border-color: {self.get_bootstrap_color_class(tag.color)[0]}; background-color: {self.get_bootstrap_color_class(tag.color)[0]}; color: {self.get_bootstrap_color_class(tag.color)[1]} ;font-size: 11px; padding: 6px;'>{tag.name}</div></li>" for tag in tags))
+                if result:
+                    result.message_post(body=Markup(removed_notes))
+                else:    
+                    self.message_post(body=Markup(removed_notes))
 
     def get_bootstrap_color_class(self, color_number):
         font_color = "black"

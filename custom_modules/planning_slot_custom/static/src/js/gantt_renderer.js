@@ -13,13 +13,20 @@ patch(GanttRenderer.prototype, {
   },
 
   onPillClicked(ev, pill) {
+    // TODO =========== CAMBIO HERENCIA - OLD =============
+    // if (this.popover.isOpen) {
+    //     return;
+    // }
+    // const popoverTarget = ev.target.closest(".o_gantt_pill_wrapper");
+    // this.popover.open(popoverTarget, this.getPopoverProps(pill));
+    // TODO =========== NEW =============
     this.model.mutex.exec(
       () => this.props.openDialog({ resId: pill.record.id }) // (canEdit is also considered in openDialog)
     );
+    // TODO =========== END    =============
   },
 
   getDisplayName(pill) {
-    debugger;
     const { computePillDisplayName, dateStartField, dateStopField, scale } =
       this.model.metaData;
     const { id: scaleId } = scale;
@@ -68,13 +75,16 @@ patch(GanttRenderer.prototype, {
       const durationStr = formatFloatTime(record.allocated_hours, {
         noLeadingZeroHour: true,
       }).replace(/(:00|:)/g, "h");
+      // TODO =========== CAMBIO HERENCIA - OLD =============
       // labelElements.push(
       //   startDate.toFormat("t"),
       //   `${stopDate.toFormat("t")} (${durationStr})`
       // );
+     // TODO =========== NEW =============
       labelElements.push(
         `(${durationStr})`
       );
+      // TODO =========== END    =============
     }
 
     // Original Display Name
@@ -84,4 +94,86 @@ patch(GanttRenderer.prototype, {
 
     return labelElements.filter((el) => !!el).join(" - ");
   },
+
+  getPillFromGroup(group, maxAggregateValue, consolidate) {
+    const { excludeField, field, maxValue } = this.model.metaData.consolidationParams;
+    
+    const minColor = 215;
+    const maxColor = 100;
+
+    const newPill = {
+        id: `__pill__${this.nextPillId++}`,
+        level: 0,
+        aggregateValue: group.aggregateValue,
+        grid: group.grid,
+        // TODO =========== CAMBIO HERENCIA - NEW =============
+        pills_length: group.pills.length
+        // TODO =========== END    =============
+    };
+
+    // Enrich the aggregates with consolidation data
+    if (consolidate && field) {
+        newPill.consolidationValue = 0;
+        for (const pill of group.pills) {
+            if (!pill.record[excludeField]) {
+                newPill.consolidationValue += pill.record[field];
+            }
+        }
+        newPill.consolidationMaxValue = maxValue;
+        newPill.consolidationExceeded =
+            newPill.consolidationValue > newPill.consolidationMaxValue;
+    }
+
+    if (consolidate && maxValue) {
+        const status = newPill.consolidationExceeded ? "danger" : "success";
+        newPill.className = `bg-${status} border-${status}`;
+        newPill.displayName = newPill.consolidationValue;
+    } else {
+        const color =
+            minColor -
+            Math.round((newPill.aggregateValue - 1) / maxAggregateValue) *
+                (minColor - maxColor);
+        newPill.style = `background-color:rgba(${color},${color},${color},0.6)`;
+        // TODO =========== CAMBIO HERENCIA - OLD =============
+        //newPill.displayName = this.getGroupPillDisplayName(newPill);
+        // TODO =========== NEW =============
+        newPill.displayName = `${newPill.pills_length} - ${this.getGroupPillDisplayName(newPill)}`;
+        // TODO =========== END    =============
+    }
+
+    return newPill;
+  },
+
+  getPills() {
+    const { records } = this.model.data;
+    const { dateStartField } = this.model.metaData;
+    const pills = [];
+    debugger
+    // TODO =========== CAMBIO HERENCIA - NEW =============
+    let date_now = new Date();
+    date_now.setHours(0, 0, 0, 0);
+    const userTimezoneOffset = date_now.getTimezoneOffset() * 60000;
+    const d = new Date(date_now.getTime() - userTimezoneOffset);
+    // TODO =========== END    =============
+    for (const record of records) {
+        const pill = this.getPill(record);
+        // TODO =========== CAMBIO HERENCIA - NEW =============
+        const expiration_date = pill.record.x_task_date_deadline ? new Date(pill.record.x_task_date_deadline) : null;
+        if (pill.record.x_stage_id && ['Planificación', 'Desarrollo'].includes(pill.record.x_stage_id[1]) && expiration_date && expiration_date < d) {
+          pill.record.color = 1; // RED
+        } else {
+          pill.record.color = Number(pill.record.color);
+        }
+        // TODO =========== END    =============
+        pills.push(this.enrichPill(pill));
+    }
+    // sorting cannot be done when fetching data --> the snapping of pills breaks order
+    return pills.sort(
+        (p1, p2) =>
+            p1.grid.column[0] - p2.grid.column[0] ||
+            p1.record[dateStartField] - p2.record[dateStartField]
+    );
+  }
+
+
 });

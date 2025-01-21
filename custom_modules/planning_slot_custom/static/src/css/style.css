@@ -2,6 +2,12 @@
     /* background-color: #dc3545 !important; */
     background-color: rgba(220, 53, 69, 0.8) !important;
     color: rgba(220, 53, 69, 0.8) !important;
+    padding: 9px;
+}
+
+.o_gantt_color_6 {
+    /* background-color: #dc3545 !important; */
+    background-color: rgb(229, 30, 50) !important;
 }
 .transparente {
     /* background-color: #dc3545 !important; */

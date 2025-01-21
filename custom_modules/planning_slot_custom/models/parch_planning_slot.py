@@ -7,7 +7,7 @@ class CustomPlanningSlot(models.Model):
     task_id = fields.Many2one(
     'project.task', string="Tarea", compute='_compute_task_id', store=True, readonly=False,
     copy=True, check_company=True, group_expand='_read_group_task_id',
-    domain="[('company_id', '=', company_id), ('project_id', '=?', project_id), '|', '|', ('stage_id.name', 'ilike', 'qa'), ('stage_id.name', 'ilike', 'desarrollo'), ('stage_id.name', 'ilike', 'planifi')]")
+    domain="[('company_id', '=', company_id), ('project_id', '=?', project_id)]")
     #, ('allow_forecast', '=', True)
     
     @api.model_create_multi

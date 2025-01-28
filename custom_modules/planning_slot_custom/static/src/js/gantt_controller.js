@@ -5,7 +5,6 @@ import { GanttController } from '@web_gantt/gantt_controller';
 
 patch(GanttController.prototype, {
   async setup() {   
-    debugger
     // TODO =========== CAMBIO HERENCIA - NEW =============
     if(this.env.searchModel.resModel === 'planning.slot'){
       this.props.modelParams.metaData.decorationFields.push('x_stage_id');

@@ -71,4 +71,11 @@ class dev_planning_slot_custom(models.Model):
                 resource = vals_list[0]['resource_id']
         res = super(dev_planning_slot_custom,self).write(vals_list)
         return res
+
+
+    def action_publish(self):
+        self.write({
+            'state': 'published',
+        })
+        return True      
        

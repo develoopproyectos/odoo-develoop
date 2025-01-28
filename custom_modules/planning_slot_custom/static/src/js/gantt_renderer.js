@@ -162,12 +162,7 @@ patch(GanttRenderer.prototype, {
     for (const record of records) {
         const pill = this.getPill(record);
         // TODO =========== CAMBIO HERENCIA - NEW =============
-        const expiration_date = pill.record.x_task_date_deadline ? new Date(pill.record.x_task_date_deadline) : null;
-        if (pill.record.x_stage_id && ['Planificación', 'Desarrollo'].includes(pill.record.x_stage_id[1]) && expiration_date && expiration_date < d) {
-          pill.record.color = 6; // RED
-        } else {
-          pill.record.color = Number(pill.record.color);
-        }
+        pill.record.color = Number(pill.record.color);
         // TODO =========== END    =============
         pills.push(this.enrichPill(pill));
     }

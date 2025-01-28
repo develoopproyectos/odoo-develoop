@@ -56,4 +56,17 @@
             <xpath expr="//footer" position="replace"/>
         </field>
     </record> -->
+
+    <record id="planning_slot_view_form_inherit" model="ir.ui.view">
+        <field name="name">planning.slot.form.inherit</field>
+        <field name="model">planning.slot</field>
+        <field name="inherit_id" ref="planning.planning_view_form_in_gantt"/>
+        <field name="arch" type="xml">
+           <xpath expr="//footer/button[@name='action_send']" position="after">
+                <button string="Publicar" type="object" name="action_publish" class="btn btn-primary" close="1"
+                        groups="planning.group_planning_manager" 
+                        invisible="context.get('my_planning_action') or (state == 'published' or resource_type == 'material')"/>
+            </xpath>
+        </field>
+    </record>
 </odoo>

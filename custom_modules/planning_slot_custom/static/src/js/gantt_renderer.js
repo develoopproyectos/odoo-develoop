@@ -162,7 +162,9 @@ patch(GanttRenderer.prototype, {
     for (const record of records) {
         const pill = this.getPill(record);
         // TODO =========== CAMBIO HERENCIA - NEW =============
-        pill.record.color = Number(pill.record.color);
+        if(this.env.searchModel.resModel === 'planning.slot'){
+          pill.record.color = Number(pill.record.color);
+        }
         // TODO =========== END    =============
         pills.push(this.enrichPill(pill));
     }

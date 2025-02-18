@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="project_new_fields_custom" model="ir.ui.view">
-        <field name="name">project_new_fields_custom</field>
+    <record id="project_new_fields_custom_inherit" model="ir.ui.view">
+        <field name="name">project_new_fields_custom_inherit</field>
         <field name="model">project.project</field>
         <field name="inherit_id" ref="project.edit_project"/>
         <field name="arch" type="xml">
@@ -20,7 +20,7 @@
                     </group>
                 </group>
             </xpath>
-            <xpath expr="//group[hasclass('o_settings_container')]" position="inside">
+            <xpath expr="//group[@name='group_time_managment']" position="inside">
                 <div class="col-lg-6 o_setting_box">
                     <div class="o_setting_left_pane">
                         <field name="has_trello"/>
@@ -39,5 +39,6 @@
             </xpath>
         </field>
     </record>
+    
 
 </odoo>

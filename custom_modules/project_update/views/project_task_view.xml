@@ -1,51 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
-        <record id="edit_project_task_management" model="ir.ui.view">
-            <field name="name">project.task.form.updateTemplate</field>
-            <field name="model">project.task</field>
-            <field name="inherit_id" ref="project.view_task_form2"/>
-            <field name="arch" type="xml">
-
-                <field name="user_ids" position="before">
-                    <field name="sprint" domain="[('project_id', '=', project_id)]" context="{'project_id': project_id}"/>
-                </field>
-
-<!--                <field name="user_id" position="after">-->
-<!--                    <field name="sequence" groups="base.group_no_one" string="Prioridad" help="0-> Muy importante 10-> menos importante"/>-->
-<!--                </field>-->
-
-                <field name="date_deadline" position="after">
-                    <field name="motive_deadline" string="Motivo deadline" readonly="not visible" required="visible" invisible="1"/>
-                    <field name="visible" invisible="1"/>
-                </field>
-
-                <field name="tag_ids" position="after">
-                    <button action="project_update.view_date_reason_wizard" name="test"/>
-                    <!-- <field name="planned_hours"/> MIGRACION 17-->
-                    <field name="effective_hours"/>
-                    <field name="progress" string="Horas dedicadas (%)"/>
-                </field>
-
-                <field name="parent_id" position="replace">
+    <record id="project_task_form_inherit_sprint" model="ir.ui.view">
+        <field name="name">project.task.form.inherit.sprint</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_ids']" position="after">
+                    <field name="sprint" domain="[('project_id', '=', project_id)]" context="{'project_id': project_id}"/>                    
                     <field name="parent_id"
-                           domain="[('project_id', '=', project_id), ('parent_id', '=', False)]"
-                           invisible="subtask_count > 0"/>
-                           <!-- groups="project.group_subtask_project"/> MIGRACION 17-->
-                </field>
-                
-            </field>
-        </record>
-
-        <record id="task_kanban_update" model="ir.ui.view">
-            <field name="name">project.task.kanban.updateCard</field>
-            <field name="model">project.task</field>
-            <field name="inherit_id" ref="project.view_task_kanban"/>
-            <field name="arch" type="xml">
-                <xpath expr="//strong[hasclass('o_kanban_record_title')]" position="before">
-                    <strong><field name="sprint"/><br/></strong>
-                </xpath>
-            </field>
-        </record>
-    </data>
+                        domain="[('project_id', '=', project_id), ('parent_id', '=', False)]"
+                        invisible="subtask_count > 0"/>
+            </xpath>            
+        </field>
+    </record>
 </odoo>

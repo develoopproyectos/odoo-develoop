@@ -7,10 +7,10 @@
     'description': """
         Esto es una extension para el modulo de proyectos
     """,
-    'author': "Marc Cortadellas",
+    'author': "Develoop Software",
     'website': "http://www.develoop.com",
     'category': 'Develoop',
-    'version': '15.0',
+    'version': '17.0',
 
     'depends': ['base','project'],
 

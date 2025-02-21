@@ -71,20 +71,20 @@ class Dev_ProjectTaskCustom(models.Model):
                 stage_name = rec.stage_id.name.lower()
                 if vals.get('stage_id', False):
                     stage_name = self.env['project.task.type'].browse(vals.get('stage_id')).name
-                #COMENTADO por que ya no existe planned_hours
-                # if stage_name in task_type_validation:
-                #     if vals.get('planned_hours', rec.planned_hours) == 0 and (\
-                #             vals.get('name', False) or 
-                #             vals.get('project_id', False) or 
-                #             vals.get('sprint', False) or 
-                #             vals.get('user_id', False) or
-                #             vals.get('sequence', False) or
-                #             vals.get('date_deadline', False) or
-                #             vals.get('tag_ids', False) or
-                #             vals.get('planned_hours', False) or
-                #             vals.get('description', False)
-                #             ):
-                #         raise ValidationError("El campo horas planeadas es obligatorio")
+                
+                if stage_name in task_type_validation:
+                    if vals.get('allocated_hours', rec.allocated_hours) == 0 and (\
+                            vals.get('name', False) or 
+                            vals.get('project_id', False) or 
+                            vals.get('sprint', False) or 
+                            vals.get('user_id', False) or
+                            vals.get('sequence', False) or
+                            vals.get('date_deadline', False) or
+                            vals.get('tag_ids', False) or
+                            vals.get('allocated_hours', False) or
+                            vals.get('description', False)
+                            ):
+                        raise ValidationError("El campo horas planeadas es obligatorio")
                     
             if 'stage_id' in vals:
                 stage = self.env['project.task.type'].browse(vals.get('stage_id')).name
@@ -99,12 +99,6 @@ class Dev_ProjectTaskCustom(models.Model):
                 #     users_to_subscribe = self.env['res.users'].sudo().search([('id','=', 48)])
                 #     rec.message_unsubscribe(partner_ids=users_to_subscribe.partner_id.ids)           
 
-        #Comentado por que ya no existe display_project_id
-        # for rec2 in vals.get('child_ids', []):
-        #     if len(rec2) == 3:
-        #         if rec2[2]:
-        #             rec2[2]['display_project_id'] = rec2[2]['project_id']
-        
         #Crear notas a partir del cambio de tags
         self.message_post_tags(vals,False)
         old_users = self.user_ids

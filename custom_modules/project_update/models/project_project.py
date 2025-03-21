@@ -32,26 +32,26 @@ class ProjectTemplate(models.Model):
 
     @api.model
     def create(self, vals):
-        project = super(ProjectTemplate, self).create(vals)
+        projects = super(ProjectTemplate, self).create(vals)
+        for project in projects:
+            project.type_ids = [(4, self.env.ref('project_update.type_epicas').id)]
+            project.type_ids = [(4, self.env.ref('project_update.type_estudio').id)]
+            project.type_ids = [(4, self.env.ref('project_update.type_analisis').id)]
+            project.type_ids = [(4, self.env.ref('project_update.type_diseno').id)]
+            project.type_ids = [(4, self.env.ref('project_update.type_pendientecliente').id)]
+            project.type_ids = [(4, self.env.ref('project_update.type_planificacion').id)]
+            project.type_ids = [(4, self.env.ref('project_update.type_desarrollo').id)]
+            project.type_ids = [(4, self.env.ref('project_update.type_validationpm').id)]
+            project.type_ids = [(4, self.env.ref('project_update.type_qa').id)]
+            project.type_ids = [(4, self.env.ref('project_update.type_validationclient').id)]
+            project.type_ids = [(4, self.env.ref('project_update.type_produccion').id)]
 
-        project.type_ids = [(4, self.env.ref('project_update.type_epicas').id)]
-        project.type_ids = [(4, self.env.ref('project_update.type_estudio').id)]
-        project.type_ids = [(4, self.env.ref('project_update.type_analisis').id)]
-        project.type_ids = [(4, self.env.ref('project_update.type_diseno').id)]
-        project.type_ids = [(4, self.env.ref('project_update.type_pendientecliente').id)]
-        project.type_ids = [(4, self.env.ref('project_update.type_planificacion').id)]
-        project.type_ids = [(4, self.env.ref('project_update.type_desarrollo').id)]
-        project.type_ids = [(4, self.env.ref('project_update.type_validationpm').id)]
-        project.type_ids = [(4, self.env.ref('project_update.type_qa').id)]
-        project.type_ids = [(4, self.env.ref('project_update.type_validationclient').id)]
-        project.type_ids = [(4, self.env.ref('project_update.type_produccion').id)]
+            project.sprint_type_ids = [(4, self.env.ref('project_update.type_pendienteiniciar_sprint').id)]
+            project.sprint_type_ids = [(4, self.env.ref('project_update.type_desarrollo_sprint').id)]
+            project.sprint_type_ids = [(4, self.env.ref('project_update.type_qa_sprint').id)]
+            project.sprint_type_ids = [(4, self.env.ref('project_update.type_completado_sprint').id)]
 
-        project.sprint_type_ids = [(4, self.env.ref('project_update.type_pendienteiniciar_sprint').id)]
-        project.sprint_type_ids = [(4, self.env.ref('project_update.type_desarrollo_sprint').id)]
-        project.sprint_type_ids = [(4, self.env.ref('project_update.type_qa_sprint').id)]
-        project.sprint_type_ids = [(4, self.env.ref('project_update.type_completado_sprint').id)]
-
-        return project
+        return projects
 
     def _compute_sprint_count(self):
         task_data = self.env['project.sprint'].read_group([ ('project_id', 'in', self.ids)], ['project_id'], ['project_id'])

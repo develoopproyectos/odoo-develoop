@@ -122,7 +122,7 @@ class ProjectSprint(models.Model):
     @api.model
     def create(self, vals):
         if self._context.get('project_id'):
-            vals['project_id']= self._context.get('project_id')
+            vals['project_id'] = self._context.get('project_id')
         return super(ProjectSprint, self).create(vals)
 
     

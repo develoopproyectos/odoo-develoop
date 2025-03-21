@@ -21,7 +21,7 @@ class account_analitic_line_report(models.Model):
 
         project_task_ids = self.env['project.task'].search(
             [('project_id', 'in', project_ids), ('parent_id', '=', False),('stage_id.name','ilike', 'épica%')])
-        planned_hours = sum(data.planned_hours for data in project_task_ids)
+        planned_hours = sum(data.allocated_hours for data in project_task_ids)
 
         toreturn = dict()
         toreturn['planned_hours'] = planned_hours

@@ -4,7 +4,6 @@
     'version': '17.0',
     'summary': """
         Modificacion del planning""",
-
     'description': """
     """,
     'author': "Develoop Software",

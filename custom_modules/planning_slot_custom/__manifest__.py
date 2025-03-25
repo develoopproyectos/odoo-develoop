@@ -12,6 +12,7 @@
     'category': 'Custom',
     'depends': ['planning','project_forecast','web_gantt', 'sale_planning','hr_employee_custom', 'hr_timesheet'],
     'data': [
+        'security/ir.model.access.csv',
         "views/planning_slot.xml",
         "views/project_task.xml",
     ],

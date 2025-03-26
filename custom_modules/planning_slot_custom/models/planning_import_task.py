@@ -23,13 +23,12 @@ class PlanningImportTask(models.TransientModel):
                 planning = self.env['planning.slot'].search([('id', '=', planning_id)], limit = 1)
                 if not planning:
                     print(f"No se encontro con planning {planning_id}")
-                    continue                
-                #init_hours = planning.allocated_hours
-                #planning.write({'allocated_hours':False, 'allocated_percentage': False})
-                #planning.write({'allocated_hours':init_hours})
+                    continue                                
                 if planning.start_datetime.year == 2025:
-                    planning._compute_allocated_percentage()
-                    _logger.info('Planning Updated: %s', planning.start_datetime.strftime('%d-%m-%Y %H:%M'))
+                    init_hours = planning.allocated_hours
+                    planning.write({'allocated_hours':False, 'allocated_percentage': False})
+                    planning.write({'allocated_hours':init_hours})
+                    _logger.info('Planning Updated: %s, Percentage %s', planning.allocated_hours, planning.allocated_percentage)
                 if not task_id:
                     continue 
                 task = self.env['project.task'].search([('id', '=', task_id)], limit = 1)

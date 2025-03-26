@@ -1,11 +1,28 @@
 <odoo>
 
     <template id="report_timesheet_custom" inherit_id="hr_timesheet.timesheet_table">
-		<xpath expr="//table[hasclass('table','table-sm')]" position="attributes">
-			<attribute name="class">table table-sm table-striped</attribute>
-		</xpath>
-		<xpath expr="//table//tbody" position="replace">
-			<tbody>
+		<xpath expr="//table[hasclass('table','table-sm')]" position="replace">
+			<table class="table table-sm table-striped table-hover mb-0">
+				<thead style="display: table-row-group">
+					<tr>
+						<t t-set="timesheet_record_label" t-value="False"/>
+						<t t-if="show_task">
+							<t t-set="timesheet_record_label">Task</t>
+						</t>
+						<t t-elif="show_project">
+							<t t-set="timesheet_record_label">Project</t>
+						</t>
+						<th class="text-start align-middle"><span>Date</span></th>
+						<th class="text-start align-middle"><span>Employee</span></th>
+						<th class="text-start align-middle" t-if="timesheet_record_label"><span t-out="timesheet_record_label"/></th>
+						<th class="text-start align-middle"><span>Description</span></th>
+						<th class="text-end">
+							<span t-if="not is_uom_day">Hours</span>
+							<span t-else="">Days</span>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
 				<t t-set="total_planned_hours" t-value="docs.get_report_timesheet_custom()"/>
 				<tr t-foreach="lines" t-as="line">
 					<td>
@@ -80,6 +97,7 @@
 				</tr>
 
 			</tbody>
+		</table>
 		</xpath>
 	</template>
 

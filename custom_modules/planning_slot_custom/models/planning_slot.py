@@ -67,13 +67,13 @@ class dev_planning_slot_custom(models.Model):
             
             
 
-    def write(self, vals_list):
-        resources = self.resource_ids
-        for resource in resources.ids:
-            if resource == self.resource_id.id:
-                resource = vals_list[0]['resource_id']
-        res = super(dev_planning_slot_custom,self).write(vals_list)
-        return res
+    # def write(self, vals_list):
+    #     resources = self.resource_ids
+    #     for resource in resources.ids:
+    #         if resource == self.resource_id.id:
+    #             resource = vals_list[0]['resource_id']
+    #     res = super(dev_planning_slot_custom,self).write(vals_list)
+    #     return res
 
 
     def action_publish(self):

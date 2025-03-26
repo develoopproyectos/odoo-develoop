@@ -11,41 +11,48 @@ class PlanningImportTask(models.TransientModel):
 
     @api.model
     def add_tasks_in_planning_from_csv(self, file_name):
-        # Ruta del archivo CSV proporcionado como parámetro
-        module_path = get_module_path('planning_slot_custom')        
-        csv_file = os.path.join(module_path, 'data', file_name)
-        with open(csv_file, 'r') as file:
-            csv_reader = csv.DictReader(file)
-            for row in csv_reader:
-                # Obtener los valores de las columnas id y company_id de cada fila
-                planning_id = row.get('planning_id')
-                task_id = row.get('task_id')
-                planning = self.env['planning.slot'].search([('id', '=', planning_id)], limit = 1)
-                if not planning:
-                    print(f"No se encontro con planning {planning_id}")
-                    continue                                
-                #if planning.start_datetime.year == 2025:
-                    #init_hours = planning.allocated_hours
-                    #planning.write({'allocated_hours':init_hours,'allocated_percentage': False})
-                    #planning._compute_allocated_percentage()
-                    #planning.write({'allocated_hours':init_hours})
-                    #_logger.info('Planning Updated: %s, Percentage %s, Init: ', planning.allocated_hours, planning.allocated_percentage, init_hours)
-                if not task_id:
-                    query = f"""UPDATE planning_slot SET allocated_percentage = NULL where id = {planning.id}"""
-                    self._cr.execute(query)
-                    self._cr.commit()
-                    planning._compute_allocated_percentage()
-                    continue 
-                task = self.env['project.task'].search([('id', '=', task_id)], limit = 1)
-                if task:
-                    query = f"""UPDATE planning_slot SET task_id = '{task.id}', allocated_percentage = NULL where id = {planning.id}"""
-                    self._cr.execute(query)
-                    self._cr.commit()
-                    planning._compute_allocated_percentage()
-                    # print(f"se actualizo el planning {planning.id} con tarea {task_id}")
-                else:
-                    print(f"Planning encontrado {planning.id} SIN TAREA {task_id}")
-                    
+        try:
+            # Ruta del archivo CSV proporcionado como parámetro
+            module_path = get_module_path('planning_slot_custom')        
+            csv_file = os.path.join(module_path, 'data', file_name)
+
+            query = f"""UPDATE planning_slot SET allocated_percentage = NULL"""
+            self._cr.execute(query)
+            self._cr.commit()
+            with open(csv_file, 'r') as file:
+                csv_reader = csv.DictReader(file)
+                for row in csv_reader:
+                    # Obtener los valores de las columnas id y company_id de cada fila
+                    planning_id = row.get('planning_id')
+                    task_id = row.get('task_id')
+                    planning = self.env['planning.slot'].search([('id', '=', planning_id)], limit = 1)
+                    if not planning:
+                        print(f"No se encontro con planning {planning_id}")
+                        continue                                
+                    #if planning.start_datetime.year == 2025:
+                        #init_hours = planning.allocated_hours
+                        #planning.write({'allocated_hours':init_hours,'allocated_percentage': False})
+                        #planning._compute_allocated_percentage()
+                        #planning.write({'allocated_hours':init_hours})
+                        #_logger.info('Planning Updated: %s, Percentage %s, Init: ', planning.allocated_hours, planning.allocated_percentage, init_hours)
+                    if not task_id:
+                        planning._compute_allocated_percentage()
+                        _logger.info(f"Done {planning.id}")
+                        continue 
+                    task = self.env['project.task'].search([('id', '=', task_id)], limit = 1)
+                    if task:
+                        query = f"""UPDATE planning_slot SET task_id = '{task.id}' where id = {planning.id}"""
+                        self._cr.execute(query)
+                        self._cr.commit()
+                        planning._compute_allocated_percentage()
+                        _logger.info(f"Done {planning.id}")
+
+                        # print(f"se actualizo el planning {planning.id} con tarea {task_id}")
+                    else:
+                        print(f"Planning encontrado {planning.id} SIN TAREA {task_id}")
+        except Exception as e:
+            _logger.error(f"Error {e}")
+            return              
 
                
 

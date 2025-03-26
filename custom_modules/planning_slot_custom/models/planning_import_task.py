@@ -29,12 +29,6 @@ class PlanningImportTask(models.TransientModel):
                     if not planning:
                         print(f"No se encontro con planning {planning_id}")
                         continue                                
-                    #if planning.start_datetime.year == 2025:
-                        #init_hours = planning.allocated_hours
-                        #planning.write({'allocated_hours':init_hours,'allocated_percentage': False})
-                        #planning._compute_allocated_percentage()
-                        #planning.write({'allocated_hours':init_hours})
-                        #_logger.info('Planning Updated: %s, Percentage %s, Init: ', planning.allocated_hours, planning.allocated_percentage, init_hours)
                     if not task_id:
                         planning._compute_allocated_percentage()
                         _logger.info(f"Done {planning.id}")

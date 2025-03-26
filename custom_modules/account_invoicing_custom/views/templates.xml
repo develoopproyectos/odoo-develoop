@@ -96,30 +96,32 @@
 				</p>
             </xpath> -->
             
-            <xpath expr="//div[@t-if='not is_html_empty(o.narration)']" position="attributes">
-                <attribute name="style">display: none</attribute>
+            <!-- <xpath expr="//div[@t-if='not is_html_empty(o.narration)']" position="after"> -->
+            <xpath expr="//div[@id='payment_term']" position="after">                
+                <div>
+                    <p t-if="o.team_id.name == 'ERP'">
+                        <strong>Notas:</strong>
+                        <br/>
+                        <span t-field="o.narration"/>
+                        <br/>
+                    </p>
+                    <p t-if="o.team_id.name == 'Software a medida'">
+                        <strong>Notas:</strong>
+                        <br/>
+                        <span t-field="o.narration"/>
+                        <br/>
+                    </p>
+                    <p t-if="o.team_id.name == 'SERVICIOS'">
+                        <strong>Notas:</strong>
+                        <br/>
+                        <span t-field="o.narration"/>
+                        <br/>
+                    </p>
+                </div>
             </xpath>
 
-            <xpath expr="//div[@t-if='not is_html_empty(o.narration)']" position="after">
-                <p t-if="o.team_id.name == 'ERP'">
-					<strong>Notas:</strong>
-                    <br/>
-					<span t-field="o.narration"/>
-                    <br/>
-				</p>
-                <p t-if="o.team_id.name == 'Software a medida'">
-					<strong>Notas:</strong>
-                    <br/>
-					<span t-field="o.narration"/>
-                    <br/>
-				</p>
-				<p t-if="o.team_id.name == 'SERVICIOS'">
-					<strong>Notas:</strong>
-                    <br/>
-					<span t-field="o.narration"/>
-                    <br/>
-				</p>
-            </xpath>
+            <xpath expr="//div[@t-if='not is_html_empty(o.narration)']" position="replace"/>
+                
                     
             <xpath expr="//div[@id='payment_term']" position="after">
 				<p t-if="o.team_id.name == 'Mantenimientos'">
@@ -134,8 +136,16 @@
 					<span t-field="o.invoice_payment_term_id"/>
 				</p>
             </xpath>
+
+            <xpath expr="//div[p[@name='payment_communication']]" position="replace"/>
 			
-        </template>   
+        </template>
+        <template id="document_tax_totals_template_inherit" inherit_id="account.document_tax_totals_template">
+            <xpath expr="//tr[hasclass('border-black','o_subtotal')]/td" position="replace">
+                <td><strong>Importe libre de impuestos</strong></td>
+            </xpath>
+            
+        </template>
 	</data>
 </odoo>
         

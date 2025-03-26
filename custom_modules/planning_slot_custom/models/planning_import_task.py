@@ -24,18 +24,24 @@ class PlanningImportTask(models.TransientModel):
                 if not planning:
                     print(f"No se encontro con planning {planning_id}")
                     continue                                
-                if planning.start_datetime.year == 2025:
-                    init_hours = planning.allocated_hours
-                    planning.write({'allocated_hours':False, 'allocated_percentage': False})
-                    planning.write({'allocated_hours':init_hours})
-                    _logger.info('Planning Updated: %s, Percentage %s', planning.allocated_hours, planning.allocated_percentage)
+                #if planning.start_datetime.year == 2025:
+                    #init_hours = planning.allocated_hours
+                    #planning.write({'allocated_hours':init_hours,'allocated_percentage': False})
+                    #planning._compute_allocated_percentage()
+                    #planning.write({'allocated_hours':init_hours})
+                    #_logger.info('Planning Updated: %s, Percentage %s, Init: ', planning.allocated_hours, planning.allocated_percentage, init_hours)
                 if not task_id:
+                    query = f"""UPDATE planning_slot SET allocated_percentage = NULL where id = {planning.id}"""
+                    self._cr.execute(query)
+                    self._cr.commit()
+                    planning._compute_allocated_percentage()
                     continue 
                 task = self.env['project.task'].search([('id', '=', task_id)], limit = 1)
                 if task:
-                    query = f"""UPDATE planning_slot SET task_id = '{task.id}' where id = {planning.id}"""
+                    query = f"""UPDATE planning_slot SET task_id = '{task.id}', allocated_percentage = NULL where id = {planning.id}"""
                     self._cr.execute(query)
                     self._cr.commit()
+                    planning._compute_allocated_percentage()
                     # print(f"se actualizo el planning {planning.id} con tarea {task_id}")
                 else:
                     print(f"Planning encontrado {planning.id} SIN TAREA {task_id}")

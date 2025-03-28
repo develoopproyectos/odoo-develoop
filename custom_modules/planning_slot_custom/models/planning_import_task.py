@@ -16,9 +16,6 @@ class PlanningImportTask(models.TransientModel):
             module_path = get_module_path('planning_slot_custom')        
             csv_file = os.path.join(module_path, 'data', file_name)
 
-            query = f"""UPDATE planning_slot SET allocated_percentage = NULL"""
-            self._cr.execute(query)
-            self._cr.commit()
             with open(csv_file, 'r') as file:
                 csv_reader = csv.DictReader(file)
                 for row in csv_reader:
@@ -46,9 +43,4 @@ class PlanningImportTask(models.TransientModel):
                         print(f"Planning encontrado {planning.id} SIN TAREA {task_id}")
         except Exception as e:
             _logger.error(f"Error {e}")
-            return              
-
-               
-
-
-                
+            return

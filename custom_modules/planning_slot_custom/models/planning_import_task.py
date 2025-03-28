@@ -8,6 +8,7 @@ _logger = logging.getLogger(__name__)
 
 class PlanningImportTask(models.TransientModel):
     _name = 'planning.slot.import.task'
+    _description = "Importacion de Planning y tareas"
 
     @api.model
     def add_tasks_in_planning_from_csv(self, file_name):

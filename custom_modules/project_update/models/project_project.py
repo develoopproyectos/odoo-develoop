@@ -31,8 +31,8 @@ class ProjectTemplate(models.Model):
         return action
 
     @api.model
-    def create(self, vals):
-        projects = super(ProjectTemplate, self).create(vals)
+    def create(self, vals_list):
+        projects = super(ProjectTemplate, self).create(vals_list)
         for project in projects:
             project.type_ids = [(4, self.env.ref('project_update.type_epicas').id)]
             project.type_ids = [(4, self.env.ref('project_update.type_estudio').id)]

@@ -60,16 +60,16 @@ class account_analitic_line_report(models.Model):
                 [('project_id', '=', rec.project_id.id)])
 
     @api.model
-    def create(self, vals):
+    def create(self, vals_list):
         name = False
-        if vals.get('name'):
-            name = vals.get('name')
+        if vals_list.get('name'):
+            name = vals_list.get('name')
         elif len(self) == 1:
             name = self.name
 
         if name and len(name) < 4:
             raise ValidationError("La descripción debe tener al menos 4 caracteres")
-        return super(account_analitic_line_report, self).create(vals)
+        return super(account_analitic_line_report, self).create(vals_list)
 
     def write(self, vals):
         name = False

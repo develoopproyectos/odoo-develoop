@@ -120,10 +120,11 @@ class ProjectSprint(models.Model):
         return action
     
     @api.model
-    def create(self, vals):
+    def create(self, vals_list):
         if self._context.get('project_id'):
-            vals['project_id'] = self._context.get('project_id')
-        return super(ProjectSprint, self).create(vals)
+            for vals in vals_list:
+                vals['project_id'] = self._context.get('project_id')
+        return super(ProjectSprint, self).create(vals_list)
 
     
     

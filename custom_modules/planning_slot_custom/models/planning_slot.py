@@ -20,10 +20,6 @@ class dev_planning_slot_custom(models.Model):
         relation='planning_slot_resource_resource_rel',
         column1='pslot_id', column2='resource_id', string='Resource_ids')
     x_resourse_plannable_hours = fields.Integer(related='employee_id.x_plannable_hours')
-   
-
-    def _compute_allocated_hours(self):
-        return True
 
     def _compute_color_from_taks_tags(self):
         for planning in self:

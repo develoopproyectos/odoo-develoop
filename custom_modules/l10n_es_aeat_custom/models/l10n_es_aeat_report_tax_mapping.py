@@ -9,7 +9,7 @@ class Dev_l10n_es_aeat_report_tax_mapping_Custom(models.AbstractModel):
     
     def _get_move_line_domain(self, date_start, date_end, map_line):
         self.ensure_one()
-        taxes = self.get_taxes_from_map(map_line)
+        taxes = map_line.get_taxes_for_company(self.company_id)
         move_line_domain = [
             ("company_id", "child_of", self.company_id.id),
             ("date", ">=", date_start),
@@ -18,7 +18,11 @@ class Dev_l10n_es_aeat_report_tax_mapping_Custom(models.AbstractModel):
         ]
         if map_line.move_type == "regular":
             move_line_domain.append(
-                ("move_id.financial_type", "in", ("receivable", "payable", "liquidity"))
+                (
+                    "move_id.financial_type",
+                    "in",
+                    ("receivable", "payable", "liquidity", "other"),
+                )
             )
         elif map_line.move_type == "refund":
             move_line_domain.append(
@@ -38,12 +42,12 @@ class Dev_l10n_es_aeat_report_tax_mapping_Custom(models.AbstractModel):
                 ("tax_line_id", "in", taxes.ids),
                 ("tax_ids", "in", taxes.ids),
             ]
-        if map_line.account_id:
-            account = self.get_account_from_template(map_line.account_id)
-            if len(account.ids) == 1:
-                if account.x_check_by_group == True:
-                    account = self.env['account.account'].search([('group_id','=',account.group_id.id)])
-            move_line_domain.append(("account_id", "in", account.ids))
+        if map_line.account_xmlid_ids:
+            accounts = map_line.get_accounts_for_company(self.company_id)
+            if len(accounts.ids) == 1:
+                if accounts.x_check_by_group == True:
+                    accounts = self.env['account.account'].search([('group_id','=',accounts.group_id.id)])
+            move_line_domain.append(("account_id", "in", accounts.ids))
         if map_line.sum_type == "debit":
             move_line_domain.append(("debit", ">", 0))
         elif map_line.sum_type == "credit":

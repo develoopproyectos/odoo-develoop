@@ -13,8 +13,8 @@ class dev_l10n_es_vat_book2_custom(models.Model):
 
     def _calculate_vat_book(self):
         """
-            This function calculate all the taxes, from issued invoices,
-            received invoices and rectification invoices
+        This function calculate all the taxes, from issued invoices,
+        received invoices and rectification invoices
         """
         for rec in self:
             if not rec.company_id.partner_id.vat:
@@ -23,20 +23,23 @@ class dev_l10n_es_vat_book2_custom(models.Model):
             # Searches for all possible usable lines to report
             moves = rec._get_account_move_lines()
             for book_type in ["issued", "received"]:
-                map_lines = self.env["aeat.vat.book.map.line"].search(
-                    [("book_type", "=", book_type)]
-                )
+                domain = [("book_type", "=", book_type)]
+                if rec.tax_agency_ids:
+                    domain += [
+                        ("tax_agency_ids", "in", [False] + rec.tax_agency_ids.ids),
+                    ]
+                map_lines = self.env["aeat.vat.book.map.line"].search(domain)
                 taxes = self.env["account.tax"]
                 accounts = {}
                 for map_line in map_lines:
-                    line_taxes = map_line.get_taxes(rec)
+                    line_taxes = map_line.get_taxes_for_company(rec.company_id)
                     taxes |= line_taxes
-                    if map_line.tax_account_id:
-                        account = rec.get_account_from_template(map_line.tax_account_id)
-                        ##############################
+                    if map_line.account_xmlid_id:
+                        account = map_line.get_accounts_for_company(rec.company_id)
+                        #########################################
                         if account.x_check_by_group == True:
                             account = self.env['account.account'].search([('group_id','=',account.group_id.id)])
-                        ##############################
+                        #########################################
                         accounts.update({tax: account for tax in line_taxes})
                 # Filter in all possible data using sets for improving performance
                 if accounts:
@@ -44,14 +47,16 @@ class dev_l10n_es_vat_book2_custom(models.Model):
                         lambda line: line.tax_ids & taxes
                         or (
                             line.tax_line_id in taxes
-                            and line.account_id in accounts.get(line.tax_line_id, line.account_id)
+                            and accounts.get(line.tax_line_id, line.account_id)
+                            == line.account_id
                         )
                     )
                 else:
                     lines = moves.filtered(
                         lambda line: (line.tax_ids | line.tax_line_id) & taxes
                     )
-                rec.create_vat_book_lines(lines, map_line.book_type, taxes)
+                if map_lines:
+                    rec.create_vat_book_lines(lines, map_lines[:1].book_type, taxes)
             # Issued
             book_type = "issued"
             issued_tax_lines = rec.issued_line_ids.mapped("tax_line_ids")
@@ -68,9 +73,7 @@ class dev_l10n_es_vat_book2_custom(models.Model):
             book_type = "received"
             received_tax_lines = rec.received_line_ids.mapped("tax_line_ids")
             # flake8: noqa
-            rectification_received_tax_lines = rec.rectification_received_line_ids.mapped(
-                "tax_line_ids"
-            )
+            rectification_received_tax_lines = rec.rectification_received_line_ids.mapped("tax_line_ids")
             tax_summary_data_recs = rec._prepare_vat_book_tax_summary(
                 received_tax_lines + rectification_received_tax_lines, book_type
             )

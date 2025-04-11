@@ -11,7 +11,7 @@ class HRLeave(models.Model):
         if not res:
             return res
         for leave in self:
-            if leave.holiday_status_id.time_type != 'other' and leave.state in ['validate', 'validate1'] and leave.holiday_status_id.color_name in ['red', 'black']:
+            if leave.holiday_status_id.time_type != 'other' and leave.state in ['validate', 'validate1']:
                 try:
                     role_id = self.env.ref('hr_holidays_custom.x_vacation').id
                     planning_leave = self.env['planning.slot'].sudo().create({

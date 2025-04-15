@@ -85,11 +85,17 @@ class ProjectSprint(models.Model):
 
     def _compute_planned_hours_count(self):
         for task in self:
-            task.horas_planeadas = sum(task.task_ids.mapped('planned_hours'))
+            if task.task_ids and 'planned_hours' in task.task_ids._fields:
+                task.horas_planeadas = sum(task.task_ids.mapped('planned_hours'))
+            else:
+                task.horas_planeadas = 0.0
 
     def _compute_completed_hours_count(self):
         for task in self:
-            task.horas_dedicadas = sum(task.task_ids.mapped('effective_hours'))
+            if task.task_ids and 'effective_hours' in task.task_ids._fields:
+                task.horas_dedicadas = sum(task.task_ids.mapped('effective_hours'))
+            else:
+                task.horas_dedicadas = 0.0
 
     def _compute_progress_hours(self):
         if self.horas_planeadas > 0: self.horas_dedicadas_porcentage = (self.horas_dedicadas / self.horas_planeadas)*100
@@ -121,6 +127,8 @@ class ProjectSprint(models.Model):
     
     @api.model
     def create(self, vals_list):
+        if isinstance(vals_list, dict):
+            vals_list = [vals_list]
         if self._context.get('project_id'):
             for vals in vals_list:
                 vals['project_id'] = self._context.get('project_id')

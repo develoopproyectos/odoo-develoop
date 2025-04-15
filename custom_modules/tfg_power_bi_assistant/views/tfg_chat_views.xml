@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <templates>
+        <t t-name="tfg_power_bi_assistant.tfgChat" owl="1">
+            <div>
+                <h1>Mi Vista</h1>
+                <div class="o_composer_container">
+                    <t t-call="mail.Composer">
+                    </t>
+                </div>
+            </div>
+        </t>
+    </templates>
+
+</odoo>

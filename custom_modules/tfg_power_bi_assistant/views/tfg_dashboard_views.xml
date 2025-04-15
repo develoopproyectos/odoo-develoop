@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="tfg_dashboard_template" name="Dashboard View">
+        
+            <t t-set="title">Dashboard</t>
+            <div class="o_container">
+                <h1>Hello from the Dashboard!</h1>
+            </div>
+        
+    </template>
+
+</odoo>

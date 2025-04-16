@@ -12,6 +12,7 @@
     "depends": ['base', 'mail', 'product', 'sale', 'account', 'stock', 'purchase', 'contacts', 'stock'] ,
     "data": [
         "security/ir.model.access.csv",
+        "data/bot_user_data.xml",
         "views/tfg_dashboard_views.xml",
         "views/tfg_menu_views.xml",
         "views/tfg_report_views.xml"

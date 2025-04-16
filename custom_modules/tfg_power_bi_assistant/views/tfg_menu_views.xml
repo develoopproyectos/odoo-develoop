@@ -31,20 +31,19 @@
         sequence="2"/>
 
     <!-- CHAT ACTION -->
-    <record id="tfg_chat_action_view" model="ir.actions.act_window">
-        <field name="name">Chat</field>
-        <field name="res_model">tfg.chat</field>        
-        <field name="help" type="html">
-            <p class="oe_view_nocontent_create">
-                Welcome to the Dashboard! Start by creating your first record.
-            </p>
+    <record id="action_discuss_custom" model="ir.actions.server">
+        <field name="name">Open AI Chat</field>
+        <field name="model_id" ref="model_tfg_chat"/>
+        <field name="state">code</field>
+        <field name="code">
+action = model.open_custom_chat()
         </field>
     </record>
     <!-- MAIN MENU ITEM GOIN TO CHAT -->
     <menuitem
         id="tfg_chat_menu"
         name="Chat"
-        action="tfg_chat_action_view"         
+        action="action_discuss_custom"         
         parent="tfg_main_menu"
         sequence="5"/>
 

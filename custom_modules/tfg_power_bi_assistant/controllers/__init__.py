@@ -1,2 +1,2 @@
-from . import tfg_chat_controller
+from . import tfg_dashboard_controller
 from . import thread_controller

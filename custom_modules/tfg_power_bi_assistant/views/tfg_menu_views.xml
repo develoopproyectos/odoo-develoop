@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    <data>
+        <!-- DASHBOARD ACTION -->
+        <record id="action_open_dashboard_action" model="ir.actions.client">
+            <field name="name">Dashboard</field>
+            <field name="tag">tfg_power_bi_assistant.dashboard</field>
+        </record>
+        <!-- MAIN MENU ITEM GOIN TO DASHBOARD -->
+        <menuitem
+            id="tfg_main_menu"
+            name="BI Assistant"
+            action="action_open_dashboard_action"   
+            web_icon="fa fa-bar-chart-o,#f1c40f,#34495e"             
+            sequence="10"/>
+
+        <menuitem
+            id="tfg_dashboard_menu"
+            name="Dashboard"
+            action="action_open_dashboard_action"
+            parent="tfg_main_menu"                
+            sequence="2"/>
+
+        <!-- CHAT ACTION -->
+        <record id="action_discuss_custom" model="ir.actions.server">
+            <field name="name">Open AI Chat</field>
+            <field name="model_id" ref="model_tfg_chat"/>
+            <field name="state">code</field>
+            <field name="code">
+    action = model.open_custom_chat()
+            </field>
+        </record>
+        <!-- MAIN MENU ITEM GOIN TO CHAT -->
+        <menuitem
+            id="tfg_chat_menu"
+            name="Chat"
+            action="action_discuss_custom"         
+            parent="tfg_main_menu"
+            sequence="5"/>
+
+        <!-- REPORT ACTION -->
+
+        <record id="tfg_report_action_view" model="ir.actions.act_window">
+            <field name="name">Business Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">tfg.report</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    There is no examples click here to add new Tfg Report.
+                </p>
+            </field>
+        </record>
+        <!-- MENU ITEM GOIN TO REPORTS -->
+        <menuitem
+            id="tfg_report_menu"
+            name="Business Report"
+            action="tfg_report_action_view"        
+            parent="tfg_main_menu"
+            sequence="10"/>
+    </data>
+</odoo>

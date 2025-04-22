@@ -1,0 +1,4 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+access_tfg_dashboard_manager,tfg_dashboard_manager,model_tfg_dashboard,,1,1,1,1
+access_tfg_report_manager,tfg_report_manager,model_tfg_report,,1,1,1,1
+access_tfg_chat_manager,tfg_chat_manager,model_tfg_chat,,1,1,1,1

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_form_custom" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.custom</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Asistente de IA" string="Asistente de IA" name="tfg_power_bi_assistant" logo="/tfg_power_bi_assistant/static/description/ia.png">
+                    <div id="api_key">
+                        <block title="API servicio de IA" name="ia_key_setting_container">
+                            <setting id="ia_key_setting">
+                                <widget name="res_config_api_key_validation"/>
+                            </setting>
+                        </block>
+                    </div>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>

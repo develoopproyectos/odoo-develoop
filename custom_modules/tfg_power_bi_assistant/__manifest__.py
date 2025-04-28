@@ -14,12 +14,15 @@
         "security/ir.model.access.csv",
         "data/bot_user_data.xml",        
         "views/tfg_menu_views.xml",
-        "views/tfg_report_views.xml"
+        "views/tfg_report_views.xml",
+        "views/tfg_res_settings_views.xml"
     ],
     'assets': {
         'web.assets_backend': [
             'tfg_power_bi_assistant/static/src/components/**/*.js',
             'tfg_power_bi_assistant/static/src/components/**/*.xml',
+            'tfg_power_bi_assistant/static/src/widgets/**/*.js',
+            'tfg_power_bi_assistant/static/src/widgets/**/*.xml',
             'tfg_power_bi_assistant/static/src/components/**/*.scss',
         ],
     },

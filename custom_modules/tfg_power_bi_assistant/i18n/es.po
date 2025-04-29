@@ -300,7 +300,7 @@ msgstr ""
 #: code:addons/tfg_power_bi_assistant/static/src/widgets/res_config_subscription_code.js:0
 #, python-format
 msgid "Validate"
-msgstr ""
+msgstr "Validar"
 
 #. module: tfg_power_bi_assistant
 #. odoo-javascript
@@ -308,7 +308,7 @@ msgstr ""
 #: code:addons/tfg_power_bi_assistant/static/src/widgets/res_config_subscription_code.js:0
 #, python-format
 msgid "Validating..."
-msgstr ""
+msgstr "Validando"
 
 #. module: tfg_power_bi_assistant
 #. odoo-javascript

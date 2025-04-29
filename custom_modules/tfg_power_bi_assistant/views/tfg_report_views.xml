@@ -31,11 +31,11 @@
                     <group name="report_info" string="Report Info">
                         <group>
                             <field name="description" placeholder="Description..."/>
-                            <field name="create_date" placeholder="Create Date..."/>
+                            <field name="report_date" placeholder="Report Date..."/>
                         </group>
                         <group>
-                            <field name="business_report_name" placeholder="Business Report Name..." readonly="1"/>
-                            <field name="business_report_attachment" readonly="1"/>
+                            <field name="business_report_name" placeholder="Business Report Name..." invisible="1"/>
+                            <field name="business_report_attachment" filename="business_report_name" readonly="1"/>
                         </group>
                     </group>
                 </sheet>

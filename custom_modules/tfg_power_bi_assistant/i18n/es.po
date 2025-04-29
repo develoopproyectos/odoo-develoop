@@ -1,0 +1,318 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* tfg_power_bi_assistant
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0+e-20250428\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-04-29 16:41+0000\n"
+"PO-Revision-Date: 2025-04-29 16:41+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: tfg_power_bi_assistant
+#: model_terms:ir.ui.view,arch_db:tfg_power_bi_assistant.res_config_settings_view_form_custom
+msgid "AI Assistant"
+msgstr "Asistente de IA"
+
+#. module: tfg_power_bi_assistant
+#: model_terms:ir.ui.view,arch_db:tfg_power_bi_assistant.res_config_settings_view_form_custom
+msgid "API AI service"
+msgstr "API Servicio de IA"
+
+#. module: tfg_power_bi_assistant
+#: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_dashboard__active
+#: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_report__active
+msgid "Active"
+msgstr "Activo"
+
+#. module: tfg_power_bi_assistant
+#: model:ir.ui.menu,name:tfg_power_bi_assistant.tfg_main_menu
+msgid "BI Assistant"
+msgstr "Asistencia BI"
+
+#. module: tfg_power_bi_assistant
+#: model:ir.actions.act_window,name:tfg_power_bi_assistant.tfg_report_action_view
+#: model:ir.ui.menu,name:tfg_power_bi_assistant.tfg_report_menu
+msgid "Business Report"
+msgstr "Reporte de Negocio"
+
+#. module: tfg_power_bi_assistant
+#: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_report__business_report_attachment
+msgid "Business Report Attachment"
+msgstr "Adjunto de Reporte de Negocio"
+
+#. module: tfg_power_bi_assistant
+#: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_report__business_report_name
+msgid "Business Report Name"
+msgstr "Nombre de Reporte de Negocio"
+
+#. module: tfg_power_bi_assistant
+#: model_terms:ir.ui.view,arch_db:tfg_power_bi_assistant.view_tfg_report_form
+msgid "Business Report Name..."
+msgstr "Nombre de Reporte de Negocio..."
+
+#. module: tfg_power_bi_assistant
+#: model:ir.ui.menu,name:tfg_power_bi_assistant.tfg_chat_menu
+msgid "Chat"
+msgstr "Chat"
+
+#. module: tfg_power_bi_assistant
+#: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_chat__create_uid
+#: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_dashboard__create_uid
+#: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_report__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: tfg_power_bi_assistant
+#: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_chat__create_date
+#: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_dashboard__create_date
+#: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_report__create_date
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: tfg_power_bi_assistant
+#. odoo-python
+#: code:addons/tfg_power_bi_assistant/models/tfg_chat.py:0
+#, python-format
+msgid "Custom Channel"
+msgstr "Canal Personalizado"
+
+#. module: tfg_power_bi_assistant
+#. odoo-javascript
+#: code:addons/tfg_power_bi_assistant/static/src/components/dashboard.xml:0
+#, python-format
+msgid "Custom Sales Dashboard"
+msgstr ""
+
+#. module: tfg_power_bi_assistant
+#: model:ir.actions.client,name:tfg_power_bi_assistant.action_open_dashboard_action
+#: model:ir.ui.menu,name:tfg_power_bi_assistant.tfg_dashboard_menu
+msgid "Dashboard"
+msgstr "Tablero"
+
+#. module: tfg_power_bi_assistant
+#: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_dashboard__description
+#: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_report__description
+msgid "Description"
+msgstr "Descripción"
+
+#. module: tfg_power_bi_assistant
+#: model_terms:ir.ui.view,arch_db:tfg_power_bi_assistant.view_tfg_report_form
+msgid "Description..."
+msgstr "Descripción..."
+
+#. module: tfg_power_bi_assistant
+#: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_chat__display_name
+#: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_dashboard__display_name
+#: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_report__display_name
+msgid "Display Name"
+msgstr "Nombre a mostrar"
+
+#. module: tfg_power_bi_assistant
+#. odoo-javascript
+#: code:addons/tfg_power_bi_assistant/static/src/widgets/res_config_api_key_validation.xml:0
+#, python-format
+msgid "Enter AI Service API Key"
+msgstr "Introduzca la clave API del servicio AI"
+
+#. module: tfg_power_bi_assistant
+#. odoo-javascript
+#: code:addons/tfg_power_bi_assistant/static/src/widgets/res_config_api_key_validation.xml:0
+#, python-format
+msgid "Enter API Key"
+msgstr "Introduzca la clave API"
+
+#. module: tfg_power_bi_assistant
+#. odoo-javascript
+#: code:addons/tfg_power_bi_assistant/static/src/widgets/res_config_subscription_code.xml:0
+#, python-format
+msgid "Enter Subscription Code"
+msgstr "Introduzca el código de suscripción"
+
+#. module: tfg_power_bi_assistant
+#. odoo-javascript
+#: code:addons/tfg_power_bi_assistant/static/src/widgets/res_config_subscription_code.xml:0
+#, python-format
+msgid "Enter subscription code"
+msgstr "Introduzca el código de suscripción"
+
+#. module: tfg_power_bi_assistant
+#: model_terms:ir.ui.view,arch_db:tfg_power_bi_assistant.view_tfg_report_search
+msgid "Group By"
+msgstr "Agrupar por"
+
+#. module: tfg_power_bi_assistant
+#: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_chat__id
+#: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_dashboard__id
+#: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_report__id
+msgid "ID"
+msgstr "ID"
+
+#. module: tfg_power_bi_assistant
+#. odoo-javascript
+#: code:addons/tfg_power_bi_assistant/static/src/components/dashboard.xml:0
+#, python-format
+msgid "Last 30 Days"
+msgstr "Ultimos 30 dias"
+
+#. module: tfg_power_bi_assistant
+#. odoo-javascript
+#: code:addons/tfg_power_bi_assistant/static/src/components/dashboard.xml:0
+#, python-format
+msgid "Last 365 Days"
+msgstr "Ultimos 365 dias"
+
+#. module: tfg_power_bi_assistant
+#. odoo-javascript
+#: code:addons/tfg_power_bi_assistant/static/src/components/dashboard.xml:0
+#, python-format
+msgid "Last 7 Days"
+msgstr "Ultimos 7 dias"
+
+#. module: tfg_power_bi_assistant
+#. odoo-javascript
+#: code:addons/tfg_power_bi_assistant/static/src/components/dashboard.xml:0
+#, python-format
+msgid "Last 90 Days"
+msgstr "Ultimos 90 dias"
+
+#. module: tfg_power_bi_assistant
+#: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_chat__write_uid
+#: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_dashboard__write_uid
+#: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_report__write_uid
+msgid "Last Updated by"
+msgstr "Ultima Actualización por"
+
+#. module: tfg_power_bi_assistant
+#: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_chat__write_date
+#: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_dashboard__write_date
+#: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_report__write_date
+msgid "Last Updated on"
+msgstr "Ultima modificación en"
+
+#. module: tfg_power_bi_assistant
+#. odoo-javascript
+#: code:addons/tfg_power_bi_assistant/static/src/components/dashboard.xml:0
+#, python-format
+msgid "Monthly Sales"
+msgstr ""
+
+#. module: tfg_power_bi_assistant
+#: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_chat__name
+#: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_dashboard__name
+#: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_report__name
+#: model_terms:ir.ui.view,arch_db:tfg_power_bi_assistant.view_tfg_report_search
+msgid "Name"
+msgstr "Nombre"
+
+#. module: tfg_power_bi_assistant
+#: model_terms:ir.ui.view,arch_db:tfg_power_bi_assistant.view_tfg_report_form
+msgid "Name..."
+msgstr "Nombre"
+
+#. module: tfg_power_bi_assistant
+#: model:ir.actions.server,name:tfg_power_bi_assistant.action_discuss_custom
+msgid "Open AI Chat"
+msgstr "Abrir Chat de IA"
+
+#. module: tfg_power_bi_assistant
+#. odoo-javascript
+#: code:addons/tfg_power_bi_assistant/static/src/components/dashboard.xml:0
+#, python-format
+msgid "Partner Orders"
+msgstr ""
+
+#. module: tfg_power_bi_assistant
+#: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_report__report_date
+msgid "Report Date"
+msgstr "Fecha del Reporte"
+
+#. module: tfg_power_bi_assistant
+#: model_terms:ir.ui.view,arch_db:tfg_power_bi_assistant.view_tfg_report_form
+msgid "Report Date..."
+msgstr "Fecha del Reporte"
+
+#. module: tfg_power_bi_assistant
+#: model_terms:ir.ui.view,arch_db:tfg_power_bi_assistant.view_tfg_report_form
+msgid "Report Info"
+msgstr "Información del Reporte"
+
+#. module: tfg_power_bi_assistant
+#. odoo-javascript
+#: code:addons/tfg_power_bi_assistant/static/src/components/dashboard.xml:0
+#, python-format
+msgid "Select Period"
+msgstr ""
+
+#. module: tfg_power_bi_assistant
+#: model_terms:ir.ui.view,arch_db:tfg_power_bi_assistant.res_config_settings_view_form_custom
+msgid "Subscription service"
+msgstr "Servicio de Subscripción"
+
+#. module: tfg_power_bi_assistant
+#: model:ir.model,name:tfg_power_bi_assistant.model_tfg_chat
+msgid "TFG Chat"
+msgstr "Chat TFG"
+
+#. module: tfg_power_bi_assistant
+#: model:ir.model,name:tfg_power_bi_assistant.model_tfg_dashboard
+msgid "TFG Dashboard"
+msgstr "Tablero TFG"
+
+#. module: tfg_power_bi_assistant
+#: model:ir.model,name:tfg_power_bi_assistant.model_tfg_report
+msgid "TFG Report"
+msgstr "Reporte TFG"
+
+#. module: tfg_power_bi_assistant
+#: model_terms:ir.ui.view,arch_db:tfg_power_bi_assistant.view_tfg_report_form
+msgid "Tfg Report"
+msgstr "Reporte TFG"
+
+#. module: tfg_power_bi_assistant
+#: model_terms:ir.actions.act_window,help:tfg_power_bi_assistant.tfg_report_action_view
+msgid "There is no examples click here to add new Tfg Report."
+msgstr "No existen ejemplos, haga click en nuevo para añadir un Reporte TFG"
+
+#. module: tfg_power_bi_assistant
+#. odoo-javascript
+#: code:addons/tfg_power_bi_assistant/static/src/components/dashboard.xml:0
+#, python-format
+msgid "Top Products"
+msgstr ""
+
+#. module: tfg_power_bi_assistant
+#. odoo-javascript
+#: code:addons/tfg_power_bi_assistant/static/src/components/dashboard.xml:0
+#, python-format
+msgid "Top Sales People"
+msgstr ""
+
+#. module: tfg_power_bi_assistant
+#. odoo-javascript
+#: code:addons/tfg_power_bi_assistant/static/src/widgets/res_config_api_key_validation.js:0
+#: code:addons/tfg_power_bi_assistant/static/src/widgets/res_config_subscription_code.js:0
+#, python-format
+msgid "Validate"
+msgstr ""
+
+#. module: tfg_power_bi_assistant
+#. odoo-javascript
+#: code:addons/tfg_power_bi_assistant/static/src/widgets/res_config_api_key_validation.js:0
+#: code:addons/tfg_power_bi_assistant/static/src/widgets/res_config_subscription_code.js:0
+#, python-format
+msgid "Validating..."
+msgstr ""
+
+#. module: tfg_power_bi_assistant
+#. odoo-javascript
+#: code:addons/tfg_power_bi_assistant/static/src/components/kpi_card/kpi_card.xml:0
+#, python-format
+msgid "since last period"
+msgstr ""

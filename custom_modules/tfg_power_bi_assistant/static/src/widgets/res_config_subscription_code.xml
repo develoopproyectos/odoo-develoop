@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <templates>
-    <div t-name='res_config_api_key_validation'>
-        <p class="o_form_label">Enter AI Service API Key</p>
+    <div t-name='res_config_subscription_code'>
+        <p class="o_form_label">Enter subscription code</p>
 
         <div class="d-flex">
-            <input t-model="state.validation_key" t-att-disabled="state.status != 'idle'" class="o_input mt8 text-truncate" type="text" placeholder="Enter API Key"/>
+            <input t-model="state.validation_key" t-att-disabled="state.status != 'idle'" class="o_input mt8 text-truncate" type="text" placeholder="Enter Subscription Code"/>
             <button t-att-disabled="state.status != 'idle'" class="btn btn-primary o_web_settings_invite flex-shrink-0" ><strong><t t-esc="validateButtonText"/></strong></button>
         </div>        
     </div>

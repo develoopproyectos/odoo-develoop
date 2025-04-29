@@ -1,4 +1,4 @@
-from odoo import models, fields
+from odoo import models, fields, _
 from odoo.http import request
 class TfgChat(models.Model):
     _name = 'tfg.chat'    
@@ -11,7 +11,7 @@ class TfgChat(models.Model):
         tfg_partner  = self.env.ref('tfg_power_bi_assistant.tfg_user_partner').id
 
         channel = self.env['discuss.channel'].sudo().create({
-            'name': 'Canal Personalizado',
+            'name': _('Custom Channel'),
             'channel_type': 'chat',
             'channel_partner_ids': [(6, 0, tfg_partner)]
         })

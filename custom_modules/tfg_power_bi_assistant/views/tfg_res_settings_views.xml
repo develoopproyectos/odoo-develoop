@@ -7,11 +7,18 @@
         <field name="inherit_id" ref="base.res_config_settings_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//form" position="inside">
-                <app data-string="Asistente de IA" string="Asistente de IA" name="tfg_power_bi_assistant" logo="/tfg_power_bi_assistant/static/description/ia.png">
+                <app data-string="AI Assistant" string="AI Assistant" name="tfg_power_bi_assistant" logo="/tfg_power_bi_assistant/static/description/ia.png">
                     <div id="api_key">
-                        <block title="API servicio de IA" name="ia_key_setting_container">
+                        <block title="API AI service" name="ia_key_setting_container">
                             <setting id="ia_key_setting">
                                 <widget name="res_config_api_key_validation"/>
+                            </setting>
+                        </block>
+                    </div>
+                    <div id="subscription_code">
+                        <block title="Subscription service" name="subscription_code_setting_container">
+                            <setting id="subscription_code_setting">
+                                <widget name="res_config_subscription_code"/>
                             </setting>
                         </block>
                     </div>

@@ -14,5 +14,6 @@ class SaleOrder(models.Model):
         """ Hook for extension, to support different invoice states """
         ###EVITAR QUE LAS NUEVAS FACTURAS CREADAS POR LA SUBSCRIPCION SE PUBLIQUEN O CONFIRMEN DE MANERA AUTOMATICA
         #invoice.action_post()
-        _logger.info(f"Factura: {invoice}")      
+        _logger.info(f"Factura: {invoice}")   
+        self.with_context(mail_notrack=True).write({'payment_exception': False})   
         return

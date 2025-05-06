@@ -5,7 +5,7 @@
     'author': 'Develoop Software S.A.',
     'category': 'Develoop',
     'website': 'https://www.develoop.net/',
-    'depends': ['base', 'mail'],
+    'depends': ['base', 'mail','sale_subscription'],
     'summary': 'Evita el envio de recordatorio de pago',
     'description': """
         Evita el envio de recordatorio de pago

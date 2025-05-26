@@ -19,6 +19,7 @@ class dev_planning_slot_custom(models.Model):
         comodel_name='resource.resource',
         relation='planning_slot_resource_resource_rel',
         column1='pslot_id', column2='resource_id', string='Resource_ids')
+    user_ids = fields.Many2many('res.users', compute='_compute_user_ids', store=False)
     x_resourse_plannable_hours = fields.Integer(related='employee_id.x_plannable_hours')
 
     def _compute_color_from_taks_tags(self):
@@ -75,4 +76,11 @@ class dev_planning_slot_custom(models.Model):
             'state': 'published',
         })
         return True      
-       
+
+    
+    @api.onchange('resource_id')
+    def _onchange_user_ids_from_resources(self):
+        users = self.env['res.users']
+        if self.resource_id.employee_id and self.resource_id.employee_id.user_id:
+            users |= self.resource_id.employee_id.user_id
+        self.user_ids = users

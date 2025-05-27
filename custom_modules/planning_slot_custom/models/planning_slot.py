@@ -20,6 +20,7 @@ class dev_planning_slot_custom(models.Model):
         relation='planning_slot_resource_resource_rel',
         column1='pslot_id', column2='resource_id', string='Resource_ids')
     x_resourse_plannable_hours = fields.Integer(related='employee_id.x_plannable_hours')
+    user_ids = fields.Many2many('res.users', compute='_compute_user_ids', store=False)
 
     def _compute_color_from_taks_tags(self):
         for planning in self:
@@ -74,5 +75,12 @@ class dev_planning_slot_custom(models.Model):
         self.write({
             'state': 'published',
         })
-        return True      
+        return True  
+        
+    @api.onchange('resource_id')
+    def _onchange_user_ids_from_resources(self):
+        users = self.env['res.users']
+        if self.resource_id.employee_id and self.resource_id.employee_id.user_id:
+            users |= self.resource_id.employee_id.user_id
+        self.user_ids = users         
        

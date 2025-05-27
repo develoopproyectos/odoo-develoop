@@ -5,11 +5,11 @@ class TfgReport(models.Model):
     _description = 'TFG Report'
 
     name = fields.Char(string='Name', compute='generate_name', store=True)
-    description = fields.Text(string='Description',required=True)
+    description = fields.Text(string='Description')
     business_report_attachment = fields.Binary(string='Business Report Attachment',filename="business_report_name")
     business_report_name = fields.Char(string='Business Report Name')
     active = fields.Boolean(string='Active', default=True)
-    report_date = fields.Date(string='Report Date', required=True)
+    report_date = fields.Date(string='Report Date', required=True, default=fields.Date.context_today)
 
     @api.depends('report_date')
     def generate_name(self):

@@ -15,9 +15,8 @@ class ThreadController(BaseThreadController):
         if response['author'] != ia_bot_id:
             channel = request.env['discuss.channel'].sudo().browse(thread_id)
             if ia_bot_id in channel.channel_member_ids.partner_id.ids: 
-                #TODO MANDAR MENSAJE AL BOT
+                #MANDA MENSAJE A IA
                 self.send_message(thread_id, msg)
-                print(channel)
         return response
 
     def send_message(self, chat_id, message):

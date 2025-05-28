@@ -4,7 +4,7 @@ import { registry } from "@web/core/registry";
 import { _t } from "@web/core/l10n/translation";
 import { useService } from "@web/core/utils/hooks";
 
-import { Component, useState, onWillStart } from "@odoo/owl";
+import { Component, useState } from "@odoo/owl";
 import { standardWidgetProps } from "@web/views/widgets/standard_widget_props";
 
 class ResConfigApiKeyValidation extends Component {
@@ -19,12 +19,19 @@ class ResConfigApiKeyValidation extends Component {
         this.action = useService("action");
         this.notification = useService("notification");
         this.user = useService("user");
+        this.rpc = useService("rpc");
 
         this.state = useState({
             status: "idle", // idle, inviting
-            validation_key: "",
             invite: null,
         });        
+    }
+
+    onInputChange(ev) {
+            const value = ev.target.value;
+            this.props.record.update({
+                ai_service_api_key: value,
+        });
     }
 
 
@@ -35,15 +42,21 @@ class ResConfigApiKeyValidation extends Component {
         return _t("Validate");
     }
 
+    validate() {
+        if (!this.props.record.data.ai_service_api_key.length) {
+            throw new Error(_t("Empty API Service Key"));
+        }
+    }
+
 
     /**
-     * Send invitation for valid and unique email addresses
+     * Send validation for valid API Service Key.
      *
      * @private
      */
-    async sendInvite() {
+    async ValidateAIService() {
         try {
-            //this.validate();
+            this.validate();
         } catch (e) {
             this.notification.add(e.message, { type: "danger" });
             return;
@@ -52,9 +65,18 @@ class ResConfigApiKeyValidation extends Component {
         this.state.status = "validating";
 
         try {
-            //TODO           
+            const res = await this.rpc(`/validation/ai_service`, {
+                api_key: this.props.record.data.ai_service_api_key,
+            });
+
+            if (res.success) {
+                this.notification.add(_t("The API Key entered was validated correctly"), { type: "success" });                
+            } else {
+                this.notification.add(_t("The API Key entered is not correct"), { type: "warning" });                
+            }
+        } catch (error) {
+            this.notification.add(error.message || _t("Validation Error"), { type: "danger" });
         } finally {
-            this.state.validation_key = "";
             this.state.status = "idle";
         }
     }

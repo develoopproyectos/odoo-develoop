@@ -20,8 +20,9 @@ class ThreadController(BaseThreadController):
         return response
 
     def send_message(self, chat_id, message):
-        gemini_key = "AIzaSyBxjxfph-Lb8gWdiMVIKSsmxyA_D9zDmkk"
-        url = "https://odoo-ai-service-pre.develoop.net/api/chatbot/"
+        ai_middleware_url = request.env['ir.config_parameter'].sudo().get_param('tfg_power_bi_assistant.ai.middleware.url')
+        gemini_key = request.env['ir.config_parameter'].sudo().get_param('tfg_power_bi_assistant.ai.service.api.key')
+
         token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwOTAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NDgwMDUyODAsImV4cCI6MTc4NDAwNTI4MCwibmJmIjoxNzQ4MDA1MjgwLCJqdGkiOiI2cmttSldsVmI3bGJGN0N3Iiwic3ViIjoiMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.FYCf1Ecj7s-DaehnQECOi5t4hrzJxzlxHazDWU4jaaI"
 
         headers = {
@@ -36,7 +37,7 @@ class ThreadController(BaseThreadController):
         }
 
         try:
-            response = requests.post(url, json=payload, headers=headers, timeout=10)
+            response = requests.post(ai_middleware_url + '/chatbot', json=payload, headers=headers, timeout=10)
             response.raise_for_status()  # Lanza excepción si hay error HTTP            
             return response.json()
         except requests.exceptions.RequestException as e:            

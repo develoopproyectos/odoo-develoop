@@ -11,6 +11,7 @@
                     <div id="api_key">
                         <block title="API AI service" name="ia_key_setting_container">
                             <setting id="ia_key_setting">
+                                <field name="ai_service_api_key" invisible="1"/>
                                 <widget name="res_config_api_key_validation"/>
                             </setting>
                         </block>
@@ -18,6 +19,7 @@
                     <div id="subscription_code">
                         <block title="Subscription service" name="subscription_code_setting_container">
                             <setting id="subscription_code_setting">
+                                <field name="ai_service_sub_code" invisible="1"/>
                                 <widget name="res_config_subscription_code"/>
                             </setting>
                         </block>

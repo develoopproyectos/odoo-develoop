@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e-20250428\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-29 16:41+0000\n"
-"PO-Revision-Date: 2025-04-29 16:41+0000\n"
+"POT-Creation-Date: 2025-05-27 20:24+0000\n"
+"PO-Revision-Date: 2025-05-27 20:24+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -88,7 +88,7 @@ msgstr "Canal Personalizado"
 #: code:addons/tfg_power_bi_assistant/static/src/components/dashboard.xml:0
 #, python-format
 msgid "Custom Sales Dashboard"
-msgstr ""
+msgstr "Tablero de Ventas Personalizado"
 
 #. module: tfg_power_bi_assistant
 #: model:ir.actions.client,name:tfg_power_bi_assistant.action_open_dashboard_action
@@ -249,6 +249,12 @@ msgstr "Información del Reporte"
 #, python-format
 msgid "Select Period"
 msgstr ""
+
+#. module: tfg_power_bi_assistant
+#: model:ir.actions.act_window,name:tfg_power_bi_assistant.action_tfg_settings
+#: model:ir.ui.menu,name:tfg_power_bi_assistant.tfg_settings_menu
+msgid "Settings"
+msgstr "Configuración"
 
 #. module: tfg_power_bi_assistant
 #: model_terms:ir.ui.view,arch_db:tfg_power_bi_assistant.res_config_settings_view_form_custom

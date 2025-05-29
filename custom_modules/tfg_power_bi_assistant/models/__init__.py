@@ -1,1 +1,1 @@
-from . import tfg_dashboard, tfg_chat, tfg_report
+from . import tfg_dashboard, tfg_chat, tfg_report, config_settings

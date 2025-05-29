@@ -30,8 +30,8 @@
                     </div>
                     <group name="report_info" string="Report Info">
                         <group>
-                            <field name="description" placeholder="Description..."/>
-                            <field name="report_date" placeholder="Report Date..."/>
+                            <field name="description" placeholder="Description..." />
+                            <field name="report_date" placeholder="Report Date..." readonly="1" force_save="1"/>
                         </group>
                         <group>
                             <field name="business_report_name" placeholder="Business Report Name..." invisible="1"/>

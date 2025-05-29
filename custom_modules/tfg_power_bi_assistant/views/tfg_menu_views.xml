@@ -61,5 +61,22 @@
             action="tfg_report_action_view"        
             parent="tfg_main_menu"
             sequence="10"/>
+
+        <record id="action_tfg_settings" model="ir.actions.act_window">
+            <field name="name">Settings</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="res_config_settings_view_form_custom"/>
+            <field name="target">inline</field>
+            <field name="context">{'module' : 'tfg_power_bi_assistant'}</field>
+        </record>
+
+        <menuitem
+            id="tfg_settings_menu"
+            name="Settings"
+            action="action_tfg_settings"
+            parent="tfg_main_menu"
+            sequence="12"/>
     </data>
 </odoo>

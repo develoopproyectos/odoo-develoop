@@ -29,7 +29,7 @@ class TfgChat(models.Model):
     def clean_custom_chat(self):
         ia_chats = self.env['discuss.channel'].with_context(lang='en_US').search([
             ('name', '=', 'Canal Personalizado'),
-            ('channel_type', '=', 'chat')
+            ('channel_type', '=', 'aichat')
         ])
 
         messages = self.env['mail.message'].search([

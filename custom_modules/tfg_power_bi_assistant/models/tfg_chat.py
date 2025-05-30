@@ -20,15 +20,15 @@ class TfgChat(models.Model):
         # Devolver acción que abre Discuss con ese canal activo
         return {
             'type': 'ir.actions.client',
-            'tag': 'mail.action_discuss',
+            'tag': 'reload_and_open_channel',
             'params': {
-                'active_id': f"mail.channel_{channel.id}",
+                'channel_id': int(channel.id),
             },
         }
     
     def clean_custom_chat(self):
         ia_chats = self.env['discuss.channel'].with_context(lang='en_US').search([
-            ('name', '=', 'Custom Channel'),
+            ('name', 'ilike', 'Canal Personalizado'),
             ('channel_type', '=', 'aichat')
         ])
 

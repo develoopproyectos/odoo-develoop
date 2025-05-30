@@ -28,7 +28,6 @@ class ThreadController(BaseThreadController):
             return None
 
         headers = {
-            "Authorization": f"Bearer {token}",
             "Content-Type": "application/json"
         }
 

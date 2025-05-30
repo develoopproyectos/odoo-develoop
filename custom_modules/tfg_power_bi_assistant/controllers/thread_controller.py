@@ -21,9 +21,11 @@ class ThreadController(BaseThreadController):
 
     def send_message(self, chat_id, message):
         ai_middleware_url = request.env['ir.config_parameter'].sudo().get_param('tfg_power_bi_assistant.ai.middleware.url')
+        subscription_code = request.env['ir.config_parameter'].sudo().get_param('tfg_power_bi_assistant.ai.service.sub.code')
         gemini_key = request.env['ir.config_parameter'].sudo().get_param('tfg_power_bi_assistant.ai.service.api.key')
 
-        token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwOTAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NDgwMDUyODAsImV4cCI6MTc4NDAwNTI4MCwibmJmIjoxNzQ4MDA1MjgwLCJqdGkiOiI2cmttSldsVmI3bGJGN0N3Iiwic3ViIjoiMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.FYCf1Ecj7s-DaehnQECOi5t4hrzJxzlxHazDWU4jaaI"
+        if not gemini_key:
+            return None
 
         headers = {
             "Authorization": f"Bearer {token}",
@@ -31,14 +33,14 @@ class ThreadController(BaseThreadController):
         }
 
         payload = {
-            "api_key": gemini_key,
+            "api_key": subscription_code,
             "chat_id": chat_id,
             "message": message
         }
 
         try:
             response = requests.post(ai_middleware_url + '/chatbot', json=payload, headers=headers, timeout=10)
-            response.raise_for_status()  # Lanza excepción si hay error HTTP            
+            #response.raise_for_status()  # Lanza excepción si hay error HTTP            
             return response.json()
         except requests.exceptions.RequestException as e:            
             return None

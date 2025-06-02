@@ -25,6 +25,7 @@
             'tfg_power_bi_assistant/static/src/widgets/**/*.js',
             'tfg_power_bi_assistant/static/src/widgets/**/*.xml',
             'tfg_power_bi_assistant/static/src/components/**/*.scss',
+            'tfg_power_bi_assistant/static/src/components/discuss_category/*.js'
         ],
     },
     'images': ['static/description/icon.png'],

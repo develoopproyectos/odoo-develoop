@@ -18,12 +18,12 @@ msgstr ""
 #. module: tfg_power_bi_assistant
 #: model_terms:ir.ui.view,arch_db:tfg_power_bi_assistant.res_config_settings_view_form_custom
 msgid "AI Assistant"
-msgstr "Asistente de IA"
+msgstr "Asistente IA"
 
 #. module: tfg_power_bi_assistant
 #: model_terms:ir.ui.view,arch_db:tfg_power_bi_assistant.res_config_settings_view_form_custom
 msgid "API AI service"
-msgstr "API Servicio de IA"
+msgstr "API Servicio IA"
 
 #. module: tfg_power_bi_assistant
 #: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_dashboard__active
@@ -33,8 +33,8 @@ msgstr "Activo"
 
 #. module: tfg_power_bi_assistant
 #: model:ir.ui.menu,name:tfg_power_bi_assistant.tfg_main_menu
-msgid "BI Assistant"
-msgstr "Asistencia BI"
+msgid "AI Assistant"
+msgstr "Asistencia IA"
 
 #. module: tfg_power_bi_assistant
 #: model:ir.actions.act_window,name:tfg_power_bi_assistant.tfg_report_action_view

@@ -10,7 +10,7 @@
         <!-- MAIN MENU ITEM GOIN TO DASHBOARD -->
         <menuitem
             id="tfg_main_menu"
-            name="BI Assistant"
+            name="AI Assistant"
             action="action_open_dashboard_action"   
             web_icon="tfg_power_bi_assistant,static/description/ia.png"
             sequence="10"/>

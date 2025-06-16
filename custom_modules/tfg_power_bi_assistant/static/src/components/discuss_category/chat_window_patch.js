@@ -13,7 +13,8 @@ registry.category("actions").add("reload_and_open_channel", (env, { params }) =>
     }
 
     const channelId = params.channel_id;
-    window.location.href = `/web#action=mail.action_discuss&menu_id=768&cids=1&active_id=discuss.channel_${channelId}`;
+    window.location.href = `${window.location.origin}${window.location.pathname}${window.location.search}#action=mail.action_discuss&menu_id=768&cids=1&active_id=discuss.channel_${channelId}`;
+    
 
     setTimeout(() => {
         window.location.reload();

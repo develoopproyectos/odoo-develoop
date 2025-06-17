@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 17.0+e-20250428\n"
+"Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-27 20:24+0000\n"
-"PO-Revision-Date: 2025-05-27 20:24+0000\n"
+"POT-Creation-Date: 2025-06-17 19:12+0000\n"
+"PO-Revision-Date: 2025-06-17 19:12+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,9 +16,33 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: tfg_power_bi_assistant
+#: model:ir.ui.menu,name:tfg_power_bi_assistant.tfg_main_menu
 #: model_terms:ir.ui.view,arch_db:tfg_power_bi_assistant.res_config_settings_view_form_custom
 msgid "AI Assistant"
-msgstr "Asistente IA"
+msgstr "Asistencia IA"
+
+#. module: tfg_power_bi_assistant
+#. odoo-javascript
+#: code:addons/tfg_power_bi_assistant/static/src/components/discuss_category/discuss_app_model_patch.js:0
+#: code:addons/tfg_power_bi_assistant/static/src/components/discuss_category/messaging_menu_patch.js:0
+#, python-format
+msgid "AI Chat"
+msgstr "Chat IA"
+
+#. module: tfg_power_bi_assistant
+#: model:ir.model.fields.selection,name:tfg_power_bi_assistant.selection__discuss_channel__channel_type__aichat
+msgid "AI Conversation"
+msgstr "Conversación IA"
+
+#. module: tfg_power_bi_assistant
+#: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_res_config_settings__ai_service_api_key
+msgid "AI Service API Key"
+msgstr "Llave de Servicio API IA"
+
+#. module: tfg_power_bi_assistant
+#: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_res_config_settings__ai_service_sub_code
+msgid "AI Service Subscription Code"
+msgstr "Código de Subscripción al Servicio IA"
 
 #. module: tfg_power_bi_assistant
 #: model_terms:ir.ui.view,arch_db:tfg_power_bi_assistant.res_config_settings_view_form_custom
@@ -26,15 +50,17 @@ msgid "API AI service"
 msgstr "API Servicio IA"
 
 #. module: tfg_power_bi_assistant
+#. odoo-python
+#: code:addons/tfg_power_bi_assistant/controllers/services_validation.py:0
+#, python-format
+msgid "API key is required."
+msgstr "Llave de API es requerida"
+
+#. module: tfg_power_bi_assistant
 #: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_dashboard__active
 #: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_report__active
 msgid "Active"
 msgstr "Activo"
-
-#. module: tfg_power_bi_assistant
-#: model:ir.ui.menu,name:tfg_power_bi_assistant.tfg_main_menu
-msgid "AI Assistant"
-msgstr "Asistencia IA"
 
 #. module: tfg_power_bi_assistant
 #: model:ir.actions.act_window,name:tfg_power_bi_assistant.tfg_report_action_view
@@ -58,9 +84,29 @@ msgid "Business Report Name..."
 msgstr "Nombre de Reporte de Negocio..."
 
 #. module: tfg_power_bi_assistant
+#: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_discuss_channel__channel_type
+msgid "Channel Type"
+msgstr "Tipo de canal"
+
+#. module: tfg_power_bi_assistant
 #: model:ir.ui.menu,name:tfg_power_bi_assistant.tfg_chat_menu
 msgid "Chat"
 msgstr "Chat"
+
+#. module: tfg_power_bi_assistant
+#: model:ir.model.fields,help:tfg_power_bi_assistant.field_discuss_channel__channel_type
+msgid ""
+"Chat is private and unique between 2 persons. Group is private among invited"
+" persons. Channel can be freely joined (depending on its configuration)."
+msgstr ""
+"El chat es privado y único entre 2 personas. El grupo es privado entre las "
+"personas invitadas. El acceso al canal es libre (dependiendo de su "
+"configuración)."
+
+#. module: tfg_power_bi_assistant
+#: model:ir.model,name:tfg_power_bi_assistant.model_res_config_settings
+msgid "Config Settings"
+msgstr "Ajustes de configuración"
 
 #. module: tfg_power_bi_assistant
 #: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_chat__create_uid
@@ -108,6 +154,11 @@ msgid "Description..."
 msgstr "Descripción..."
 
 #. module: tfg_power_bi_assistant
+#: model:ir.model,name:tfg_power_bi_assistant.model_discuss_channel
+msgid "Discussion Channel"
+msgstr "Canal de conversaciones"
+
+#. module: tfg_power_bi_assistant
 #: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_chat__display_name
 #: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_dashboard__display_name
 #: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_report__display_name
@@ -116,17 +167,31 @@ msgstr "Nombre a mostrar"
 
 #. module: tfg_power_bi_assistant
 #. odoo-javascript
-#: code:addons/tfg_power_bi_assistant/static/src/widgets/res_config_api_key_validation.xml:0
+#: code:addons/tfg_power_bi_assistant/static/src/widgets/res_config_api_key_validation.js:0
 #, python-format
-msgid "Enter AI Service API Key"
-msgstr "Introduzca la clave API del servicio AI"
+msgid "Empty API Service Key"
+msgstr "Llave de Servicio API Vacia"
+
+#. module: tfg_power_bi_assistant
+#. odoo-javascript
+#: code:addons/tfg_power_bi_assistant/static/src/widgets/res_config_subscription_code.js:0
+#, python-format
+msgid "Empty Subscription Code"
+msgstr "Código de Subscripción Vacio"
 
 #. module: tfg_power_bi_assistant
 #. odoo-javascript
 #: code:addons/tfg_power_bi_assistant/static/src/widgets/res_config_api_key_validation.xml:0
 #, python-format
-msgid "Enter API Key"
-msgstr "Introduzca la clave API"
+msgid "Enter AI API Key"
+msgstr "Introduzca la llave de API IA"
+
+#. module: tfg_power_bi_assistant
+#. odoo-javascript
+#: code:addons/tfg_power_bi_assistant/static/src/widgets/res_config_api_key_validation.xml:0
+#, python-format
+msgid "Enter AI Service API Key"
+msgstr "Introduzca la clave API del servicio AI"
 
 #. module: tfg_power_bi_assistant
 #. odoo-javascript
@@ -152,7 +217,7 @@ msgstr "Agrupar por"
 #: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_dashboard__id
 #: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_report__id
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: tfg_power_bi_assistant
 #. odoo-javascript
@@ -244,6 +309,11 @@ msgid "Report Info"
 msgstr "Información del Reporte"
 
 #. module: tfg_power_bi_assistant
+#: model:ir.model.fields,field_description:tfg_power_bi_assistant.field_tfg_report__report_state
+msgid "Report State"
+msgstr "Estado de Reporte"
+
+#. module: tfg_power_bi_assistant
 #. odoo-javascript
 #: code:addons/tfg_power_bi_assistant/static/src/components/dashboard.xml:0
 #, python-format
@@ -255,6 +325,13 @@ msgstr ""
 #: model:ir.ui.menu,name:tfg_power_bi_assistant.tfg_settings_menu
 msgid "Settings"
 msgstr "Configuración"
+
+#. module: tfg_power_bi_assistant
+#. odoo-python
+#: code:addons/tfg_power_bi_assistant/controllers/services_validation.py:0
+#, python-format
+msgid "Subscription code is required."
+msgstr "Código de suscripción requerido"
 
 #. module: tfg_power_bi_assistant
 #: model_terms:ir.ui.view,arch_db:tfg_power_bi_assistant.res_config_settings_view_form_custom
@@ -280,6 +357,34 @@ msgstr "Reporte TFG"
 #: model_terms:ir.ui.view,arch_db:tfg_power_bi_assistant.view_tfg_report_form
 msgid "Tfg Report"
 msgstr "Reporte TFG"
+
+#. module: tfg_power_bi_assistant
+#. odoo-javascript
+#: code:addons/tfg_power_bi_assistant/static/src/widgets/res_config_api_key_validation.js:0
+#, python-format
+msgid "The API Key entered is not correct"
+msgstr "La llave API ingresada, no es correcta"
+
+#. module: tfg_power_bi_assistant
+#. odoo-javascript
+#: code:addons/tfg_power_bi_assistant/static/src/widgets/res_config_api_key_validation.js:0
+#, python-format
+msgid "The API Key entered was validated correctly"
+msgstr "La llave API ingresada, fue validada correctamente"
+
+#. module: tfg_power_bi_assistant
+#. odoo-javascript
+#: code:addons/tfg_power_bi_assistant/static/src/widgets/res_config_subscription_code.js:0
+#, python-format
+msgid "The Subscription Code entered is not correct"
+msgstr "El código de suscripción ingresado, no es correcto"
+
+#. module: tfg_power_bi_assistant
+#. odoo-javascript
+#: code:addons/tfg_power_bi_assistant/static/src/widgets/res_config_subscription_code.js:0
+#, python-format
+msgid "The Subscription Code entered was validated correctly"
+msgstr "El código de suscripción ingresado, fue validado correctamente"
 
 #. module: tfg_power_bi_assistant
 #: model_terms:ir.actions.act_window,help:tfg_power_bi_assistant.tfg_report_action_view
@@ -315,6 +420,14 @@ msgstr "Validar"
 #, python-format
 msgid "Validating..."
 msgstr "Validando"
+
+#. module: tfg_power_bi_assistant
+#. odoo-javascript
+#: code:addons/tfg_power_bi_assistant/static/src/widgets/res_config_api_key_validation.js:0
+#: code:addons/tfg_power_bi_assistant/static/src/widgets/res_config_subscription_code.js:0
+#, python-format
+msgid "Validation Error"
+msgstr "Error de Validación"
 
 #. module: tfg_power_bi_assistant
 #. odoo-javascript

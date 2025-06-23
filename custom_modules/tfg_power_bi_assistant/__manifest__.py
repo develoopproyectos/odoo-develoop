@@ -14,9 +14,9 @@
         "security/ir.model.access.csv",
         "data/bot_user_data.xml",     
         "data/ir_config_parameter.xml",
+        "views/tfg_res_settings_views.xml",
         "views/tfg_menu_views.xml",
         "views/tfg_report_views.xml",
-        "views/tfg_res_settings_views.xml"
     ],
     'assets': {
         'web.assets_backend': [

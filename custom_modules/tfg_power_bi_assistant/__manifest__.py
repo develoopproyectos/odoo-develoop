@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "<TITULO DEL MODULO>",
-    'summary': """<RESUMEN DEL MODULO>""",
-    'description': """<DESCRIPCION DEL MODULO DETALLADA>
-            - <DESCRIPCION DEL MODULO DETALLADA>
-            - <DESCRIPCION DEL MODULO DETALLADA>    
-            """,
+    'name': "Asistente IA Odoo",
+    'summary': """Este módulo integra un asistente de negocio de Inteligencia Artificial en Odoo, dando contexto sobre los datos del sistema""",
+    'description': """El módulo dispone de las siguientes funcionalidades:
+                - Chatbot con IA integrando los datos de Contactos, Facturas, Ventas y Gastos
+                - Generación de informes de negocio detallados impulsados por IA    
+            Para que el módulo sea funcional es necesario contratar el servicio a Develoop Software S.L. y disponer de una API Key de Gemini propia, que será vinculada al sistema""",
     'license': "OPL-1",
-    'author': "Develoop Software S.A. (AQUI SOLEMOS PONER ESTO PERO EN ESTE CASO YA ME DICES)",
-    'website': 'https://www.develoop.net/ (OPCIONAL)',    
+    'author': "Develoop Software S.A.",
+    'website': 'https://www.develoop.net/',    
     "depends": ['base', 'mail', 'product', 'sale', 'account', 'stock', 'purchase', 'contacts', 'stock'] ,
     "data": [
         "security/ir.model.access.csv",

@@ -19,7 +19,7 @@ msgstr ""
 #: model:ir.ui.menu,name:tfg_power_bi_assistant.tfg_main_menu
 #: model_terms:ir.ui.view,arch_db:tfg_power_bi_assistant.res_config_settings_view_form_custom
 msgid "AI Assistant"
-msgstr "Asistencia IA"
+msgstr "Asistente IA"
 
 #. module: tfg_power_bi_assistant
 #. odoo-javascript
@@ -191,7 +191,7 @@ msgstr "Introduzca la llave de API IA"
 #: code:addons/tfg_power_bi_assistant/static/src/widgets/res_config_api_key_validation.xml:0
 #, python-format
 msgid "Enter AI Service API Key"
-msgstr "Introduzca la clave API del servicio AI"
+msgstr "Introduzca la clave API del servicio IA"
 
 #. module: tfg_power_bi_assistant
 #. odoo-javascript

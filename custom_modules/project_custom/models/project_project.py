@@ -30,3 +30,8 @@ class Dev_pc_ProjectProjectCustom(models.Model):
     x_technology = fields.Many2many("project.technology", "project_id", string="Technology")
     has_trello = fields.Boolean(string='Tiene Trello', store=True)
     url_trello = fields.Char(string='Enlace Trello')
+
+    def create(self, vals_list):
+        if not vals_list.get('company_id', False):
+            vals_list['company_id'] = self.env.company.id or self.env.user.company_id.id
+        return super().create(vals_list)

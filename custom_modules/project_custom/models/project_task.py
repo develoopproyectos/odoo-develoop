@@ -47,15 +47,40 @@ class Dev_ProjectTaskCustom(models.Model):
             if rec.date_deadline and rec.date_deadline >= datetime.today():
                 rec.x_is_planning_delay = True
 
+
     @api.model_create_multi
     def create(self, vals_list):
+        if not isinstance(vals_list, list):
+            raise ValueError("Los valures tienen que ser una lista de diccionarios")
+
+        for vals in vals_list:
+            if not isinstance(vals, dict):
+                raise ValueError("Cada item en los valores tiene que ser un diccionario")
+
+            if not vals.get('company_id'):
+                project_id = vals.get('project_id')
+                if project_id:
+                    if isinstance(project_id, int):
+                        project = self.env['project.project'].browse(project_id)
+                        vals['company_id'] = project.company_id.id
+                    else:
+                        vals['company_id'] = project_id.company_id.id
+                else:
+                    vals['company_id'] = self.env.company.id
+
+        return super().create(vals_list)
+    #@api.model_create_multi
+    #def create(self, vals_list):
         #COMENTADO por que ya no existe display_project_id
         # for vals in vals_list:
         #     if vals.get('display_project_id', False) == False:
         #         vals['display_project_id'] = vals.get('project_id')
-        result = super(Dev_ProjectTaskCustom, self).create(vals_list)
+        #if not vals_list[0].get('company_id', False):
+        #    vals_list['company_id'] = self.env.company.id if not self.project_id.company_id else self.project_id.company_id
+
+        #result = super(Dev_ProjectTaskCustom, self).create(vals_list)
         #Crear notas a partir del cambio de tags
-        self.message_post_tags(vals_list[0],result)
+        #self.message_post_tags(vals_list[0],result)
         # if 'stage_id' in vals:
             # stage_name = self.env['project.task.type'].browse(vals.get('stage_id')).name.lower()
             # if stage_name in task_type_validation:
@@ -63,7 +88,7 @@ class Dev_ProjectTaskCustom(models.Model):
             #     result.message_subscribe(partner_ids=users_to_subscribe.partner_id.ids)
             #     self.enviar_notificacion_a_usuario(users_to_subscribe, f"Fuiste suscrito a la tarea <strong style='font-size:16px'>{result.name}</strong> que paso a la etapa de <strong style='font-size:16px'>{stage_name}</strong>", result, f"Tarea {result.name} Cambio de Estapa")                
                 
-        return result
+        #return result
 
     def write(self, vals):
         for rec in self:

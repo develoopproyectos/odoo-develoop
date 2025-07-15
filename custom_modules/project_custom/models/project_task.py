@@ -62,11 +62,11 @@ class Dev_ProjectTaskCustom(models.Model):
                 if project_id:
                     if isinstance(project_id, int):
                         project = self.env['project.project'].browse(project_id)
-                        vals['company_id'] = project.company_id.id
+                        vals['company_id'] = project.company_id.id or self.env.user.company_id.id
                     else:
                         vals['company_id'] = project_id.company_id.id
                 else:
-                    vals['company_id'] = self.env.company.id
+                    vals['company_id'] = self.env.company.id or self.env.user.company_id.id
 
         return super().create(vals_list)
     #@api.model_create_multi

@@ -33,5 +33,5 @@ class Dev_pc_ProjectProjectCustom(models.Model):
 
     def create(self, vals_list):
         if not vals_list.get('company_id', False):
-            vals_list['company_id'] = self.env.company.id
+            vals_list['company_id'] = self.env.company.id or self.env.user.company_id.id
         return super().create(vals_list)

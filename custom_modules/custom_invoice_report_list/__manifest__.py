@@ -9,12 +9,13 @@
     'description': """
         Agregar una nueva vista de tipo lista en reporte de facturas.
         """,
-    'depends': ['base','account'],
+    'depends': ['base','account','account_sepa_direct_debit'],
     'data': [
         'security/ir.model.access.csv',
         'views/custom_invoice_report_list.xml',
         'report/invoice_report_list_print.xml',
         'report/invoice_list_template.xml',
+        'report/account_sepa_direct_debit.inherit.xml'
     ],
     'assets': {
         'web.assets_backend': [

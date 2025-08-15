@@ -1,0 +1,14 @@
+<odoo>
+    <template id="sdd_mandate_form_document_inherit_fontsize" inherit_id="account_sepa_direct_debit.sdd_mandate_form_document">
+          <xpath expr="//t[@t-call='account_sepa_direct_debit.sdd_mandate_form']" position="replace">
+            <div class="sdd-compact">
+                <style>
+                .sdd-compact, .sdd-compact * { font-size: 14pt !important; }
+                .sdd-compact h1 { font-size: 18pt !important; }
+                .sdd-compact h2 { font-size: 16pt !important; }
+                </style>
+                <t t-call="account_sepa_direct_debit.sdd_mandate_form"/>
+            </div>
+        </xpath>
+    </template>
+</odoo>

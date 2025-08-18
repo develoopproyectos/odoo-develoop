@@ -3,9 +3,9 @@
           <xpath expr="//t[@t-call='account_sepa_direct_debit.sdd_mandate_form']" position="replace">
             <div class="sdd-compact">
                 <style>
-                .sdd-compact, .sdd-compact * { font-size: 14pt !important; }
-                .sdd-compact h1 { font-size: 18pt !important; }
-                .sdd-compact h2 { font-size: 16pt !important; }
+                .sdd-compact, .sdd-compact * { font-size: 13pt !important; }
+                .sdd-compact h1 { font-size: 17pt !important; }
+                .sdd-compact h2 { font-size: 15pt !important; }
                 </style>
                 <t t-call="account_sepa_direct_debit.sdd_mandate_form"/>
             </div>

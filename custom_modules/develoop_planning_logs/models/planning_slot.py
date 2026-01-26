@@ -78,6 +78,19 @@ class PlanningSlot(models.Model):
             'subtype_id': self.env.ref('mail.mt_note').id,
             'author_id': self.env.user.partner_id.id
         })
+    
+    def _create_planning_log(self, planning, action, old_dates=[]):
+        self.env['planning.slot.log'].sudo().create({
+            'partner_id': self.env.user.partner_id.id,
+            'project_id': planning.project_id.id,
+            'task_id': planning.task_id.id,
+            'resource_id': planning.resource_id.id,
+            'action': action,
+            'old_start_date': old_dates[planning.id]['start_datetime'] if old_dates else False,
+            'old_end_date': old_dates[planning.id]['end_datetime'] if old_dates else False,
+            'new_start_date': planning.start_datetime,
+            'new_end_date':planning.end_datetime,
+        })
 
     
     @api.model_create_multi
@@ -99,6 +112,8 @@ class PlanningSlot(models.Model):
                 dt_new=dt
             )
 
+            self._create_planning_log(record, 'created')
+
             record._create_planning_message(
                 task=record.task_id,
                 body=body,
@@ -109,7 +124,10 @@ class PlanningSlot(models.Model):
 
     def write(self, vals):
         old_dates = {
-            rec.id: rec.start_datetime
+            rec.id: {
+                'start_datetime': rec.start_datetime,
+                'end_datetime': rec.end_datetime,
+            }
             for rec in self
             if 'start_datetime' in vals
         }
@@ -121,10 +139,12 @@ class PlanningSlot(models.Model):
                 body = self._build_planning_body(
                     action="Modificado",
                     resource=rec.resource_id,
-                    time=vals['allocated_hours'],
-                    dt_old=old_dates.get(rec.id),
+                    time= vals.get('allocated_hours') if vals.get('allocated_hours',False) else rec.allocated_hours,
+                    dt_old=old_dates[rec.id]['start_datetime'],
                     dt_new=rec.start_datetime
                 )
+
+                self._create_planning_log(rec, 'modified', old_dates)
 
                 self._create_planning_message(
                     task=rec.task_id,
@@ -141,8 +161,10 @@ class PlanningSlot(models.Model):
                 'task': record.task_id,
                 'resource': record.resource_id,
                 'start_datetime': record.start_datetime,
+                'end_datetime': record.end_datetime,
                 'time': record.allocated_hours
             })
+            self._create_planning_log(record, 'removed')
 
         for data in records_data:
             body = self._build_planning_body(
@@ -152,6 +174,7 @@ class PlanningSlot(models.Model):
                 dt_new=data['start_datetime'],
                 dt_old=None
             )
+
 
             self._create_planning_message(
                 task=data['task'],

@@ -8,9 +8,12 @@
     'license': 'LGPL-3',
     'category': 'Uncategorized',
     'depends': [
-        'base', 'planning'
+        'base', 'planning', 'project'
     ],
-    'data': [],
+    "data": [
+        "security/ir.model.access.csv",
+        "views/planning_slot_log_views.xml"
+    ],
     'demo': [],
     "images": ['static/description/icon.png'],
     'auto_install': False,

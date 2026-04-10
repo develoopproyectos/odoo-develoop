@@ -24,7 +24,7 @@ class custom_report_list_iva(models.Model):
         ], string="Tipo")
     x_state = fields.Selection([
             ('draft','Borrador'),
-            ('open', 'Abierto'),
+            ('posted', 'Abierto'),
             ('in_payment', 'En proceso de pago'),
             ('paid', 'Pagado'),
             ('cancel', 'Cancelado'),
@@ -43,30 +43,43 @@ class custom_report_list_iva(models.Model):
 
     def init(self):
         tools.drop_view_if_exists(self.env.cr, self._table)
-        self.env.cr.execute('''
-            CREATE OR REPLACE VIEW %s AS (
+        self.env.cr.execute(f'''
+            CREATE OR REPLACE VIEW {self._table} AS (
                 SELECT 
-                    row_number() over (order by a_m.id desc) as id,
-                    a_m.currency_id as x_currency_id,
-                    a_m.number as x_invoice_number,
-                    a_m.type as x_type,
-                    a_m.state as x_state,
-                    a_m.date_invoice as x_invoice_date,
-                    a_m.partner_id as x_invoice_partner_id,
-                    r_p.vat as x_invoice_dni_nif,
-                    a_m.fiscal_position_id as x_invoice_fiscal_position_id,
-                    CASE WHEN a_m.type = 'out_refund' OR a_m.type = 'in_refund' THEN a_i_t.base*-1 ELSE a_i_t.base END as x_invoice_amount_untaxes,
-                    a_i_t.name as x_tax_name,
-                    a_t.amount as x_tax_percent,
-                    CASE WHEN a_m.type = 'out_refund' OR a_m.type = 'in_refund' THEN a_i_t.amount*-1  ELSE a_i_t.amount END as x_tax_value,
-                    a_m.amount_total_signed as x_invoice_amount_total
+                    row_number() OVER (ORDER BY m.id DESC) AS id,
+                    m.currency_id AS x_currency_id,
+                    m.name AS x_invoice_number,
+                    m.move_type AS x_type,
+                    m.state AS x_state,
+                    m.invoice_date AS x_invoice_date,
+                    m.partner_id AS x_invoice_partner_id,
+                    rp.vat AS x_invoice_dni_nif,
+                    m.fiscal_position_id AS x_invoice_fiscal_position_id,
 
-                FROM account_invoice a_m INNER JOIN account_invoice_tax a_i_t ON a_m.id = a_i_t.invoice_id
-                            INNER JOIN res_partner r_p ON a_m.partner_id = r_p.id
-                            INNER JOIN account_tax a_t ON a_i_t.tax_id = a_t.id
+                    CASE 
+                        WHEN m.move_type IN ('out_refund','in_refund') 
+                            THEN -aml.tax_base_amount
+                        ELSE aml.tax_base_amount
+                    END AS x_invoice_amount_untaxes,
+
+                    at.name AS x_tax_name,
+                    at.amount AS x_tax_percent,
+
+                    CASE 
+                        WHEN m.move_type IN ('out_refund','in_refund') 
+                            THEN -aml.balance
+                        ELSE aml.balance
+                    END AS x_tax_value,
+
+                    m.amount_total_signed AS x_invoice_amount_total
+
+                FROM account_move_line aml
+                JOIN account_move m ON aml.move_id = m.id
+                JOIN account_tax at ON aml.tax_line_id = at.id
+                JOIN res_partner rp ON m.partner_id = rp.id
+
+                WHERE aml.tax_line_id IS NOT NULL
+                AND m.move_type IN ('out_invoice','in_invoice','out_refund','in_refund')
+                AND m.state = 'posted'
             )
-        ''' % (
-            self._table,
-        ))
-
-    
+        ''')

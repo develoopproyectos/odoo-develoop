@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- View tfg.report View Tree -->
+    <record id="view_tfg_report_tree" model="ir.ui.view">
+        <field name="name">view.tfg.report.tree</field>
+        <field name="model">tfg.report</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="description"/>
+                <field name="report_state"/>
+                <field name="create_date"/>
+                <field name="business_report_name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- View tfg.report form -->
+    <record id="view_tfg_report_form" model="ir.ui.view">
+        <field name="name">view.tfg.report.form</field>
+        <field name="model">tfg.report</field>
+        <field name="arch" type="xml">
+            <form string="Tfg Report">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" placeholder="Name..."/>
+                        </h1>
+                    </div>
+                    <group name="report_info" string="Report Info">
+                        <group>
+                            <field name="description" placeholder="Description..." />
+                            <field name="report_date" placeholder="Report Date..." readonly="1" force_save="1"/>
+                        </group>
+                        <group>
+                            <field name="business_report_name" placeholder="Business Report Name..." invisible="1"/>
+                            <field name="business_report_attachment" filename="business_report_name" readonly="1"/>
+                            <field name="report_state" readonly="1"/>
+                            
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- View tfg.report search -->
+    <record id="view_tfg_report_search" model="ir.ui.view">
+        <field name="name">view.tfg.report.search</field>
+        <field name="model">tfg.report</field>
+        <field name="arch" type="xml">
+            <search>
+                <group expand="1" string="Group By">
+                    <filter string="Name" name="name" domain="[]" context="{'group_by':'name'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+</odoo>

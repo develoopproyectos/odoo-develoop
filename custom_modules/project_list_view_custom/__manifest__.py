@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Project List View',
-    'version': '17.0',
+    'version': '19.0.0.1',
     'author': 'Develoop Software S.A.',
     'category': 'Develoop',
     'website': 'https://www.develoop.net/',
-    'depends': ['base', 'project', 'project_custom'],
+    'depends': ['base', 'project', 'project_custom','project_update'],
     'summary': 'Agrega un listado de proyectos',
     'description': """
         Agrega un listado de proyectos en el modulo de Projectos 

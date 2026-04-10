@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+    <div t-name='res_config_subscription_code'>
+        <p class="o_form_label">Enter subscription code</p>
+
+        <div class="d-flex">
+            <input t-att-value="props.record.data.ai_service_sub_code" t-att-disabled="state.status != 'idle'" class="o_input mt8 text-truncate" type="text" placeholder="Enter Subscription Code" t-on-input="onInputChange"/>            
+            <button t-att-disabled="state.status != 'idle'" class="btn btn-primary o_web_settings_invite flex-shrink-0" t-on-click="ValidateSubCode"><strong><t t-esc="validateButtonText"/></strong></button>
+        </div>        
+    </div>
+</templates>

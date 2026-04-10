@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': "Custom invoice report in list",
-    'version': '17.0',
+    'version': '19.0.0.1',
     'author': "Develoop Software",
     'category': 'Develoop',
     'summary': 'Agregar una nueva vista de tipo lista en reporte de facturas.',

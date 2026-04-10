@@ -5,7 +5,7 @@
             <xpath expr="//div[div[contains(@class, 'page')]]" position="attributes">
                 <attribute name="class">clearfix</attribute>
             </xpath>
-			<xpath expr="//div[contains(@class, 'page')]//h2" position="replace">
+			<xpath expr="//t[@t-set='layout_document_title']" position="replace">
 				<h2 t-if="o.move_type == 'out_refund'">
 					<span>Factura Rectificativa</span>
 				</h2>
@@ -135,7 +135,7 @@
         </template>
 
         <template id="document_tax_totals_template_inherit" inherit_id="account.document_tax_totals_template">
-            <xpath expr="//tr[hasclass('border-black','o_subtotal')]/td" position="replace">
+            <xpath expr="//tr[hasclass('o_subtotal')]/td" position="replace">
                 <td><strong>Importe libre de impuestos</strong></td>
             </xpath>
             

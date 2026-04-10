@@ -6,7 +6,7 @@
                 <th name="th_quantity" class="text-end" t-if="is_consu">Quantity</th>
                 <th name="th_priceunit" class="text-end" t-if="is_consu">Unit Price</th>                
         </xpath>
-        <xpath expr="//tbody//td[@name='td_subtotal']" position="before">
+        <xpath expr="//tbody//td[@name='td_product_subtotal']" position="before">
             <t t-set="is_consu" t-value="any(l.product_id.detailed_type == 'consu' for l in doc.order_line)"/>
             <t t-if="line.product_id.detailed_type == 'consu'">
                 <td name="td_quantity" class="text-end" >

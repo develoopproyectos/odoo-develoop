@@ -18,10 +18,6 @@
                         <group>
                             <group>
                                 <field name="name"/>
-                              <!--  <field name="mail_template_id"/>
-                                <field name="rating_template_id" groups="project.group_project_rating"/>
-                                <field name="auto_validation_kanban_state" attrs="{'invisible': [('rating_template_id','=', False)]}" groups="project.group_project_rating"/>
-                            -->
                             </group>
                             <group>
                                 <field name="fold"/>
@@ -49,12 +45,12 @@
             <field name="name">project.sprint.type.tree</field>
             <field name="model">project.sprint.type</field>
             <field name="arch" type="xml">
-                <tree string="Sprint Stage">
+                <list string="Sprint Stage">
                     <field name="sequence" widget="handle" groups="base.group_no_one"/>
                     <field name="name"/>
                     <field name="fold"/>
                     <field name="description"/>
-                </tree>
+                </list>
             </field>
         </record>
 
@@ -88,7 +84,7 @@
         <record id="open_sprint_type_form" model="ir.actions.act_window">
             <field name="name">Stages</field>
             <field name="res_model">project.sprint.type</field>
-            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_mode">list,kanban,form</field>
             <field name="view_id" ref="sprint_type_tree"/>
             <field name="help" type="html">
               <p class="o_view_nocontent_smiling_face">

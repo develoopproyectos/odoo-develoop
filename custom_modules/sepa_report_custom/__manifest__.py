@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'SEPA Report custom',
-    'version': '17.0',
+    'version': '19.0.0.1',
     'summary': """SEPA Report.""",
     'description': """
         Modulo personalizado impreso mandato SEPA.

@@ -1,6 +1,6 @@
-from odoo.tools import pytz
 from datetime import datetime, date, timedelta
 import logging
+import pytz
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 from odoo.http import request

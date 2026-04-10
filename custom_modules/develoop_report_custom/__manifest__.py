@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': "Develoop report custom",
-    'version': '1.0',
+    'version': '19.0.0.1',
     'author': "Develoop Software",
     'category': 'Uncategorized',
     'summary': 'Remover limitacion de montos.',
@@ -9,7 +9,7 @@
     'description': """
         - Remover restricciones de rangos cuando se aplica un comparativo
         """,
-    'depends': ['base','l10n_es_reports','sale'],
+    'depends': ['sale'],
     'data': [
         'reports/sale_order_report_inherit.xml'
     ],

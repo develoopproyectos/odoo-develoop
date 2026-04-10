@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': "Reporte Listado IVA",
-    'version': '15.0',
+    'version': '19.0.0.1',
     'author': "Develoop Software",
     'category': 'Develoop',
     'summary': 'Nuevo reporte listado IVA.',

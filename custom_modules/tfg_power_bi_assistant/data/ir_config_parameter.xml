@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="config_parameter_ai_middleware_url" model="ir.config_parameter" forcecreate="True">
+            <field name="key">tfg_power_bi_assistant.ai.middleware.url</field>
+            <field name="value"></field>
+        </record>  
+    </data>
+</odoo>

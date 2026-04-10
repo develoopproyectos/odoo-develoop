@@ -8,7 +8,7 @@
     'author': "Develoop Software",
     'website': "http://www.develoop.net",
     'category': 'Develoop',
-    'version': '17.0',
+    'version': '19.0.0.1',
     'depends': ['hr_timesheet','analytic','hr_attendance'],
     'data': [
         'data/data.xml',

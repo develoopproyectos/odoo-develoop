@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Unir menu contabilidad Custom',
-    'version': '1.0',
+    'version': '19.0.0.1',
     'author': 'Develoop Software S.A.',
     'category': 'menu',
     'website': 'https://www.develoop.net/',

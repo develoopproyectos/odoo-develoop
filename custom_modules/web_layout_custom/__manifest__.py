@@ -10,8 +10,8 @@
     'author': "Develoop",
     'website': "http://www.develoop.net",
     'category': 'Develoop',
-    'version': '17.0',
-    'depends': ['web','base','account','l10n_es_aeat_mod349','account_banking_mandate'],
+    'version': '19.0.0.1',
+    'depends': ['web'],
     'data': [
         'views/templates.xml',
     ],

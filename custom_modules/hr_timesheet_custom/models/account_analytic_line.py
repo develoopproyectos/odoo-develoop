@@ -1,6 +1,5 @@
 from datetime import datetime, date, timedelta
 import logging
-import pytz
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 from odoo.http import request
@@ -121,62 +120,3 @@ class account_analitic_line_report(models.Model):
         end_date = start_date + timedelta(days=1)
 
         return start_date, end_date
-    
-    def get_hours_per_day(self, employee_id, date):
-        is_correct_hours = False        
-        tasks_day = self.env['account.analytic.line'].search([
-            ('date', '=', date),
-            ('employee_id', '=', employee_id.id)
-            # Agrega más condiciones si es necesario
-        ])
-        message = "No puede ingresar más horas que las que tiene en asistencia"
-        total_hours = 0        
-        for task in tasks_day:
-            total_hours += task.unit_amount
-        
-        attendances_day = self.env['hr.attendance'].search([
-            ('check_in', 'like', f"{date}%"),
-            ('employee_id', '=', employee_id.id)
-            # Agrega más condiciones si es necesario
-        ])
-        total_attendance_hours = 0 
-        
-        for attendance in attendances_day:
-            total_attendance_hours += round(attendance.worked_hours,2)
-                
-        
-        if total_attendance_hours<8:
-            
-            aux_attendance_hours=0
-           
-            for attendance in attendances_day:
-                if not attendance.check_out:
-                    now = datetime.now(pytz.utc)
-                    check_in = attendance.check_in.replace(tzinfo=pytz.utc)
-                    
-                    # now = datetime.strptime("25/10/2023 00:37:41","%d/%m/%Y %H:%M:%S")
-                    # Calcular el tiempo restante
-                    remaining_time = now - check_in
-                    # Convertir el tiempo restante a formato de horas
-                    remaining_hours = remaining_time.total_seconds()/3600
-                    aux_attendance_hours = total_attendance_hours+remaining_hours
-            if aux_attendance_hours >8:
-                total_attendance_hours = aux_attendance_hours
-                horas, minutos = divmod(total_attendance_hours * 60, 60)
-
-                message = f"No puedes registrar mas horas que tu asistencia hasta ahora: {round(horas)} Horas y {round(minutos)} Minutos"
-            else:
-                total_attendance_hours = 8
-                message = "Si no haz completado la asistencia en tu jornada, la cantidad maxima de horas para registrar son 8h"
-
-                    
-                    
-
-        
-        if total_hours<=total_attendance_hours:
-            is_correct_hours = True
-
-        if not is_correct_hours:
-                        raise ValidationError(message)
-        
-        

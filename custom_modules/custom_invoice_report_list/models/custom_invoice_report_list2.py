@@ -55,22 +55,22 @@ class AccountInvoiceReport(models.Model):
     x_amount_total_signed = fields.Monetary(string='Total', currency_field='company_currency_id', compute="get_datas")
     x_residual_signed = fields.Monetary(string='Importe adeudado', currency_field='company_currency_id', compute="get_datas")
 
-    _depends = {
+    _depends = tools.frozendict({
         'account.move': [
             'name', 'state', 'move_type', 'partner_id', 'invoice_user_id', 'fiscal_position_id',
             'invoice_date', 'invoice_date_due', 'invoice_payment_term_id', 'partner_bank_id',
         ],
         'account.move.line': [
             'quantity', 'price_subtotal', 'amount_residual', 'balance', 'amount_currency',
-            'move_id', 'product_id', 'product_uom_id', 'account_id', 'analytic_account_id',
+            'move_id', 'product_id', 'product_uom_id', 'account_id', 
             'journal_id', 'company_id', 'currency_id', 'partner_id',
         ],
         'product.product': ['product_tmpl_id'],
         'product.template': ['categ_id'],
-        'uom.uom': ['category_id', 'factor', 'name', 'uom_type'],
+        'uom.uom': ['factor', 'name'],
         'res.currency.rate': ['currency_id', 'name'],
         'res.partner': ['country_id'],
-    }
+    })
 
     @property
     def _table_query(self):

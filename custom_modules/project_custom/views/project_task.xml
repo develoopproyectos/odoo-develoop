@@ -61,7 +61,7 @@
             <field name="model">project.task</field>
             <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited"/>
             <field name="arch" type="xml">
-                <xpath expr="//div[contains(@class, 'text-nowrap') and field[@name='allocated_hours']]" position="after">
+                <xpath expr="//div[hasclass('text-nowrap') and field[@name='allocated_hours']]" position="after">
                     <label for="effective_hours" invisible="not allow_timesheets"/>
                     <div class="text-nowrap" invisible="not allow_timesheets">
                         <field name="effective_hours" class="oe_inline o_field_float_time o_task_planned_hours" widget="timesheet_uom_no_toggle" on_change="1" field_id="allocated_hours_0"/>                        

@@ -4,7 +4,6 @@ import { patch } from "@web/core/utils/patch";
 import { GanttRenderer } from "@web_gantt/gantt_renderer";
 import { omit } from "@web/core/utils/objects";
 const { DateTime } = luxon;
-import { computeRange } from "@web_gantt/gantt_model";
 import { formatFloatTime } from "@web/views/fields/formatters";
 
 patch(GanttRenderer.prototype, {
@@ -44,11 +43,8 @@ patch(GanttRenderer.prototype, {
       stopDate.startOf("day") > startDate.startOf("day") &&
       startDate.endOf("day").diff(startDate, "hours").toObject().hours >= 3 &&
       stopDate.diff(stopDate.startOf("day"), "hours").toObject().hours >= 3;
-    const spanAccrossWeeks =
-      computeRange("week", stopDate).start >
-      computeRange("week", startDate).start;
-    const spanAccrossMonths =
-      stopDate.startOf("month") > startDate.startOf("month");
+    const spanAccrossWeeks = stopDate.startOf("week") > startDate.startOf("week");
+    const spanAccrossMonths = stopDate.startOf("month") > startDate.startOf("month");
 
     /** @type {string[]} */
     const labelElements = [];

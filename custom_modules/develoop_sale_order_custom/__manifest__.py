@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Sale Order Custom',
+    'name': 'Develoop Sale Order Custom',
     'version': '19.0.0.1',
     'author': 'Develoop Software S.A.',
     'category': 'Develoop',

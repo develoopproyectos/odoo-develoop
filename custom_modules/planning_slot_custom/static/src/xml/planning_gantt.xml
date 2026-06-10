@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
 
-<templates>
-    <t 
-        t-name="PlanningGanttView_buttons_custom" 
-        t-inherit="planning.PlanningGanttView.Buttons"
-        t-inherit-mode="extension" >
-        <xpath expr="//button[@title='Automatically plan open shifts and sales orders']" position="replace"/>
+    <t t-inherit="planning.PlanningGanttView.Buttons" t-inherit-mode="extension">
+        <xpath expr="//button[contains(@t-on-click, 'autoPlan')]" position="replace"/>
+        <xpath expr="//button[contains(@t-on-click, 'copyPrevious')]" position="replace"/>
+        <xpath expr="//DropdownItem[contains(@onSelected, 'autoPlan')]" position="replace"/>
+        <xpath expr="//DropdownItem[contains(@onSelected, 'copyPrevious')]" position="replace"/>
     </t>
+
 </templates>

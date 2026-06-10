@@ -16,7 +16,7 @@
         "views/project_task.xml",
     ],
     'assets': {
-        'web.assets_backend': [
+        'web.assets_backend_lazy': [
             'planning_slot_custom/static/src/css/style.css',
             'planning_slot_custom/static/src/js/gantt_renderer.js',
             'planning_slot_custom/static/src/js/gantt_controller.js',

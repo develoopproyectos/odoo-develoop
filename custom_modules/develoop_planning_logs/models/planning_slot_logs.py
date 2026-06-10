@@ -6,6 +6,8 @@ from markupsafe import Markup
 
 class PlanningSlotLog(models.Model):
     _name = "planning.slot.log"
+    _description = "Historico de cambios en la planificación"
+    
     _rec_name = "log_date"
 
     log_date = fields.Datetime(string="Dia y Hora", default=fields.Datetime.now)

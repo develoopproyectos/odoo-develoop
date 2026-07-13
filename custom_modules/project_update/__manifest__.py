@@ -10,7 +10,7 @@
     'author': "Develoop Software",
     'website': "http://www.develoop.com",
     'category': 'Develoop',
-    'version': '19.0.0.1',
+    'version': '19.0.0.0',
 
     'depends': ['base','project'],
 

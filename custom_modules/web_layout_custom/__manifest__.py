@@ -10,7 +10,7 @@
     'author': "Develoop",
     'website': "http://www.develoop.net",
     'category': 'Develoop',
-    'version': '19.0.0.1',
+    'version': '19.0.0.0',
     'depends': ['web'],
     'data': [
         'views/templates.xml',

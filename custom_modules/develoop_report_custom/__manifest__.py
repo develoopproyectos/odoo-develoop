@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': "Develoop report custom",
-    'version': '19.0.0.1',
+    'version': '19.0.0.0',
     'author': "Develoop Software",
     'category': 'Uncategorized',
     'summary': 'Remover limitacion de montos.',

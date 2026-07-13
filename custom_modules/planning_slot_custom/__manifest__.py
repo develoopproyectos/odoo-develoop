@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': "hr_planning_custom",
-    'version': '19.0.0.1',
+    'version': '19.0.0.0',
     'summary': """
         Modificacion del planning""",
     'description': """

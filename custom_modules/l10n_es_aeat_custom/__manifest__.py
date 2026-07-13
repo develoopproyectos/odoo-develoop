@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'l10n_es_aeat Custom',
-    'version': '19.0.0.1',
+    'version': '19.0.0.0',
     'description': """
         Modulo que personaliza modulos l10n_es_aeat
     """,

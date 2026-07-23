@@ -1,8 +1,7 @@
 ﻿<odoo>
 	<data>
 		<template id="report_invoice_document_custom" inherit_id="account.report_invoice_document">
-		
-            <xpath expr="//div[div[contains(@class, 'page')]]" position="attributes">
+            <xpath expr="//div[hasclass('page')]" position="attributes">
                 <attribute name="class">clearfix</attribute>
             </xpath>
 			<xpath expr="//t[@t-set='layout_document_title']" position="replace">

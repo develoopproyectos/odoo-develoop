@@ -20,7 +20,8 @@
             'planning_slot_custom/static/src/css/style.css',
             'planning_slot_custom/static/src/js/gantt_renderer.js',
             'planning_slot_custom/static/src/js/gantt_controller.js',
-            'planning_slot_custom/static/src/xml/planning_gantt.xml'
+            'planning_slot_custom/static/src/xml/planning_gantt.xml',
+            'planning_slot_custom/static/src/js/planning_gantt_renderer.js',
         ],
     },
     'license': 'LGPL-3',

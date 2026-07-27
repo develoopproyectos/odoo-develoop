@@ -96,14 +96,17 @@ patch(GanttRenderer.prototype, {
     
     const minColor = 215;
     const maxColor = 100;
+    // TODO =========== CAMBIO HERENCIA - NEW =============
+    const totalHours = group?.pills?.reduce((sum, resp) => sum + (resp.record.allocated_hours || 0), 0);
+    // TODO =========== END    =============
     const newPill = {
         id: `__pill__${this.nextPillId++}`,
         level: 0,
-        aggregateValue: group.aggregateValue,
         grid: group.grid,
         // TODO =========== CAMBIO HERENCIA - NEW =============
+        aggregateValue: totalHours,
         pills_length: group.pills.length,
-        recourse_plannable_hours: group.pills[0].record.x_resourse_plannable_hours
+        recourse_plannable_hours: group.pills[0].record?.x_resourse_plannable_hours ? group.pills[0].record?.x_resourse_plannable_hours : 7
         // TODO =========== END    =============
     };
 
@@ -138,7 +141,8 @@ patch(GanttRenderer.prototype, {
         } else {
           newPill.className = 'transparente';
         }
-        newPill.displayName = `${newPill.pills_length} - ${this.getGroupPillDisplayName(newPill)}`;
+        const totalHours = formatFloatTime(newPill.aggregateValue);
+        newPill.displayName = `${newPill.pills_length} - ${totalHours}`;
         // TODO =========== END    =============
     }
 

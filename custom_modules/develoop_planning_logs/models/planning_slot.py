@@ -14,7 +14,7 @@ class PlanningSlot(models.Model):
         dt_user = fields.Datetime.context_timestamp(self, dt)
         return dt_user.strftime('%d/%m/%Y')
 
-    def _build_planning_body(self, action, resource, time, dt_old=None, dt_new=None):
+    def _build_planning_body(self,action,resource,time,dt_old=None,dt_new=None,time_old=None):
         today = fields.Date.today().strftime('%d/%m/%Y')
 
         now_user = fields.Datetime.context_timestamp(
@@ -25,6 +25,7 @@ class PlanningSlot(models.Model):
 
         color_action = ''
         color_new = ''
+
         if action == "Creado":
             color_action = 'green'
             color_new = 'green'
@@ -32,37 +33,80 @@ class PlanningSlot(models.Model):
             color_action = 'red'
             color_new = 'red'
 
-        fecha_anterior_html = ""
-        if action == "Modificado" and dt_old:
-            fecha_anterior_html = f"""
-                <li style="text-decoration: line-through;">
-                    <em><strong>Fecha inicio anterior:</strong> {self._format_dt(dt_old)}</em>
+        valores_anteriores_html = ""
+
+        if action == "Modificado":
+            if dt_old:
+                valores_anteriores_html += f"""
+                    <li style="text-decoration: line-through;">
+                        <em>
+                            <strong>Fecha inicio anterior:</strong>
+                            {self._format_dt(dt_old)}
+                        </em>
+                    </li>
+                """
+
+            if time_old is not None:
+                valores_anteriores_html += f"""
+                    <li style="text-decoration: line-through;">
+                        <em>
+                            <strong>Horas Asignadas anteriores:</strong>
+                            {time_old} Hrs.
+                        </em>
+                    </li>
+                """
+
+        valores_nuevos_html = ""
+
+        if dt_new:
+            valores_nuevos_html += f"""
+                <li>
+                    <em>
+                        <strong style="color:{color_new}">
+                            Fecha inicio:
+                        </strong>
+                        <span style="color:{color_new}">
+                            {self._format_dt(dt_new)}
+                        </span>
+                    </em>
                 </li>
             """
-            
-        fecha_nueva_html = ""
-        if dt_new:
-            fecha_nueva_html = f"""
+
+        if time is not None:
+            valores_nuevos_html += f"""
                 <li>
-                    <em><strong style="color:{color_new}">Fecha inicio:</strong> 
-                    <span style="color:{color_new}">{self._format_dt(dt_new)}</span></em>
-                </li>
-                <li>
-                    <em><strong style="color:{color_new}">Horas Asignadas:</strong></em> 
-                    <span style="color:{color_new}">{time} Hrs.</span>
+                    <em>
+                        <strong style="color:{color_new}">
+                            Horas Asignadas:
+                        </strong>
+                        <span style="color:{color_new}">
+                            {time} Hrs.
+                        </span>
+                    </em>
                 </li>
             """
 
         body = Markup(f"""
             <p><strong>Planificación:</strong></p>
             <ul>
-                <li><strong>Día:</strong> {today} <strong>Hora:</strong> {now}</li>
-                <li><strong>Recurso:</strong> {resource.name if resource else ''}</li>
-                <li><strong style="color:{color_action}">Acción: {action}</strong></li>
-                {fecha_anterior_html}
-                {fecha_nueva_html}
+                <li>
+                    <strong>Día:</strong> {today}
+                    <strong>Hora:</strong> {now}
+                </li>
+                <li>
+                    <strong>Recurso:</strong>
+                    {resource.name if resource else ''}
+                </li>
+                <li>
+                    <strong style="color:{color_action}">
+                        Acción: {action}
+                    </strong>
+                </li>
+                {valores_anteriores_html}
+                {valores_nuevos_html}
             </ul>
         """)
+
         return body
     
     def _create_planning_message(self, task, body, subject):
@@ -127,21 +171,35 @@ class PlanningSlot(models.Model):
             rec.id: {
                 'start_datetime': rec.start_datetime,
                 'end_datetime': rec.end_datetime,
+                'allocated_hours': rec.allocated_hours,
             }
             for rec in self
-            if 'start_datetime' in vals
+            if 'start_datetime' in vals or 'allocated_hours' in vals
         }
 
         res = super().write(vals)
 
-        if 'start_datetime' in vals:
+        if 'start_datetime' in vals or 'allocated_hours' in vals:
             for rec in self:
                 body = self._build_planning_body(
                     action="Modificado",
                     resource=rec.resource_id,
-                    time= vals.get('allocated_hours') if vals.get('allocated_hours',False) else rec.allocated_hours,
-                    dt_old=old_dates[rec.id]['start_datetime'],
-                    dt_new=rec.start_datetime
+                    time=vals.get('allocated_hours', rec.allocated_hours),
+                    dt_old=(
+                        old_dates[rec.id]['start_datetime']
+                        if 'start_datetime' in vals
+                        else None
+                    ),
+                    dt_new=(
+                        rec.start_datetime
+                        if 'start_datetime' in vals
+                        else None
+                    ),
+                    time_old=(
+                        old_dates[rec.id]['allocated_hours']
+                        if 'allocated_hours' in vals
+                        else None
+                    ),
                 )
 
                 self._create_planning_log(rec, 'modified', old_dates)
@@ -149,7 +207,7 @@ class PlanningSlot(models.Model):
                 self._create_planning_message(
                     task=rec.task_id,
                     body=body,
-                    subject="Actualización de Planificación"
+                    subject="Actualización de Planificación",
                 )
 
         return res

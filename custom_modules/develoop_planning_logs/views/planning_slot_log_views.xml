@@ -9,9 +9,9 @@
             <list create="false" delete="false">
                 <field name="log_date"/>
                 <field name="partner_id" widget="many2one_avatar_user"/>
-                <field name="project_id" readonly="1"/>
+                <field name="project_id" readonly="1" optional="show"/>
                 <field name="task_id" />
-                <field name="resource_id" widget="many2one_avatar_user"/>
+                <field name="resource_id" widget="many2one_avatar_user" optional="show"/>
                 <field name="action" widget="badge" 
                     decoration-success="action == 'created'"
                     decoration-danger="action == 'removed'"
@@ -19,7 +19,9 @@
                 <field name="new_start_date" widget="daterange"
                     options="{'end_date_field': 'new_end_date'}"/>
                 <field name="old_start_date" widget="daterange"
-                    options="{'end_date_field': 'old_end_date'}"/>
+                    options="{'end_date_field': 'old_end_date'}" optional="show"/>
+                <field name="new_planned_hours"/>
+                <field name="old_planned_hours" optional="show"/>
                 
             </list>
         </field>
@@ -84,6 +86,8 @@
                                 options="{'end_date_field': 'new_end_date'}" readonly="1"/>
                             <field name="old_start_date" widget="daterange"
                                 options="{'end_date_field': 'old_end_date'}" readonly="1"/>
+                            <field name="new_planned_hours"/>
+                            <field name="old_planned_hours"/>
                         </group>
                     </group>
                 </sheet>

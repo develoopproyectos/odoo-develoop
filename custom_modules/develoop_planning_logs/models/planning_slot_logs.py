@@ -20,3 +20,5 @@ class PlanningSlotLog(models.Model):
     old_end_date = fields.Datetime(string="Fecha inicio anterior final")
     new_start_date = fields.Datetime(string="Fecha inicio")
     new_end_date = fields.Datetime(string="Fecha inicio final")
+    old_planned_hours = fields.Float(string="Horas planificadas anteriores")
+    new_planned_hours = fields.Float(string="Horas planificadas")

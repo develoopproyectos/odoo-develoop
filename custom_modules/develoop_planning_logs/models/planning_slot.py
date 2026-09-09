@@ -134,6 +134,8 @@ class PlanningSlot(models.Model):
             'old_end_date': old_dates[planning.id]['end_datetime'] if old_dates else False,
             'new_start_date': planning.start_datetime,
             'new_end_date':planning.end_datetime,
+            'old_planned_hours': old_dates[planning.id]['allocated_hours'] if old_dates[planning.id]['allocated_hours'] != planning.allocated_hours else planning.allocated_hours,
+            'new_planned_hours': planning.allocated_hours
         })
 
     

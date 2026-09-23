@@ -112,6 +112,11 @@
         </field>
     </record>
 
-    <menuitem id="planning_changes_history" parent="planning.planning_menu_reporting" name="Historial de cambios" action="action_planning_slot_log" sequence="11" />
+    <menuitem id="planning_changes_history" 
+        parent="planning.planning_menu_reporting"
+        name="Historial de cambios"
+        action="action_planning_slot_log"
+        groups="planning.group_planning_manager"
+        sequence="11" />
 
 </odoo>

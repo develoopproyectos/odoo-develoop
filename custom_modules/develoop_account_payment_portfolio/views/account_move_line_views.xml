@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_account_payment_portfolio" model="ir.actions.act_window">
+        <field name="context">{'search_default_show_pending':1, 'show_portfolio_fields': True}</field>
+        <field name="name">Accounting Portfolio</field>
+        <field name="res_model">account.move.line</field>
+        <field name="path">payment-portfolio</field>
+        <field name="domain">
+            [
+                ('display_type', 'not in', ('line_section', 'line_subsection', 'line_note')),
+                ('parent_state', '=', 'posted'),
+                ('account_id.account_type', 'in', ('asset_receivable', 'liability_payable')),
+            ]
+        </field>
+        <field name="view_id" ref="account.view_move_line_tree"/>
+        <field name="view_mode">list</field>
+    </record>
+
+    <menuitem
+        id="menu_account_payment_portfolio"
+        name="Payment Portfolio"
+        parent="account.account_transactions_menu"
+        action="action_account_payment_portfolio"
+        sequence="29"/>
+
+    <record id="view_invoice_tree_develoop_inherit" model="ir.ui.view">
+        <field name="name">view.invoice.tree.develoop.inherit</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_move_line_tree" />
+        <field name="priority" eval="50"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button
+                    name="action_register_portfolio_payment"
+                    type="object"
+                    string="Pay"
+                    groups="account.group_account_user"
+                    invisible="not context.get('show_portfolio_fields')"
+                />
+            </xpath>
+            <xpath expr="//field[@name='debit']" position="attributes">
+                <attribute name="column_invisible">context.get('show_portfolio_fields')</attribute>
+            </xpath>
+            <xpath expr="//field[@name='credit']" position="attributes">
+                <attribute name="column_invisible">context.get('show_portfolio_fields')</attribute>
+            </xpath>
+            <xpath expr="//field[@name='amount_residual']" position="attributes">
+                <attribute name="column_invisible">context.get('show_portfolio_fields')</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='amount_residual']" position="after">
+                <field name="amount_residual" 
+                    sum="Total Residual" 
+                    string="Residual" 
+                    readonly="1"
+                    column_invisible="not context.get('show_portfolio_fields')"/>
+                <field name="payment_term_id" column_invisible="not context.get('show_portfolio_fields')"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_account_move_line_filter_develoop_inherit" model="ir.ui.view">
+        <field name="name">view.account.move.line.filter.develoop.inherit</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_account_move_line_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='journal_id']" position="after">
+                <field name="payment_term_id"/>
+            </xpath>
+            <xpath expr="//filter[@name='to_check']" position="before">
+                <filter name="show_pending" string="Pending" domain="[('amount_residual', '!=', 0)]" invisible="not context.get('show_portfolio_fields')"/>
+                <filter name="has_sdd_mandate" string="SDD Mandate" domain="[('sdd_has_usable_mandate', '=', True)]" help="Invoices matching a valid SEPA Direct Debit Mandate" invisible="not context.get('show_portfolio_fields')"/>
+            </xpath>
+            <xpath expr="//filter[@name='journal']" position="after">
+                <filter string="Payment Term" name="payment_term_id" domain="[]" context="{'group_by': 'payment_term_id'}" invisible="not context.get('show_portfolio_fields')"/>
+                <filter string="SSD Mandate" name="sdd_has_usable_mandate" domain="[]" context="{'group_by': 'sdd_has_usable_mandate'}" invisible="not context.get('show_portfolio_fields')"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

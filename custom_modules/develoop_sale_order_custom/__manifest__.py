@@ -1,19 +1,20 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'l10n_es_aeat Custom',
+    'name': 'Develoop Sale Order Custom',
     'version': '19.0.0.0',
-    'description': """
-        Modulo que personaliza modulos l10n_es_aeat
-    """,
     'author': 'Develoop Software S.A.',
     'category': 'Develoop',
     'website': 'https://www.develoop.net/',
-    'depends': ['account', 'l10n_es_aeat'],
-    'summary': 'Modulo que personaliza modulos l10n_es_aeat',
+    'depends': ['sale'],
+    'summary': 'Personalizaciones sobre pedidos y ordenes de venta',
+    'description': """
+        Agrega campos informativos al pedido de venta
+        """,
     'data': [
-        'views/account_account.xml',
+        'views/sale_order_views.xml',
     ],
     'images': ['static/description/icon.png'],
+    'demo': [],
     'installable': True,
     'license': 'LGPL-3',
 }

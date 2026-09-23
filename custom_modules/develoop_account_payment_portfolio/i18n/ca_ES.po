@@ -1,0 +1,102 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* develoop_account_payment_portfolio
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e-20260409\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-01 20:32+0000\n"
+"PO-Revision-Date: 2026-07-01 20:32+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: develoop_account_payment_portfolio
+#: model:ir.actions.act_window,name:develoop_account_payment_portfolio.action_account_payment_portfolio
+msgid "Accounting Portfolio"
+msgstr "Portafoli de comptes a cobrar i a pagar"
+
+#. module: develoop_account_payment_portfolio
+#: model:ir.model.fields,field_description:develoop_account_payment_portfolio.field_account_move_line__display_name
+msgid "Display Name"
+msgstr "Nom d'exhibició"
+
+#. module: develoop_account_payment_portfolio
+#: model:ir.model.fields,field_description:develoop_account_payment_portfolio.field_account_move_line__id
+msgid "ID"
+msgstr ""
+
+#. module: develoop_account_payment_portfolio
+#: model_terms:ir.ui.view,arch_db:develoop_account_payment_portfolio.view_account_move_line_filter_develoop_inherit
+msgid "Invoices matching a valid SEPA Direct Debit Mandate"
+msgstr "Factures que coincideixen amb un mandat de domiciliació SEPA vàlid"
+
+#. module: develoop_account_payment_portfolio
+#: model:ir.model,name:develoop_account_payment_portfolio.model_account_move_line
+msgid "Journal Item"
+msgstr "Entrada de diari"
+
+#. module: develoop_account_payment_portfolio
+#: model_terms:ir.ui.view,arch_db:develoop_account_payment_portfolio.view_invoice_tree_develoop_inherit
+msgid "Pay"
+msgstr "Pagar"
+
+#. module: develoop_account_payment_portfolio
+#: model:ir.ui.menu,name:develoop_account_payment_portfolio.menu_account_payment_portfolio
+msgid "Payment Portfolio"
+msgstr "Portafoli de comptes a cobrar i a pagar"
+
+#. module: develoop_account_payment_portfolio
+#: model_terms:ir.ui.view,arch_db:develoop_account_payment_portfolio.view_account_move_line_filter_develoop_inherit
+msgid "Payment Term"
+msgstr "Condicions de pagament"
+
+#. module: develoop_account_payment_portfolio
+#: model:ir.model.fields,field_description:develoop_account_payment_portfolio.field_account_move_line__payment_term_id
+msgid "Payment Terms"
+msgstr "Condicions de pagament"
+
+#. module: develoop_account_payment_portfolio
+#: model_terms:ir.ui.view,arch_db:develoop_account_payment_portfolio.view_account_move_line_filter_develoop_inherit
+msgid "Pending"
+msgstr "Pendent"
+
+#. module: develoop_account_payment_portfolio
+#: model_terms:ir.ui.view,arch_db:develoop_account_payment_portfolio.view_invoice_tree_develoop_inherit
+msgid "Residual"
+msgstr "Restant"
+
+#. module: develoop_account_payment_portfolio
+#: model_terms:ir.ui.view,arch_db:develoop_account_payment_portfolio.view_account_move_line_filter_develoop_inherit
+msgid "SDD Mandate"
+msgstr "Mandat SDD"
+
+#. module: develoop_account_payment_portfolio
+#: model_terms:ir.ui.view,arch_db:develoop_account_payment_portfolio.view_account_move_line_filter_develoop_inherit
+msgid "SSD Mandate"
+msgstr "Mandat SDD"
+
+#. module: develoop_account_payment_portfolio
+#: model:ir.model.fields,field_description:develoop_account_payment_portfolio.field_account_move_line__sdd_has_usable_mandate
+msgid "Sdd Has Usable Mandate"
+msgstr "SDD té un mandat disponible"
+
+#. module: develoop_account_payment_portfolio
+#: model_terms:ir.ui.view,arch_db:develoop_account_payment_portfolio.view_invoice_tree_develoop_inherit
+msgid "Total Residual"
+msgstr "Saldo total"
+
+#. module: develoop_account_payment_portfolio
+#. odoo-python
+#: code:addons/develoop_account_payment_portfolio/models/account_move_line.py:0
+msgid ""
+"You cannot register a payment for documents that mix customer and vendor "
+"documents."
+msgstr ""
+"No podeu publicar un pagament relacionat amb documents que combinen documents de client i de "
+"proveïdor."
+

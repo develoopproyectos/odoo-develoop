@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from odoo import fields, models, api
-from odoo.osv import expression
 
 class ProjectTemplate(models.Model):
 

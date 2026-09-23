@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- View planning.slot.log View Tree -->
-    <record id="view_planning_slot_log_tree" model="ir.ui.view">
-        <field name="name">view.planning.slot.log.tree</field>
+    <!-- View planning.slot.log View list -->
+    <record id="view_planning_slot_log_list" model="ir.ui.view">
+        <field name="name">view.planning.slot.log.list</field>
         <field name="model">planning.slot.log</field>
         <field name="arch" type="xml">
-            <tree create="false" delete="false">
+            <list create="false" delete="false">
                 <field name="log_date"/>
                 <field name="partner_id" widget="many2one_avatar_user"/>
-                <field name="project_id" readonly="1"/>
+                <field name="project_id" readonly="1" optional="show"/>
                 <field name="task_id" />
-                <field name="resource_id" widget="many2one_avatar_user"/>
+                <field name="resource_id" widget="many2one_avatar_user" optional="show"/>
                 <field name="action" widget="badge" 
                     decoration-success="action == 'created'"
                     decoration-danger="action == 'removed'"
@@ -19,37 +19,11 @@
                 <field name="new_start_date" widget="daterange"
                     options="{'end_date_field': 'new_end_date'}"/>
                 <field name="old_start_date" widget="daterange"
-                    options="{'end_date_field': 'old_end_date'}"/>
+                    options="{'end_date_field': 'old_end_date'}" optional="show"/>
+                <field name="new_planned_hours"/>
+                <field name="old_planned_hours" optional="show"/>
                 
-            </tree>
-        </field>
-    </record>
-
-    <!-- View planning.slot.log form -->
-    <record id="view_planning_slot_log_form" model="ir.ui.view">
-        <field name="name">view.planning.slot.log.form</field>
-        <field name="model">planning.slot.log</field>
-        <field name="arch" type="xml">
-            <form string="Registro de Cambio en Planificación" create="false" delete="false">
-                <sheet>
-                    <group>
-                        <group>
-                            <field name="log_date" readonly="1"/>
-                            <field name="partner_id" widget="many2one_avatar_user" readonly="1"/>
-                            <field name="project_id" readonly="1"/>
-                            <field name="task_id" readonly="1"/>
-                        </group>
-                        <group>
-                            <field name="resource_id" widget="many2one_avatar_user" readonly="1"/>
-                            <field name="action" readonly="1"/>
-                            <field name="new_start_date" widget="daterange"
-                                options="{'end_date_field': 'new_end_date'}" readonly="1"/>
-                            <field name="old_start_date" widget="daterange"
-                                options="{'end_date_field': 'old_end_date'}" readonly="1"/>
-                        </group>
-                    </group>
-                </sheet>
-            </form>
+            </list>
         </field>
     </record>
 
@@ -82,23 +56,53 @@
                     domain="[('action','=', 'removed')]"
                 />
                 <separator/>
-                <group expand="1" string="Agrupar por">
-                    <filter string="Responsable" name="partner_id" domain="[]" context="{'group_by':'partner_id'}"/>
-                    <filter string="Proyecto" name="project_id" domain="[]" context="{'group_by':'project_id'}"/>
-                    <filter string="Tarea" name="task_id" domain="[]" context="{'group_by':'task_id'}"/>
-                    <filter string="Recurso" name="resource_id" domain="[]" context="{'group_by':'resource_id'}"/>
-                    <filter string="Acción" name="action" domain="[]" context="{'group_by':'action'}"/>
-                </group>
+                <filter string="Responsable" name="partner_id_filter" context="{'group_by':'partner_id'}"/>
+                <filter string="Proyecto" name="project_id_filter" context="{'group_by':'project_id'}"/>
+                <filter string="Tarea" name="task_id_filter" context="{'group_by':'task_id'}"/>
+                <filter string="Recurso" name="resource_id_filter" context="{'group_by':'resource_id'}"/>
+                <filter string="Acción" name="action_filter" context="{'group_by':'action'}"/>
             </search>
         </field>
     </record>
+
+    <!-- View planning.slot.log form -->
+    <record id="view_planning_slot_log_form" model="ir.ui.view">
+        <field name="name">view.planning.slot.log.form</field>
+        <field name="model">planning.slot.log</field>
+        <field name="arch" type="xml">
+            <form string="Registro de Cambio en Planificación" create="false" delete="false">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="log_date" readonly="1"/>
+                            <field name="partner_id" widget="many2one_avatar_user" readonly="1"/>
+                            <field name="project_id" readonly="1"/>
+                            <field name="task_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="resource_id" widget="many2one_avatar_user" readonly="1"/>
+                            <field name="action" readonly="1"/>
+                            <field name="new_start_date" widget="daterange"
+                                options="{'end_date_field': 'new_end_date'}" readonly="1"/>
+                            <field name="old_start_date" widget="daterange"
+                                options="{'end_date_field': 'old_end_date'}" readonly="1"/>
+                            <field name="new_planned_hours"/>
+                            <field name="old_planned_hours"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    
 
     <!-- Action planning.slot.log -->
     <record id="action_planning_slot_log" model="ir.actions.act_window">
         <field name="name">Historial de cambios en Planificación</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">planning.slot.log</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="domain">[]</field>
         <field name="context">{}</field>
         <field name="help" type="html">

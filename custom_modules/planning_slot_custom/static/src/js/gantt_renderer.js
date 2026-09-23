@@ -43,10 +43,8 @@ patch(GanttRenderer.prototype, {
       stopDate.startOf("day") > startDate.startOf("day") &&
       startDate.endOf("day").diff(startDate, "hours").toObject().hours >= 3 &&
       stopDate.diff(stopDate.startOf("day"), "hours").toObject().hours >= 3;
-    const spanAccrossWeeks =
-      stopDate.startOf("week") > startDate.startOf("week");
-    const spanAccrossMonths =
-      stopDate.startOf("month") > startDate.startOf("month");
+    const spanAccrossWeeks = stopDate.startOf("week") > startDate.startOf("week");
+    const spanAccrossMonths = stopDate.startOf("month") > startDate.startOf("month");
 
     /** @type {string[]} */
     const labelElements = [];
@@ -98,14 +96,29 @@ patch(GanttRenderer.prototype, {
     
     const minColor = 215;
     const maxColor = 100;
+    // TODO =========== CAMBIO HERENCIA - NEW =============
+    // const totalHours = group?.pills?.reduce((sum, resp) => sum + (resp.record.allocated_hours || 0), 0);
+    //calculo de cantidad de horas por dia normal o por rango
+    const totalHoursPerDay = group?.pills?.reduce((sum, pill) => {
+        const { start_datetime, end_datetime, allocated_hours } = pill.record;
+        const totalDays = Math.ceil(
+            end_datetime.diff(start_datetime, 'days').days
+        );
+        const hoursPerDay = totalDays > 1
+            ? allocated_hours / totalDays
+            : allocated_hours;
+        return sum + hoursPerDay;
+    }, 0);
+
+    // TODO =========== END    =============
     const newPill = {
         id: `__pill__${this.nextPillId++}`,
         level: 0,
-        aggregateValue: group.aggregateValue,
         grid: group.grid,
         // TODO =========== CAMBIO HERENCIA - NEW =============
+        aggregateValue: totalHoursPerDay,
         pills_length: group.pills.length,
-        recourse_plannable_hours: group.pills[0].record.x_resourse_plannable_hours
+        recourse_plannable_hours: group.pills[0].record?.x_resourse_plannable_hours ? group.pills[0].record?.x_resourse_plannable_hours : 7
         // TODO =========== END    =============
     };
 
@@ -135,12 +148,14 @@ patch(GanttRenderer.prototype, {
         // TODO =========== CAMBIO HERENCIA - OLD =============
         //newPill.displayName = this.getGroupPillDisplayName(newPill);
         // TODO =========== NEW =============
-        if(newPill.aggregateValue > newPill.recourse_plannable_hours) {
+        const recourse_plannable_hours =  newPill.recourse_plannable_hours ? newPill.recourse_plannable_hours : 7
+        if(newPill.aggregateValue > recourse_plannable_hours) {
           newPill.className = 'warning_red';
         } else {
           newPill.className = 'transparente';
         }
-        newPill.displayName = `${newPill.pills_length} - ${this.getGroupPillDisplayName(newPill)}`;
+        const totalHours = formatFloatTime(newPill.aggregateValue);
+        newPill.displayName = `${newPill.pills_length} - ${totalHours}`;
         // TODO =========== END    =============
     }
 

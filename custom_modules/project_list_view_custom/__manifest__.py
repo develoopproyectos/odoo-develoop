@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Project List View',
-    'version': '19.0.0.1',
+    'version': '19.0.0.0',
     'author': 'Develoop Software S.A.',
     'category': 'Develoop',
     'website': 'https://www.develoop.net/',

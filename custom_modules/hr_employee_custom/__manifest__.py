@@ -2,7 +2,7 @@
     'name': "Modulo que permite personalizar 'Empleados'",
     'summary': """
         Este modulo es el que permite personalizar 'Empleados'""",
-    'version': '19.0.0.1',
+    'version': '19.0.0.0',
     'author': 'Develoop Software S.A.',
     'category': 'Develoop',
     'website': 'https://www.develoop.net/',

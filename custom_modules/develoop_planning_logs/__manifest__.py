@@ -1,6 +1,6 @@
 {
     'name': 'Develoop Planning Logs',
-    'version': '17.0.0.0',
+    'version': '19.0.0.0',
     'description': 'Módulo encargado de registrar los cambios realizados planificación',
     'summary': 'Módulo encargado de registrar los cambios realizados planificación',
     'author': 'Develoop Software',

@@ -100,14 +100,16 @@ patch(GanttRenderer.prototype, {
     // const totalHours = group?.pills?.reduce((sum, resp) => sum + (resp.record.allocated_hours || 0), 0);
     //calculo de cantidad de horas por dia normal o por rango
     const totalHoursPerDay = group?.pills?.reduce((sum, pill) => {
-        const { start_datetime, end_datetime, allocated_hours } = pill.record;
-        const totalDays = Math.ceil(
-            end_datetime.diff(start_datetime, 'days').days
-        );
-        const hoursPerDay = totalDays > 1
-            ? allocated_hours / totalDays
-            : allocated_hours;
-        return sum + hoursPerDay;
+      const { start_datetime, end_datetime, allocated_hours } = pill.record;
+      if (!start_datetime || !end_datetime) {
+          return sum + (allocated_hours || 0);
+      }
+
+      const totalDays = Math.ceil(end_datetime.diff(start_datetime, 'days').days);
+
+      const hoursPerDay = totalDays > 1 ? allocated_hours / totalDays : allocated_hours;
+
+      return sum + hoursPerDay;
     }, 0);
 
     // TODO =========== END    =============

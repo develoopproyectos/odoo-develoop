@@ -11,7 +11,9 @@
         """,
     'depends': ['sale'],
     'data': [
-        'reports/sale_order_report_inherit.xml'
+        'reports/sale_order_report_inherit.xml',
+        'reports/account_report_invoice_document.xml',
+        'reports/web_layout_document.xml'
     ],
     'demo': [],
     "images": ['static/description/icon.png'],

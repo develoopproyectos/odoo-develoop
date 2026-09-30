@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="external_layout_striped_develoop_custom" inherit_id="web.external_layout_striped">
+        <xpath expr="//div[@t-field='company.report_header']" position="replace"/>
+        <xpath expr="//div[hasclass('d-flex')]" position="after">
+            <hr style="border-top: 1px solid #000000; margin-top: 10px; margin-bottom: 10px;"/>
+        </xpath>
+        <xpath expr="//t[@t-if='company.vat']" position="replace"/>
+        <xpath expr="//li[span[@t-esc='forced_vat']]" position="replace"/>
+        <xpath expr="//div[div[@t-field='company.report_footer']]" position="replace">
+            <div class="o_footer_content border-top pt-2 text-center">
+                <ul class="list-inline">
+                    <li t-if="company.phone" class="list-inline-item"><i class="fa fa-phone" role="img" aria-label="Phone" title="Phone"/> <span class="o_force_ltr" t-field="company.phone"/></li>
+                    <li t-if="company.email" class="list-inline-item"><i class="fa fa-at" role="img" aria-label="Email" title="Email"/> <span t-field="company.email"/></li>
+                    <li t-if="company.website" class="list-inline-item"><i class="fa fa-globe" role="img" aria-label="Website" title="Website"/> <span t-field="company.website"/></li>
+                    <li t-if="company.vat" class="list-inline-item"><i class="fa fa-building-o" role="img" aria-label="Fiscal number"/><t t-esc="company.country_id.vat_label or 'Tax ID'"/>: <span t-field="company.vat"/></li>					
+                </ul>
+                <hr style="border: none; border-top: 1px solid #000000; opacity: 1; margin: 2px 0;"/>
+            </div>
+        </xpath>
+    </template>
+
+</odoo>

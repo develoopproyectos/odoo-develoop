@@ -35,6 +35,9 @@
         <xpath expr="//th[@name='th_quantity']" position="replace"/>
         <xpath expr="//th[@name='th_priceunit']" position="replace"/>
         <xpath expr="//th[@name='th_taxes']" position="replace"/>
+        <xpath expr="//td[@name='account_invoice_line_name']/span" position="replace">
+            <span t-if="line.name" t-esc="line.get_print_name()" t-options="{'widget': 'text'}" dir="auto">Bacon Burger</span>
+        </xpath>
         <xpath expr="//td[@name='td_quantity']" position="replace"/>
         <xpath expr="//td[@name='td_price_unit']" position="replace"/>
         <xpath expr="//td[@name='td_taxes']" position="replace"/>

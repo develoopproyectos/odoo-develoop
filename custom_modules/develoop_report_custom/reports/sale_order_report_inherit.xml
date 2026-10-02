@@ -4,6 +4,9 @@
         <xpath expr="//th[@name='th_quantity']" position="replace"/>
         <xpath expr="//th[@name='th_priceunit']" position="replace"/>
         <xpath expr="//th[@name='th_taxes']" position="replace"/>
+        <xpath expr="//td[@name='td_product_name']/span" position="replace">
+            <span t-esc="line.get_print_name()">Bacon Burger</span>
+        </xpath>
         <xpath expr="//td[@name='td_product_quantity']" position="replace"/>
         <xpath expr="//td[@name='td_product_priceunit']" position="replace"/>
         <xpath expr="//td[@name='td_product_taxes']" position="replace"/>

@@ -1,7 +1,7 @@
 
 from odoo import api, fields, models
-from odoo.tools import format_date, format_datetime
 from markupsafe import Markup
+from datetime import datetime, time, timedelta
 
 
 class PlanningSlot(models.Model):
@@ -244,5 +244,29 @@ class PlanningSlot(models.Model):
             
         return super().unlink()
 
+    @api.model
+    def action_open_slot_log_from_gantt(self, resource_id, start_date):
+        start_day = datetime.combine(
+            fields.Date.to_date(start_date),
+            time.min,
+        )
+        end_day = start_day + timedelta(days=1)
 
-
+        return {
+            "type": "ir.actions.act_window",
+            "name": "Historial de cambios en Planificación",
+            "res_model": "planning.slot.log",
+            "views": [
+                (False, "list"),
+                (False, "form"),
+            ],
+            "domain": [
+                ("resource_id", "=", resource_id),
+                ("new_start_date", ">=", start_day),
+                ("new_start_date", "<", end_day),
+                ("action", "in", ["created", "modified"]),
+            ],
+            'context': {
+                'search_default_action_filter': 1
+            },
+        }

@@ -6,7 +6,7 @@
         <field name="name">view.planning.slot.log.list</field>
         <field name="model">planning.slot.log</field>
         <field name="arch" type="xml">
-            <list create="false" delete="false">
+            <list create="false" delete="false" expand="1">
                 <field name="log_date"/>
                 <field name="partner_id" widget="many2one_avatar_user"/>
                 <field name="project_id" readonly="1" optional="show"/>

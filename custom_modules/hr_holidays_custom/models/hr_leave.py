@@ -16,7 +16,7 @@ class HRLeave(models.Model):
                     role_id = self.env.ref('hr_holidays_custom.x_vacation').id
                     planning_leave = self.env['planning.slot'].sudo().create({
                         'template_id': None,
-                        'project_id': leave.holiday_status_id.timesheet_project_id.id,
+                        'project_id': self.env.ref('__export__.project_project_82_2092e024').id,
                         'employee_id': leave.employee_id.id,
                         'resource_id': leave.employee_id.resource_id.id,
                         'role_id': role_id,

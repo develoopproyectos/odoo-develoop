@@ -99,15 +99,15 @@
                         string="Tareas sin planificar"
                         name="task_without_planning"
                         domain="[
-                            '|',
+                            '&amp;',
+                            ('has_future_planning', '=', False),
                             '|',
                             '|',
                             '|',
                             ('stage_id.name', 'ilike', 'planifi'),
                             ('stage_id.name', 'ilike', 'rt'),
                             ('stage_id.name', 'ilike', 'qa'),
-                            ('stage_id.name', 'ilike', 'desarr'),
-                            ('tag_ids.name', 'ilike', 'incide')
+                            ('stage_id.name', 'ilike', 'desarr')
                         ]"
                     />
                 </xpath>

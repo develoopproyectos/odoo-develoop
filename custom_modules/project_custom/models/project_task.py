@@ -10,6 +10,47 @@ class Dev_ProjectTaskCustom(models.Model):
     
     _inherit = "project.task"
 
+    planning_slot_ids = fields.One2many(
+        'planning.slot',
+        'task_id',
+        string='Planificaciones',
+    )
+
+    has_future_planning = fields.Boolean(
+        string='Tiene planificación futura',
+        compute='_compute_has_future_planning',
+        search='_search_has_future_planning',
+    )
+
+    @api.depends('planning_slot_ids', 'planning_slot_ids.start_datetime')
+    def _compute_has_future_planning(self):
+        today = fields.Date.context_today(self)
+        today_start = fields.Datetime.to_datetime(today)
+
+        for task in self:
+            task.has_future_planning = any(
+                slot.start_datetime
+                and slot.start_datetime >= today_start
+                for slot in task.planning_slot_ids
+            )
+
+    @api.model
+    def _search_has_future_planning(self, operator, value):
+        today = fields.Date.context_today(self)
+        today_start = fields.Datetime.to_datetime(today)
+
+        future_task_ids = self.env['planning.slot'].search([
+            ('task_id', '!=', False),
+            ('start_datetime', '>=', today_start),
+        ]).mapped('task_id').ids
+
+        if (operator == '=' and value) or (
+            operator == '!=' and not value
+        ):
+            return [('id', 'in', future_task_ids)]
+
+        return [('id', 'not in', future_task_ids)]
+
     @api.model
     def _search_x_is_planned(self, operator, operand):
         ext = "" # date_now = fields.Date.today()

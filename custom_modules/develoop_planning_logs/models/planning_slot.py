@@ -125,6 +125,7 @@ class PlanningSlot(models.Model):
     
     def _create_planning_log(self, planning, action, old_dates=[]):
         self.env['planning.slot.log'].sudo().create({
+            'planning_slot_id': planning.id,
             'partner_id': self.env.user.partner_id.id,
             'project_id': planning.project_id.id,
             'task_id': planning.task_id.id,
@@ -133,9 +134,13 @@ class PlanningSlot(models.Model):
             'old_start_date': old_dates[planning.id]['start_datetime'] if old_dates else False,
             'old_end_date': old_dates[planning.id]['end_datetime'] if old_dates else False,
             'new_start_date': planning.start_datetime,
-            'new_end_date':planning.end_datetime,
-            'old_planned_hours': old_dates[planning.id]['allocated_hours'] if old_dates and old_dates[planning.id]['allocated_hours'] != planning.allocated_hours else planning.allocated_hours,
-            'new_planned_hours': planning.allocated_hours
+            'new_end_date': planning.end_datetime,
+            'old_planned_hours': (
+                old_dates[planning.id]['allocated_hours']
+                if old_dates and old_dates[planning.id]['allocated_hours'] != planning.allocated_hours
+                else planning.allocated_hours
+            ),
+            'new_planned_hours': planning.allocated_hours,
         })
 
     
@@ -262,11 +267,18 @@ class PlanningSlot(models.Model):
             ],
             "domain": [
                 ("resource_id", "=", resource_id),
+                ("action", "in", ["created", "modified", "removed"]),
+                "|",
+                "&",
                 ("new_start_date", ">=", start_day),
                 ("new_start_date", "<", end_day),
-                ("action", "in", ["created", "modified"]),
+                "&",
+                ("old_start_date", ">=", start_day),
+                ("old_start_date", "<", end_day),
             ],
-            'context': {
-                'search_default_action_filter': 1
+            "context": {
+                "start_day": start_day,
+                "end_day": end_day,
+                "search_default_current_planning_date": 1,
             },
         }

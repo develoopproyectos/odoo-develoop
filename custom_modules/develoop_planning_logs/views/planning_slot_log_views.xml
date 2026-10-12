@@ -55,6 +55,15 @@
                     name="removed"
                     domain="[('action','=', 'removed')]"
                 />
+                <filter
+                    string="Fecha actual de planificación"
+                    name="current_planning_date"
+                    domain="[
+                        ('new_start_date', '&gt;=', context.get('start_day')),
+                        ('new_start_date', '&lt;', context.get('end_day')),
+                        ('action', 'in', ['created', 'modified'])
+                    ]"
+                />
                 <separator/>
                 <filter string="Responsable" name="partner_id_filter" context="{'group_by':'partner_id'}"/>
                 <filter string="Proyecto" name="project_id_filter" context="{'group_by':'project_id'}"/>

@@ -35,8 +35,7 @@ class HrEmployee(models.Model):
             ("active", "=", True),
             ("department_id.name", "in", department_names),
             ("work_email", "!=", False),
-        ],
-        limit=1)
+        ])
 
         AnalyticLine = self.env["account.analytic.line"]
 
@@ -50,8 +49,9 @@ class HrEmployee(models.Model):
 
         template = self.env.ref(template_xmlid)
 
+        daily_hours = 8
         for employee in employees:
-            daily_hours = employee.x_plannable_hours or 8
+            #daily_hours = employee.x_plannable_hours or 8
 
             if daily_hours <= 0:
                 continue

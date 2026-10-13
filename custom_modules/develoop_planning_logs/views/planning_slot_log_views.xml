@@ -59,9 +59,10 @@
                     string="Fecha actual de planificación"
                     name="current_planning_date"
                     domain="[
-                        ('new_start_date', '&gt;=', context.get('start_day')),
-                        ('new_start_date', '&lt;', context.get('end_day')),
-                        ('action', 'in', ['created', 'modified'])
+                        ('current_start_date', '&gt;=', context.get('start_day')),
+                        ('current_start_date', '&lt;', context.get('end_day')),
+                        ('action', 'in', ['created', 'modified']),
+                        ('planning_slot_id', '!=', False)
                     ]"
                 />
                 <separator/>

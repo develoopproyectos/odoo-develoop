@@ -28,3 +28,8 @@ class PlanningSlotLog(models.Model):
         index=True,
         ondelete='set null',
     )
+    current_start_date = fields.Datetime(
+        related='planning_slot_id.start_datetime',
+        string='Fecha actual de planificación',
+        store=True,
+    )

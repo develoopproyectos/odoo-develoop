@@ -92,5 +92,48 @@
                 </div>
             </field>
         </record>
+
+        <record id="mail_template_daily_planning_report" model="mail.template">
+            <field name="name">Reporte Diario de Planificación</field>
+            <field name="model_id" ref="hr.model_hr_employee"/>
+            <field name="subject">Reporte Diario de Planificación Corto Plazo - {{ ctx.get('report_data', {}).get('today', '') }}</field>
+            <field name="email_from">{{ user.email_formatted }}</field>
+            <field name="use_default_to" eval="False"/>
+            <field name="body_html" type="html">
+                <div>
+                    <p>Hola equipo,</p>
+                    <p>
+                        A continuación os comparto el estado de la planificación
+                        para el día de hoy y el próximo día laborable.
+                        Por favor, revisad los casos con horas pendientes de
+                        asignar o excedidas.
+                    </p>
+
+                    <h3>HOY</h3>
+                    <t t-foreach="ctx.get('report_data', {}).get('today_lines', [])"
+                    t-as="line">
+                        <p>
+                            <t t-out="line['status']"/>
+                            <t t-out="line['description']"/> -
+                            <t t-out="line['name']"/>:
+                            <t t-out="'%.2f' % line['hours']"/>h
+                        </p>
+                    </t>
+
+                    <h3>PRÓXIMO DÍA LABORABLE</h3>
+                    <t t-foreach="ctx.get('report_data', {}).get('tomorrow_lines', [])"
+                    t-as="line">
+                        <p>
+                            <t t-out="line['status']"/>
+                            <t t-out="line['description']"/> -
+                            <t t-out="line['name']"/>:
+                            <t t-out="'%.2f' % line['hours']"/>h
+                        </p>
+                    </t>
+
+                    <p>Un saludo,</p>
+                </div>
+            </field>
+        </record>
     </data>
 </odoo>

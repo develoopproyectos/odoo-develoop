@@ -42,9 +42,9 @@ class HrEmployee(models.Model):
         urgent = today.weekday() == 4
 
         template_xmlid = (
-            "develoop_timesheets_control.mail_template_timesheet_urgent"
+            "develoop_planning_timesheet_control.mail_template_timesheet_urgent"
             if urgent
-            else "develoop_timesheets_control.mail_template_timesheet_reminder"
+            else "develoop_planning_timesheet_control.mail_template_timesheet_reminder"
         )
 
         template = self.env.ref(template_xmlid)
@@ -175,7 +175,7 @@ class HrEmployee(models.Model):
         tomorrow_lines = get_day_lines(tomorrow)
 
         template = self.env.ref(
-            "develoop_timesheets_control.mail_template_daily_planning_report"
+            "develoop_planning_timesheet_control.mail_template_daily_planning_report"
         )
 
         project_managers = self.env["hr.employee"].search([

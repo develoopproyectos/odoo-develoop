@@ -22,3 +22,14 @@ class PlanningSlotLog(models.Model):
     new_end_date = fields.Datetime(string="Fecha inicio final")
     old_planned_hours = fields.Float(string="Horas planificadas anteriores")
     new_planned_hours = fields.Float(string="Horas planificadas")
+    planning_slot_id = fields.Many2one(
+        'planning.slot',
+        string="Planificación",
+        index=True,
+        ondelete='set null',
+    )
+    current_start_date = fields.Datetime(
+        related='planning_slot_id.start_datetime',
+        string='Fecha actual de planificación',
+        store=True,
+    )

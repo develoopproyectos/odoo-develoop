@@ -6,7 +6,7 @@
         <field name="name">view.planning.slot.log.list</field>
         <field name="model">planning.slot.log</field>
         <field name="arch" type="xml">
-            <list create="false" delete="false">
+            <list create="false" delete="false" expand="1">
                 <field name="log_date"/>
                 <field name="partner_id" widget="many2one_avatar_user"/>
                 <field name="project_id" readonly="1" optional="show"/>
@@ -54,6 +54,16 @@
                     string="Eliminados"
                     name="removed"
                     domain="[('action','=', 'removed')]"
+                />
+                <filter
+                    string="Fecha actual de planificación"
+                    name="current_planning_date"
+                    domain="[
+                        ('current_start_date', '&gt;=', context.get('start_day')),
+                        ('current_start_date', '&lt;', context.get('end_day')),
+                        ('action', 'in', ['created', 'modified']),
+                        ('planning_slot_id', '!=', False)
+                    ]"
                 />
                 <separator/>
                 <filter string="Responsable" name="partner_id_filter" context="{'group_by':'partner_id'}"/>

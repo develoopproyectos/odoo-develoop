@@ -1,7 +1,7 @@
 
 from odoo import api, fields, models
-from odoo.tools import format_date, format_datetime
 from markupsafe import Markup
+from datetime import datetime, time, timedelta
 
 
 class PlanningSlot(models.Model):
@@ -125,6 +125,7 @@ class PlanningSlot(models.Model):
     
     def _create_planning_log(self, planning, action, old_dates=[]):
         self.env['planning.slot.log'].sudo().create({
+            'planning_slot_id': planning.id,
             'partner_id': self.env.user.partner_id.id,
             'project_id': planning.project_id.id,
             'task_id': planning.task_id.id,
@@ -133,9 +134,13 @@ class PlanningSlot(models.Model):
             'old_start_date': old_dates[planning.id]['start_datetime'] if old_dates else False,
             'old_end_date': old_dates[planning.id]['end_datetime'] if old_dates else False,
             'new_start_date': planning.start_datetime,
-            'new_end_date':planning.end_datetime,
-            'old_planned_hours': old_dates[planning.id]['allocated_hours'] if old_dates and old_dates[planning.id]['allocated_hours'] != planning.allocated_hours else planning.allocated_hours,
-            'new_planned_hours': planning.allocated_hours
+            'new_end_date': planning.end_datetime,
+            'old_planned_hours': (
+                old_dates[planning.id]['allocated_hours']
+                if old_dates and old_dates[planning.id]['allocated_hours'] != planning.allocated_hours
+                else planning.allocated_hours
+            ),
+            'new_planned_hours': planning.allocated_hours,
         })
 
     
@@ -244,5 +249,36 @@ class PlanningSlot(models.Model):
             
         return super().unlink()
 
+    @api.model
+    def action_open_slot_log_from_gantt(self, resource_id, start_date):
+        start_day = datetime.combine(
+            fields.Date.to_date(start_date),
+            time.min,
+        )
+        end_day = start_day + timedelta(days=1)
 
-
+        return {
+            "type": "ir.actions.act_window",
+            "name": "Historial de cambios en Planificación",
+            "res_model": "planning.slot.log",
+            "views": [
+                (False, "list"),
+                (False, "form"),
+            ],
+            "domain": [
+                ("resource_id", "=", resource_id),
+                ("action", "in", ["created", "modified", "removed"]),
+                "|",
+                "&",
+                ("new_start_date", ">=", start_day),
+                ("new_start_date", "<", end_day),
+                "&",
+                ("old_start_date", ">=", start_day),
+                ("old_start_date", "<", end_day),
+            ],
+            "context": {
+                "start_day": start_day,
+                "end_day": end_day,
+                "search_default_current_planning_date": 1,
+            },
+        }

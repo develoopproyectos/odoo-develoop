@@ -14,9 +14,14 @@
         "security/ir.model.access.csv",
         "views/planning_slot_log_views.xml"
     ],
+    'assets': {
+        'web.assets_backend_lazy': [
+            'develoop_planning_logs/static/src/xml/planning_gantt.xml',
+            'develoop_planning_logs/static/src/js/planning_gantt.js'
+        ],
+    },
     'demo': [],
     "images": ['static/description/icon.png'],
     'auto_install': False,
-    'application': False,
-    'assets': {}
+    'application': False
 }

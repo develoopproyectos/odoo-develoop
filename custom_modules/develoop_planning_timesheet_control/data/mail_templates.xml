@@ -34,15 +34,29 @@
                         <thead>
                             <tr>
                                 <th>Fecha</th>
+                                <th>Horas de asistencia</th>
                                 <th>Horas imputadas</th>
                                 <th>Horas pendientes</th>
+                                <th>Horas en exceso</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr t-foreach="ctx.get('Dias_Faltantes', [])" t-as="day">
-                                <td><t t-out="day['fecha']"/></td>
-                                <td><t t-out="'%.2f' % day['horas_imputadas']"/> h</td>
-                                <td><t t-out="'%.2f' % day['horas_pendientes']"/> h</td>
+                                <td>
+                                    <t t-out="day['fecha']"/>
+                                </td>
+                                <td>
+                                    <t t-out="'%.2f' % day['horas_asistencia']"/> h
+                                </td>
+                                <td>
+                                    <t t-out="'%.2f' % day['horas_imputadas']"/> h
+                                </td>
+                                <td>
+                                    <t t-out="'%.2f' % day['horas_pendientes']"/> h
+                                </td>
+                                <td>
+                                    <t t-out="'%.2f' % day['horas_exceso']"/> h
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -77,15 +91,29 @@
                         <thead>
                             <tr>
                                 <th>Fecha</th>
+                                <th>Horas de asistencia</th>
                                 <th>Horas imputadas</th>
                                 <th>Horas pendientes</th>
+                                <th>Horas en exceso</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr t-foreach="ctx.get('Dias_Faltantes', [])" t-as="day">
-                                <td><t t-out="day['fecha']"/></td>
-                                <td><t t-out="'%.2f' % day['horas_imputadas']"/> h</td>
-                                <td><t t-out="'%.2f' % day['horas_pendientes']"/> h</td>
+                                <td>
+                                    <t t-out="day['fecha']"/>
+                                </td>
+                                <td>
+                                    <t t-out="'%.2f' % day['horas_asistencia']"/> h
+                                </td>
+                                <td>
+                                    <t t-out="'%.2f' % day['horas_imputadas']"/> h
+                                </td>
+                                <td>
+                                    <t t-out="'%.2f' % day['horas_pendientes']"/> h
+                                </td>
+                                <td>
+                                    <t t-out="'%.2f' % day['horas_exceso']"/> h
+                                </td>
                             </tr>
                         </tbody>
                     </table>

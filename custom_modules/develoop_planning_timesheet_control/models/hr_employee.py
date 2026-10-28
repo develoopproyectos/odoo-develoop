@@ -127,3 +127,95 @@ class HrEmployee(models.Model):
                 Dias_Faltantes=pending_days,
                 total_pending=total_pending,
             ).send_mail(employee.id, force_send=False)
+
+    @api.model
+    def send_daily_planning_report(self):
+        today = fields.Date.context_today(self)
+        tomorrow = today + timedelta(days=1)
+
+        # Saltar sábados y domingos.
+        while tomorrow.weekday() >= 5:
+            tomorrow += timedelta(days=1)
+
+        employees = self.env["hr.employee"].search([
+            ("active", "=", True),
+            ("department_id.name", "ilike", "Desarrollo"),
+            ("x_plannable_hours", ">", 0),
+        ])
+
+        Slot = self.env["planning.slot"]
+
+        def get_day_lines(day):
+            day_start = fields.Datetime.to_datetime(day)
+            day_end = day_start + timedelta(days=1)
+
+            slots = Slot.search([
+                ("start_datetime", ">=", day_start),
+                ("start_datetime", "<", day_end),
+                ("employee_id", "in", employees.ids),
+            ])
+
+            hours_by_employee = {}
+            for slot in slots:
+                employee_id = slot.employee_id.id
+                hours_by_employee[employee_id] = (
+                    hours_by_employee.get(employee_id, 0.0)
+                    + slot.allocated_hours
+                )
+
+            lines = []
+            for employee in employees:
+                planned = hours_by_employee.get(employee.id, 0.0)
+                target = employee.x_plannable_hours
+
+                if planned == target:
+                    continue
+
+                if planned == 0:
+                    status = "❌"
+                    description = "Sin planificación"
+                elif planned < target:
+                    status = "⚠️"
+                    description = "Planificación incompleta"
+                else:
+                    status = "⚠️"
+                    description = "Excede"
+
+                lines.append({
+                    "name": employee.name,
+                    "hours": planned,
+                    "status": status,
+                    "description": description,
+                })
+
+            return lines
+
+        today_lines = get_day_lines(today)
+        tomorrow_lines = get_day_lines(tomorrow)
+
+        template = self.env.ref(
+            "develoop_planning_timesheet_control.mail_template_daily_planning_report"
+        )
+
+        project_managers = self.env["hr.employee"].search([
+            ("active", "=", True),
+            ("department_id.name", "=", "Project Manager"),
+            ("work_email", "!=", False),
+        ])
+
+        emails = project_managers.mapped("work_email")
+
+        if not emails:
+            return
+
+        template.with_context(
+            report_data={
+                "today": today,
+                "tomorrow": tomorrow,
+                "today_lines": today_lines,
+                "tomorrow_lines": tomorrow_lines,
+            }
+        ).send_mail(
+            employees[:1].id,
+            force_send=True,
+            email_values={"email_to": ",".join(emails),"email_cc": False})

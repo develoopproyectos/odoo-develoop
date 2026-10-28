@@ -143,16 +143,25 @@ class HrEmployee(models.Model):
             ("x_plannable_hours", ">", 0),
         ])
 
+        project_managers = self.env["hr.employee"].search([
+            ("active", "=", True),
+            ("department_id.name", "=", "Project Manager"),
+            ("work_email", "!=", False),
+        ])
+
+        if not employees or not project_managers:
+            return
+
         Slot = self.env["planning.slot"]
 
-        def get_day_lines(day):
+        def get_day_lines(day, employees_to_report):
             day_start = fields.Datetime.to_datetime(day)
             day_end = day_start + timedelta(days=1)
 
             slots = Slot.search([
                 ("start_datetime", ">=", day_start),
                 ("start_datetime", "<", day_end),
-                ("employee_id", "in", employees.ids),
+                ("employee_id", "in", employees_to_report.ids),
             ])
 
             hours_by_employee = {}
@@ -164,7 +173,7 @@ class HrEmployee(models.Model):
                 )
 
             lines = []
-            for employee in employees:
+            for employee in employees_to_report:
                 planned = hours_by_employee.get(employee.id, 0.0)
                 target = employee.x_plannable_hours
 
@@ -190,32 +199,49 @@ class HrEmployee(models.Model):
 
             return lines
 
-        today_lines = get_day_lines(today)
-        tomorrow_lines = get_day_lines(tomorrow)
-
         template = self.env.ref(
             "develoop_planning_timesheet_control.mail_template_daily_planning_report"
         )
 
-        project_managers = self.env["hr.employee"].search([
-            ("active", "=", True),
-            ("department_id.name", "=", "Project Manager"),
-            ("work_email", "!=", False),
-        ])
+        for pm in project_managers:
+            # Categorías compartidas entre el PM y los empleados.
+            pm_categories = pm.category_ids
+            if not pm_categories:
+                continue
 
-        emails = project_managers.mapped("work_email")
+            pm_employees = employees.filtered(
+                lambda employee: bool(
+                    employee.category_ids & pm_categories
+                )
+            )
 
-        if not emails:
-            return
+            if not pm_employees:
+                continue
 
-        template.with_context(
+            today_lines = get_day_lines(today, pm_employees)
+            tomorrow_lines = get_day_lines(tomorrow, pm_employees)
+
+            # No enviar si ambos bloques están vacíos.
+            if not today_lines and not tomorrow_lines:
+                continue
+
+            template_ctx = template.with_context(
             report_data={
                 "today": today,
                 "tomorrow": tomorrow,
                 "today_lines": today_lines,
                 "tomorrow_lines": tomorrow_lines,
             }
-        ).send_mail(
-            employees[:1].id,
-            force_send=True,
-            email_values={"email_to": ",".join(emails),"email_cc": False})
+            )
+
+            body_html = template_ctx._render_field("body_html", [pm.id])[pm.id]
+            subject = template_ctx._render_field("subject", [pm.id])[pm.id]
+            email_from = template_ctx._render_field("email_from", [pm.id])[pm.id]
+
+            self.env["mail.mail"].create({
+                "subject": subject,
+                "body_html": body_html,
+                "email_from": email_from,
+                "email_to": pm.work_email,
+                "auto_delete": True,
+            }).send()

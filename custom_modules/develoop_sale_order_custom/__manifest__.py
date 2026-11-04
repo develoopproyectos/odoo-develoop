@@ -11,6 +11,7 @@
         Agrega campos informativos al pedido de venta
         """,
     'data': [
+        'data/ir_cron.xml',
         'views/sale_order_views.xml',
     ],
     'images': ['static/description/icon.png'],

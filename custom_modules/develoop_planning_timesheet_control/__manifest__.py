@@ -8,7 +8,7 @@
     'license': 'LGPL-3',
     'category': 'Uncategorized',
     'depends': [
-        'base', 'hr_attendance'
+        'base', 'hr_attendance', 'hr_holidays'
     ],
     "data": [
         "data/mail_templates.xml",

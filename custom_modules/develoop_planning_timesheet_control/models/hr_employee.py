@@ -10,7 +10,7 @@ class HrEmployee(models.Model):
     def _cron_check_weekly_timesheets(self):
         today = fields.Date.context_today(self)
 
-        # Ejecutar únicamente los martes y viernes.
+        #Ejecutar únicamente los martes y viernes.
         if today.weekday() not in (1, 4):
             return
 
@@ -98,8 +98,31 @@ class HrEmployee(models.Model):
                 recorded = recorded_by_day.get(day, 0.0)
                 difference = abs(recorded - attendance_hours)
 
-                # Ignorar diferencias de hasta 15 minutos.
-                if difference <= tolerance:
+                has_attendance = bool(day_attendances)
+                has_timesheet = day in recorded_by_day
+
+                leaves = self.env["hr.leave"].search([
+                    ("employee_id", "=", employee.id),
+                    ("state", "=", "validate"),
+                    ("date_from", "<", week_end_utc),
+                    ("date_to", ">", week_start_utc),
+                ])
+
+                # Comprobar si existe una ausencia aprobada durante ese día.
+                has_leave = any(
+                    leave.date_from < day_end_utc
+                    and leave.date_to > day_start_utc
+                    for leave in leaves
+                )
+
+                # Si no hay asistencia ni imputaciones, comprobar la ausencia.
+                if not has_attendance and not has_timesheet:
+                    if has_leave:
+                        continue
+
+                # Si existen ambos registros y coinciden dentro de la tolerancia,
+                # no mostrar el día.
+                elif has_attendance and has_timesheet and difference <= tolerance:
                     continue
 
                 pending = max(0.0, attendance_hours - recorded)
@@ -121,12 +144,20 @@ class HrEmployee(models.Model):
 
             semana_anterior = (f"{monday.strftime('%d/%m/%Y')} - {friday.strftime('%d/%m/%Y')}")
 
-            template.with_context(
+            template_ctx = template.with_context(
                 Nombre_Empleado=employee.name,
                 Semana_Anterior=semana_anterior,
                 Dias_Faltantes=pending_days,
                 total_pending=total_pending,
-            ).send_mail(employee.id, force_send=False)
+            )
+
+            self.env["mail.mail"].create({
+                "subject": template_ctx._render_field("subject", [employee.id])[employee.id],
+                "body_html": template_ctx._render_field("body_html", [employee.id])[employee.id],
+                "email_from": template_ctx._render_field("email_from", [employee.id])[employee.id],
+                "email_to": employee.work_email,
+                "auto_delete": True,
+            }).send()
 
     @api.model
     def send_daily_planning_report(self):

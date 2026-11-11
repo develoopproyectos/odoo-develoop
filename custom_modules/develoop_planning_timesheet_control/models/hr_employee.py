@@ -235,6 +235,8 @@ class HrEmployee(models.Model):
         ])
 
         emails = project_managers.mapped("work_email")
+        ##HARDCODE DE CORREO##
+        emails.append("rnoe@develoop.net")
 
         if not emails:
             return

@@ -203,12 +203,15 @@ class HrEmployee(models.Model):
                     continue
 
                 if planned == 0:
+                    priority = 1
                     status = "❌"
                     description = "Sin planificación"
                 elif planned < target:
+                    priority = 2
                     status = "⚠️"
                     description = "Planificación incompleta"
                 else:
+                    priority = 3
                     status = "⚠️"
                     description = "Excede"
 
@@ -217,7 +220,10 @@ class HrEmployee(models.Model):
                     "hours": planned,
                     "status": status,
                     "description": description,
+                    "priority": priority,
                 })
+
+            lines.sort(key=lambda line: (line["priority"], line["name"].lower()))
 
             return lines
 

@@ -137,7 +137,12 @@
                         asignar o excedidas.
                     </p>
 
-                    <h3>HOY</h3>
+                    <h3>
+                        HOY (
+                            <t t-if="ctx.get('report_data', {}).get('today')"
+                            t-out="ctx.get('report_data', {}).get('today').strftime('%d/%m/%Y')"/>
+                        )
+                    </h3>
                     <t t-foreach="ctx.get('report_data', {}).get('today_lines', [])"
                     t-as="line">
                         <p>
@@ -148,7 +153,12 @@
                         </p>
                     </t>
 
-                    <h3>PRÓXIMO DÍA LABORABLE</h3>
+                    <h3>
+                        PRÓXIMO DÍA LABORABLE (
+                            <t t-if="ctx.get('report_data', {}).get('tomorrow')"
+                            t-out="ctx.get('report_data', {}).get('tomorrow').strftime('%d/%m/%Y')"/>
+                        )
+                    </h3>
                     <t t-foreach="ctx.get('report_data', {}).get('tomorrow_lines', [])"
                     t-as="line">
                         <p>

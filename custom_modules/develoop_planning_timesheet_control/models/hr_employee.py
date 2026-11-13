@@ -10,7 +10,7 @@ class HrEmployee(models.Model):
     def _cron_check_weekly_timesheets(self):
         today = fields.Date.context_today(self)
 
-        #Ejecutar únicamente los martes y viernes.
+        # Ejecutar únicamente los martes y viernes.
         if today.weekday() not in (1, 4):
             return
 
@@ -34,6 +34,7 @@ class HrEmployee(models.Model):
 
         Attendance = self.env["hr.attendance"]
         AnalyticLine = self.env["account.analytic.line"]
+        Leave = self.env["hr.leave"]
 
         urgent = today.weekday() == 4
 
@@ -41,15 +42,22 @@ class HrEmployee(models.Model):
 
         template = self.env.ref(template_xmlid)
 
-        tolerance = 0.25  # 15 minutos
+        tolerance = 0.25  # 15 minutos.
+
+        def format_hours(hours):
+            total_minutes = int(round((hours or 0.0) * 60))
+            hours_part, minutes_part = divmod(total_minutes, 60)
+            return f"{hours_part:02d} h {minutes_part:02d} min"
 
         for employee in employees:
             tz_name = employee.resource_id.tz or "UTC"
             employee_tz = pytz.timezone(tz_name)
 
             def local_day_to_utc(day):
-                local_dt = employee_tz.localize(datetime.combine(day, time.min))
-                return (local_dt.astimezone(pytz.UTC).replace(tzinfo=None))
+                local_dt = employee_tz.localize(
+                    datetime.combine(day, time.min)
+                )
+                return local_dt.astimezone(pytz.UTC).replace(tzinfo=None)
 
             week_start_utc = local_day_to_utc(monday)
             week_end_utc = local_day_to_utc(saturday)
@@ -68,12 +76,40 @@ class HrEmployee(models.Model):
                 ("date", ">=", monday),
                 ("date", "<=", friday),
                 ("task_id", "!=", False),
+                ("holiday_id", "=", False),
             ])
 
             recorded_by_day = {}
 
             for line in analytic_lines:
-                recorded_by_day[line.date] = (recorded_by_day.get(line.date, 0.0) + line.unit_amount)
+                recorded_by_day[line.date] = (
+                    recorded_by_day.get(line.date, 0.0)
+                    + line.unit_amount
+                )
+
+            # Obtener las ausencias aprobadas que cubren la semana.
+            leaves = Leave.search([
+                ("employee_id", "=", employee.id),
+                ("state", "=", "validate"),
+                ("request_date_from", "<=", friday),
+                ("request_date_to", ">=", monday),
+            ])
+
+            # Construir los días cubiertos por ausencias aprobadas.
+            leave_days = set()
+
+            for leave in leaves:
+                if not leave.request_date_from or not leave.request_date_to:
+                    continue
+
+                leave_start = max(monday, leave.request_date_from)
+                leave_end = min(friday, leave.request_date_to)
+
+                current_day = leave_start
+
+                while current_day <= leave_end:
+                    leave_days.add(current_day)
+                    current_day += timedelta(days=1)
 
             pending_days = []
 
@@ -93,27 +129,19 @@ class HrEmployee(models.Model):
                 )
 
                 for attendance in day_attendances:
-                    attendance_hours += (attendance._get_worked_hours_in_range(day_start_utc, day_end_utc))
+                    attendance_hours += (
+                        attendance._get_worked_hours_in_range(
+                            day_start_utc,
+                            day_end_utc,
+                        )
+                    )
 
                 recorded = recorded_by_day.get(day, 0.0)
                 difference = abs(recorded - attendance_hours)
 
                 has_attendance = bool(day_attendances)
                 has_timesheet = day in recorded_by_day
-
-                leaves = self.env["hr.leave"].search([
-                    ("employee_id", "=", employee.id),
-                    ("state", "=", "validate"),
-                    ("date_from", "<", week_end_utc),
-                    ("date_to", ">", week_start_utc),
-                ])
-
-                # Comprobar si existe una ausencia aprobada durante ese día.
-                has_leave = any(
-                    leave.date_from < day_end_utc
-                    and leave.date_to > day_start_utc
-                    for leave in leaves
-                )
+                has_leave = day in leave_days
 
                 # Si no hay asistencia ni imputaciones, comprobar la ausencia.
                 if not has_attendance and not has_timesheet:
@@ -130,10 +158,17 @@ class HrEmployee(models.Model):
 
                 pending_days.append({
                     "fecha": day.strftime("%d/%m/%Y"),
+                    # Valores numéricos para los cálculos.
                     "horas_imputadas": round(recorded, 2),
                     "horas_asistencia": round(attendance_hours, 2),
                     "horas_pendientes": round(pending, 2),
                     "horas_exceso": round(excess, 2),
+
+                    # Valores formateados para el correo.
+                    "horas_imputadas_display": format_hours(recorded),
+                    "horas_asistencia_display": format_hours(attendance_hours),
+                    "horas_pendientes_display": format_hours(pending),
+                    "horas_exceso_display": format_hours(excess),
                 })
 
             # No enviar correo si no existen diferencias relevantes.

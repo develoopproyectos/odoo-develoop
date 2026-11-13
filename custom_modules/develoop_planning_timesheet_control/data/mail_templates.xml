@@ -42,21 +42,11 @@
                         </thead>
                         <tbody>
                             <tr t-foreach="ctx.get('Dias_Faltantes', [])" t-as="day">
-                                <td>
-                                    <t t-out="day['fecha']"/>
-                                </td>
-                                <td>
-                                    <t t-out="'%.2f' % day['horas_asistencia']"/> h
-                                </td>
-                                <td>
-                                    <t t-out="'%.2f' % day['horas_imputadas']"/> h
-                                </td>
-                                <td>
-                                    <t t-out="'%.2f' % day['horas_pendientes']"/> h
-                                </td>
-                                <td>
-                                    <t t-out="'%.2f' % day['horas_exceso']"/> h
-                                </td>
+                                <td><t t-out="day['fecha']"/></td>
+                                <td><t t-out="day['horas_asistencia_display']"/></td>
+                                <td><t t-out="day['horas_imputadas_display']"/></td>
+                                <td><t t-out="day['horas_pendientes_display']"/></td>
+                                <td><t t-out="day['horas_exceso_display']"/></td>
                             </tr>
                         </tbody>
                     </table>
@@ -99,21 +89,11 @@
                         </thead>
                         <tbody>
                             <tr t-foreach="ctx.get('Dias_Faltantes', [])" t-as="day">
-                                <td>
-                                    <t t-out="day['fecha']"/>
-                                </td>
-                                <td>
-                                    <t t-out="'%.2f' % day['horas_asistencia']"/> h
-                                </td>
-                                <td>
-                                    <t t-out="'%.2f' % day['horas_imputadas']"/> h
-                                </td>
-                                <td>
-                                    <t t-out="'%.2f' % day['horas_pendientes']"/> h
-                                </td>
-                                <td>
-                                    <t t-out="'%.2f' % day['horas_exceso']"/> h
-                                </td>
+                                <td><t t-out="day['fecha']"/></td>
+                                <td><t t-out="day['horas_asistencia_display']"/></td>
+                                <td><t t-out="day['horas_imputadas_display']"/></td>
+                                <td><t t-out="day['horas_pendientes_display']"/></td>
+                                <td><t t-out="day['horas_exceso_display']"/></td>
                             </tr>
                         </tbody>
                     </table>

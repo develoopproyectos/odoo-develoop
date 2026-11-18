@@ -197,6 +197,10 @@ class HrEmployee(models.Model):
     @api.model
     def send_daily_planning_report(self):
         today = fields.Date.context_today(self)
+        
+        if today.weekday() in (5, 6):
+            return
+                    
         tomorrow = today + timedelta(days=1)
 
         # Saltar sábados y domingos.

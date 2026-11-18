@@ -191,6 +191,7 @@ class HrEmployee(models.Model):
                 "body_html": template_ctx._render_field("body_html", [employee.id])[employee.id],
                 "email_from": template_ctx._render_field("email_from", [employee.id])[employee.id],
                 "email_to": employee.work_email,
+                "email_cc": "lmera@develoop.net, rnoe@develoop.net",
                 "auto_delete": True,
             }).send()
 

@@ -6,23 +6,23 @@
         <record id="mail_template_timesheet_reminder" model="mail.template">
             <field name="name">Aviso del Martes (Recordatorio Amistoso)</field>
             <field name="model_id" ref="hr.model_hr_employee"/>
-            <field name="subject">Recordatorio: Parte de horas de la semana pasada incompleto</field>
+            <field name="subject">Recordatorio: Revisión de fichajes y parte de horas de la semana pasada</field>
             <field name="email_to">{{ object.work_email }}</field>
             <field name="body_html" type="html">
                 <div>
                     <p>Hola <t t-out="object.name"/>,</p>
 
                     <p>
-                        Revisando los registros de la semana pasada hemos detectado
-                        que te has olvidado de imputar horas en tu parte
+                        Revisando los registros de la semana pasada, hemos detectado un descuadre en tus registros
                         <span>
                             (días pendientes:
                             <t t-out="len(ctx.get('Dias_Faltantes', []))"/>)
                         </span>.
-                        Por favor, cuando tengas un momento a lo largo del día de hoy,
-                        complétalo para llevar el registro al día.
+                        Esto puede ocurrir por dos motivos: o bien te has olvidado de imputar horas en tu parte de trabajo, 
+                        o bien las horas de tu fichaje de asistencia no coinciden con las horas imputadas. Recuerda que es muy importante 
+                        que ambos registros cuadren y tengan la misma cantidad de horas.
                     </p>
-
+                    <p>Por favor, cuando tengas un momento a lo largo del día de hoy, revisa y completa tus registros para llevarlo todo al día.</p>
                     <p>¡Muchas gracias y a por el martes!</p>
 
                     <p>
@@ -42,21 +42,11 @@
                         </thead>
                         <tbody>
                             <tr t-foreach="ctx.get('Dias_Faltantes', [])" t-as="day">
-                                <td>
-                                    <t t-out="day['fecha']"/>
-                                </td>
-                                <td>
-                                    <t t-out="'%.2f' % day['horas_asistencia']"/> h
-                                </td>
-                                <td>
-                                    <t t-out="'%.2f' % day['horas_imputadas']"/> h
-                                </td>
-                                <td>
-                                    <t t-out="'%.2f' % day['horas_pendientes']"/> h
-                                </td>
-                                <td>
-                                    <t t-out="'%.2f' % day['horas_exceso']"/> h
-                                </td>
+                                <td><t t-out="day['fecha']"/></td>
+                                <td><t t-out="day['horas_asistencia_display']"/></td>
+                                <td><t t-out="day['horas_imputadas_display']"/></td>
+                                <td><t t-out="day['horas_pendientes_display']"/></td>
+                                <td><t t-out="day['horas_exceso_display']"/></td>
                             </tr>
                         </tbody>
                     </table>
@@ -68,20 +58,25 @@
         <record id="mail_template_timesheet_urgent" model="mail.template">
             <field name="name">Aviso del Viernes (Recordatorio Directo y Urgente)</field>
             <field name="model_id" ref="hr.model_hr_employee"/>
-            <field name="subject">URGENTE: Parte de horas de la semana pasada SIN CERRAR</field>
+            <field name="subject">Asunto: IMPORTANTE: Regularización urgente de tu parte de horas y fichajes</field>
             <field name="email_to">{{ object.work_email }}</field>
             <field name="body_html" type="html">
                 <div>
                     <p>Hola <t t-out="object.name"/>,</p>
 
                     <p>
-                        Llegamos a final de semana y seguimos detectando los siguientes días sin imputar en tu parte de horas de la semana pasada: <strong>(<t t-out="len(ctx.get('Dias_Faltantes', []))"/>)</strong>
+                        Llegamos a final de semana y seguimos detectando descuadres en tus registros de la semana pasada en los siguientes días: <strong>(<t t-out="len(ctx.get('Dias_Faltantes', []))"/>)</strong>
                     </p>
                     <p>
-                        Es <strong>estrictamente necesario e imprescindible</strong> que dejes esto resuelto hoy mismo. No tener el parte de horas al día bloquea los cierres de facturación y el seguimiento de los proyectos.
-                        Por favor, paraliza lo que estés haciendo y actualízalo inmediatamente. Gracias."
+                        Te recordamos que las horas de asistencia (tu fichaje) y las horas imputadas en tu parte de trabajo tienen que ser exactamente iguales.
                     </p>
-
+                    <p>
+                        Es <strong>estrictamente necesario e imprescindible</strong> que dejes esto resuelto hoy mismo. 
+                        Tener diferencias entre el fichaje y el parte de horas, o dejar días sin imputar, bloquea los cierres de facturación y el correcto seguimiento de los proyectos.
+                    </p>
+                    <p>
+                        Por favor, paraliza lo que estés haciendo y actualízalo inmediatamente para que ambos registros coincidan. Gracias.
+                    </p>
                     <p>
                         <strong>Semana revisada:</strong>
                         <t t-out="ctx.get('Semana_Anterior')"/>
@@ -99,21 +94,11 @@
                         </thead>
                         <tbody>
                             <tr t-foreach="ctx.get('Dias_Faltantes', [])" t-as="day">
-                                <td>
-                                    <t t-out="day['fecha']"/>
-                                </td>
-                                <td>
-                                    <t t-out="'%.2f' % day['horas_asistencia']"/> h
-                                </td>
-                                <td>
-                                    <t t-out="'%.2f' % day['horas_imputadas']"/> h
-                                </td>
-                                <td>
-                                    <t t-out="'%.2f' % day['horas_pendientes']"/> h
-                                </td>
-                                <td>
-                                    <t t-out="'%.2f' % day['horas_exceso']"/> h
-                                </td>
+                                <td><t t-out="day['fecha']"/></td>
+                                <td><t t-out="day['horas_asistencia_display']"/></td>
+                                <td><t t-out="day['horas_imputadas_display']"/></td>
+                                <td><t t-out="day['horas_pendientes_display']"/></td>
+                                <td><t t-out="day['horas_exceso_display']"/></td>
                             </tr>
                         </tbody>
                     </table>
@@ -137,7 +122,12 @@
                         asignar o excedidas.
                     </p>
 
-                    <h3>HOY</h3>
+                    <h3>
+                        HOY (
+                            <t t-if="ctx.get('report_data', {}).get('today')"
+                            t-out="ctx.get('report_data', {}).get('today').strftime('%d/%m/%Y')"/>
+                        )
+                    </h3>
                     <t t-foreach="ctx.get('report_data', {}).get('today_lines', [])"
                     t-as="line">
                         <p>
@@ -148,7 +138,12 @@
                         </p>
                     </t>
 
-                    <h3>PRÓXIMO DÍA LABORABLE</h3>
+                    <h3>
+                        PRÓXIMO DÍA LABORABLE (
+                            <t t-if="ctx.get('report_data', {}).get('tomorrow')"
+                            t-out="ctx.get('report_data', {}).get('tomorrow').strftime('%d/%m/%Y')"/>
+                        )
+                    </h3>
                     <t t-foreach="ctx.get('report_data', {}).get('tomorrow_lines', [])"
                     t-as="line">
                         <p>

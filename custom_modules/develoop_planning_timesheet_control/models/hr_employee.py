@@ -191,7 +191,7 @@ class HrEmployee(models.Model):
                 "body_html": template_ctx._render_field("body_html", [employee.id])[employee.id],
                 "email_from": template_ctx._render_field("email_from", [employee.id])[employee.id],
                 "email_to": employee.work_email,
-                "email_cc": "lmera@develoop.net, rnoe@develoop.net",
+                "email_cc": "lmera@develoop.net, jpuiggali@develoop.net, rnoe@develoop.net",
                 "auto_delete": True,
             }).send()
 
@@ -208,7 +208,7 @@ class HrEmployee(models.Model):
         while tomorrow.weekday() >= 5:
             tomorrow += timedelta(days=1)
 
-        employees = self.env["hr.employee"].search([
+        employees = self.env["hr.employee"].with_context(lang='es_ES').search([
             ("active", "=", True),
             ("department_id.name", "ilike", "Desarrollo"),
             ("x_plannable_hours", ">", 0),

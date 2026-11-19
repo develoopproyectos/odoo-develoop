@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields
+from odoo import models, fields, api
 
 
 class Dev_pc_ProjectProjectCustom(models.Model):
@@ -31,7 +31,9 @@ class Dev_pc_ProjectProjectCustom(models.Model):
     has_trello = fields.Boolean(string='Tiene Trello', store=True)
     url_trello = fields.Char(string='Enlace Trello')
 
+    @api.model_create_multi
     def create(self, vals_list):
-        if not vals_list.get('company_id', False):
-            vals_list['company_id'] = self.env.company.id or self.env.user.company_id.id
+        for val in vals_list:
+            if not val.get('company_id', False):
+                val['company_id'] = self.env.company.id or self.env.user.company_id.id
         return super().create(vals_list)

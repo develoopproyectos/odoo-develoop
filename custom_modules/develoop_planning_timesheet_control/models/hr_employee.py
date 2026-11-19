@@ -281,8 +281,14 @@ class HrEmployee(models.Model):
         ])
 
         emails = project_managers.mapped("work_email")
-        ##HARDCODE DE CORREO##
-        emails.append("rnoe@develoop.net")
+        ## HARDCODE DE CORREOS ##
+        emails.extend([
+            "rnoe@develoop.net",
+            "jpuiggali@develoop.net",
+        ])
+
+        # Eliminar duplicados y correos vacíos
+        emails = list(set(filter(None, emails)))
 
         if not emails:
             return
